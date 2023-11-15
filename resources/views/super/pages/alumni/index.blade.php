@@ -59,14 +59,14 @@
                             class="btn btn-outline-primary waves-effect waves-light">
                             <i class="mdi mdi-plus-thick font-size-16 align-middle mr-2"></i> Add Data
                         </a>
-                        <a href="{{ route('super-alumni-asrama-export')}}" type="button"
+                        <!-- <a href="{{ route('super-alumni-asrama-export')}}" type="button"
                             class="btn btn-outline-secondary waves-effect waves-light">
                             <i class="mdi mdi-file-export-outline font-size-16 align-middle mr-2"></i> Export Data
-                        </a>
-                        <button type="button"
+                        </a> -->
+                        <!-- <button type="button"
                             class="btn btn-outline-success waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-center">
                             <i class="mdi mdi-file-import-outline font-size-16 align-middle mr-2" data-toggle="modal" data-target=".bs-example-modal-center"></i> Import Data
-                        </button>
+                        </button> -->
                         {{--  <a href="{{ route('super-alumni-asrama-import')}}" type="button"
                             class="btn btn-outline-success waves-effect waves-light">
                             <i class="mdi mdi-file-import-outline font-size-16 align-middle mr-2"></i> Import Data
@@ -75,25 +75,31 @@
                     <br>
 
                     <h4 class="card-title">List Alumni Asrama</h4>
-                    <div style="overflow: scroll">
+                    <div style="overflow: scroll; overflow-x: hidden;">
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Foto</th>
                                     <th>Nama</th>
                                     <th>Asrama</th>
+                                    <th>Tahun Masuk</th>
+                                    <th>Tahun Keluar</th>
+                                    <th>Jenjang Pendidikan</th>
+                                    <th>Perguruan Tinggi</th>
+                                    <th>Bidang Pekerjaan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($alumnis as $alumni)
                                     <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td><img src="{{ url ('/uploads/avatars/'.$alumni->avatar)}}" class="avatar img-circle" style="width:auto; height:50px;"></td>
                                         <td>{{$alumni->nama}}</td>
                                         <td>{{$alumni->asal_asrama}}</td>
+                                        <td>{{$alumni->tahun_masuk_asrama}}</td>
+                                        <td>{{$alumni->tahun_keluar_asrama}}</td>
+                                        <td>{{$alumni->pendidikan_terakhir}}</td>
+                                        <td>-</td>
+                                        <td>{{$alumni->bidang_pekerjaan}}</td>
                                         <td>
                                             <a href="/super-alumni-asrama-detail/{{ $alumni->id }}"
                                                 class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail"><i
@@ -103,73 +109,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{--  <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Foto</th>
-                                    <th>Nama</th>
-                                    <th>Asrama</th>
-                                    <th>tgl masuk</th>
-                                    <th>tgl keluar</th>
-                                    <th>alamat sekarang</th>
-                                    <th>pekerjaan</th>
-                                    <th>universitas</th>
-                                    <th>fakultas</th>
-                                    <th>prodi</th>
-                                    <th>angkatan</th>
-                                    <th>tgl seminar</th>
-                                    <th>tgl skripsi</th>
-                                    <th>tgl wisuda</th>
-                                    <th>nik</th>
-                                    <th>alamat asal</th>
-                                    <th>no telp</th>
-                                    <th>asal sekolah</th>
-                                    <th>tgl lahir</th>
-                                    <th>prestasi</th>
-                                    <th>organisasi</th>
-                                    <th>nama ayah</th>
-                                    <th>nama ibu</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($alumnis as $alumni)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td><img src="{{ url ('/uploads/avatars/'.$alumni->avatar)}}" class="avatar img-circle" style="width:auto; height:50px;"></td>
-                                        <td>{{$alumni->name}}</td>
-                                        <td>{{$alumni->asrama}}</td>
-                                        <td>{{$alumni->tgl_masuk}}</td>
-                                        <td>{{$alumni->tgl_keluar}}</td>
-                                        <td>{{$alumni->alamat_sekarang}}</td>
-                                        <td>{{$alumni->pekerjaan}}</td>
-                                        <td>{{$alumni->universitas}}</td>
-                                        <td>{{$alumni->fakultas}}</td>
-                                        <td>{{$alumni->prodi}}</td>
-                                        <td>{{$alumni->angkatan}}</td>
-                                        <td>{{$alumni->tgl_seminar}}</td>
-                                        <td>{{$alumni->tgl_skripsi}}</td>
-                                        <td>{{$alumni->tgl_wisuda}}</td>
-                                        <td>{{$alumni->nik}}</td>
-                                        <td>{{$alumni->alamat}}</td>
-                                        <td>{{$alumni->no_telp}}</td>
-                                        <td>{{$alumni->asal_sekolah}}</td>
-                                        <td>{{$alumni->tgl_lahir}}</td>
-                                        <td>{{$alumni->prestasi}}</td>
-                                        <td>{{$alumni->organisasi}}</td>
-                                        <td>{{$alumni->nama_ayah}}</td>
-                                        <td>{{$alumni->nama_ibu}}</td>
-                                        <td>
-                                            <a href="/super-alumni-asrama-detail/{{ $alumni->id }}"
-                                                class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail"><i
-                                                    class="far fa-eye"></i></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>  --}}
                     </div>
                 </div>
             </div>

@@ -13,6 +13,7 @@ File: Datatables
 
 $(document).ready(function () {
   $('#datatable').DataTable();
+  $('.datatable-rmodz').DataTable();
 
   //Buttons examples
   var table = $('#datatable-buttons').DataTable({

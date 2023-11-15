@@ -15,6 +15,7 @@ class AsramaController extends Controller
 
     public function create()
     {
+        
         return view('super.pages.direktur-ketua.create');
     }
 
