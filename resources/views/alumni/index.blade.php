@@ -212,7 +212,7 @@
                 <div class="card-body">
                     <h4 class="card-title mb-4">Statistik Lulusan per Tahun</h4>
 
-                    <div id="column_chart" class="apex-charts" dir="ltr"></div>
+                    <div id="column_chart_pendidikan" class="apex-charts" dir="ltr"></div>
                 </div>
             </div>
         </div>
@@ -255,34 +255,17 @@
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>10</td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>11</td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>12</td>
-                            </tr>
-                            <tr>
-                                <td>Cedric Kelly</td>
-                                <td>13</td>
-                            </tr>
-                            <tr>
-                                <td>Airi Satou</td>
-                                <td>14</td>
-                            </tr>
-                            <tr>
-                                <td>Brielle Williamson</td>
-                                <td>15</td>
-                            </tr>
-                            <tr>
-                                <td>Herrod Chandler</td>
-                                <td>16</td>
-                            </tr>
+                            @php
+    $uniqueProvinceNames = $alumniWithProvince->pluck('province.name')->unique();
+@endphp
+                            @foreach($uniqueProvinceNames  as $alumni)
+                        <tr>
+                        <td>
+                            {{$alumni}}
+                        </td>
+                        <td>{{ $alumniWithProvince->where('province.name', $alumni)->count() }}</td>
+                        </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -345,6 +328,7 @@
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                             <tr style="background: linear-gradient(135deg, #007BFF, #0056b3);">
+
                                 <th style="color: white; font-weight: bold; text-align: center;">22-30</th>
                                 <th style="color: white; font-weight: bold; text-align: center;">30-35</th>
                                 <th style="color: white; font-weight: bold; text-align: center;">35-40</th>
@@ -354,15 +338,65 @@
                                 <th style="color: white; font-weight: bold; text-align: center;">diatas 70</th>
                             </tr>
                         </thead>
+                        @php
+                                $totalUmur22to30 = 0;
+                                $totalUmur31to40 = 0;
+                                $totalUmur41to50 = 0;
+                                $totalUmur51to60 = 0;
+                                $totalUmur61to70 = 0;
+                                $totalUmur71to1000 = 0;
+                    @endphp                              @foreach($datanya  as $datanya)
+                                                        @php
+                                                        $tanggalLahir = $datanya->tanggal_lahir;
+                                                            $umur = \Carbon\Carbon::parse($tanggalLahir)->diffInYears(\Carbon\Carbon::now());
+
+                                                            if ($umur >= 22 && $umur <= 30) {
+                                                                $totalUmur22to30++;
+                                                                 }
+                                                                elseif ($umur >= 31 && $umur <= 40) {
+
+                                                                        $totalUmur31to40++;
+                                                                    } elseif ($umur >= 41 && $umur <= 50) {
+
+                                                                        $totalUmur41to50++;
+                                                                    }
+                                                                    elseif ($umur >= 51 && $umur <= 60) {
+                                                $totalUmur51to60++;
+                                                }
+                                                elseif ($umur >= 61 && $umur <= 70) {
+
+                                                $totalUmur61to70++;
+                                                }
+                                                elseif ($umur >= 71 && $umur <= 1000) {
+
+                                                $totalUmur71to1000++;
+                                                }
+
+                                                    @endphp
+                        @endforeach
 
                         <tbody>
                             <tr>
-                                <td style="text-align: center;">10</td>
-                                <td style="text-align: center;">32</td>
-                                <td style="text-align: center;">20</td>
-                                <td style="text-align: center;">17</td>
-                                <td style="text-align: center;">20</td>
-                                <td style="text-align: center;">23</td>
+
+                                <td style="text-align: center;">
+@php
+                                    echo $totalUmur22to30;
+                                @endphp</td>
+                                <td style="text-align: center;">@php
+                                    echo $totalUmur31to40;
+                                @endphp</td>
+                                <td style="text-align: center;">@php
+                                    echo $totalUmur41to50;
+                                @endphp</td>
+                                <td style="text-align: center;">@php
+                                    echo $totalUmur51to60;
+                                @endphp</td>
+                                <td style="text-align: center;">@php
+                                    echo $totalUmur61to70;
+                                @endphp</td>
+                                <td style="text-align: center;">@php
+                                    echo $totalUmur71to1000;
+                                @endphp</td>
                                 <td style="text-align: center;">1</td>
                             </tr>
                         </tbody>
@@ -408,48 +442,46 @@
                 const topology = await fetch(
                     'https://code.highcharts.com/mapdata/countries/id/id-all.topo.json'
                 ).then(response => response.json());
-                const userData = {!! json_encode($users) !!};
-const mappedData = [];
-const countBantenUsers = userData.filter(user => user.id_province === 'BANTEN').length;
-const RIAU = userData.filter(user => user.id_province === 'RIAU').length;
-const countJakarta = userData.filter(user => user.id_province === 'DKI JAKARTA').length;
-const SUMATERAUTARA = userData.filter(user => user.id_province === 'SUMATERA UTARA').length;
-const SUMATERABARAT = userData.filter(user => user.id_province === 'SUMATERA BARAT').length;
-const JAWABARAT = userData.filter(user => user.id_province === 'JAWA BARAT').length;
-const ACEH = userData.filter(user => user.id_province === 'NANGGROE ACEH DARUSSALAM (NAD)').length;
-const KEPULAUANRIAU = userData.filter(user => user.id_province === 'KEPULAUAN RIAU').length;
-const SUMATERASELATAN = userData.filter(user => user.id_province === 'SUMATERA SELATAN').length;
-const BANGKABELITUNG = userData.filter(user => user.id_province === 'BANGKA BELITUNG').length;
-const LAMPUNG = userData.filter(user => user.id_province === 'LAMPUNG').length;
-const JAMBI = userData.filter(user => user.id_province === 'JAMBI').length;
-const BENGKULU = userData.filter(user => user.id_province === 'BENGKULU').length;
-const JAWATENGAH = userData.filter(user => user.id_province === 'JAWA TENGAH').length;
-const DIYOGYAKARTA = userData.filter(user => user.id_province === 'DI YOGYAKARTA').length;
-const JAWATIMUR = userData.filter(user => user.id_province === 'JAWA TIMUR').length;
-const KALIMANTANSELATAN = userData.filter(user => user.id_province === 'KALIMANTAN SELATAN').length;
-const KALIMANTANTENGAH = userData.filter(user => user.id_province === 'KALIMANTAN TENGAH').length;
-const KALIMANTANTIMUR = userData.filter(user => user.id_province === 'KALIMANTAN TIMUR').length;
-const KALIMANTANUTARA = userData.filter(user => user.id_province === 'KALIMANTAN UTARA').length;
-const KALIMANTANBARAT = userData.filter(user => user.id_province === 'KALIMANTAN BARAT').length;
-const BALI = userData.filter(user => user.id_province === 'BALI').length;
-const NUSATENGGARABARAT = userData.filter(user => user.id_province === 'NUSA TENGGARA BARAT (NTB)').length;
-const NUSATENGGARATIMUR = userData.filter(user => user.id_province === 'NUSA TENGGARA TIMUR (NTT)').length;
-const SULAWESISELATAN = userData.filter(user => user.id_province === 'SULAWESI SELATAN').length;
-const SULAWESIBARAT = userData.filter(user => user.id_province === 'SULAWESI BARAT').length;
-const SULAWESITENGGARA = userData.filter(user => user.id_province === 'SULAWESI TENGGARA').length;
-const SULAWESITENGAH = userData.filter(user => user.id_province === 'SULAWESI TENGAH').length;
-const SULAWESIUTARA = userData.filter(user => user.id_province === 'SULAWESI UTARA').length;
-const GORONTALO = userData.filter(user => user.id_province === 'GORONTALO').length;
-const MALUKU = userData.filter(user => user.id_province === 'MALUKU').length;
-const MALUKUUTARA = userData.filter(user => user.id_province === 'MALUKU UTARA').length;
-const PAPUA = userData.filter(user => user.id_province === 'PAPUA').length;
-const PAPUABARAT = userData.filter(user => user.id_province === 'PAPUA BARAT').length;
+                const userData = {!! json_encode($alumniWithProvince) !!};
+                const BANTEN = userData.filter(alumni => alumni.province.name === 'BANTEN').length;
 
 
-
+const RIAU = userData.filter(alumni => alumni.province.name === 'RIAU').length;
+const countJakarta = userData.filter(alumni => alumni.province.name === 'DKI JAKARTA').length;
+const SUMATERAUTARA = userData.filter(alumni => alumni.province.name === 'SUMATERA UTARA').length;
+const SUMATERABARAT = userData.filter(alumni => alumni.province.name === 'SUMATERA BARAT').length;
+const JAWABARAT = userData.filter(alumni => alumni.province.name === 'JAWA BARAT').length;
+    const ACEH = userData.filter(alumni => alumni.province.name === 'NANGGROE ACEH DARUSSALAM (NAD)').length;
+const KEPULAUANRIAU = userData.filter(alumni => alumni.province.name === 'KEPULAUAN RIAU').length;
+const SUMATERASELATAN = userData.filter(alumni => alumni.province.name === 'SUMATERA SELATAN').length;
+const BANGKABELITUNG = userData.filter(alumni => alumni.province.name === 'BANGKA BELITUNG').length;
+const LAMPUNG = userData.filter(alumni => alumni.province.name === 'LAMPUNG').length;
+const JAMBI = userData.filter(alumni => alumni.province.name === 'JAMBI').length;
+const BENGKULU = userData.filter(alumni => alumni.province.name === 'BENGKULU').length;
+const JAWATENGAH = userData.filter(alumni => alumni.province.name === 'JAWA TENGAH').length;
+const DIYOGYAKARTA = userData.filter(alumni => alumni.province.name === 'DI YOGYAKARTA').length;
+const JAWATIMUR = userData.filter(alumni => alumni.province.name === 'JAWA TIMUR').length;
+const KALIMANTANSELATAN = userData.filter(alumni => alumni.province.name === 'KALIMANTAN SELATAN').length;
+const KALIMANTANTENGAH = userData.filter(alumni => alumni.province.name === 'KALIMANTAN TENGAH').length;
+const KALIMANTANTIMUR = userData.filter(alumni => alumni.province.name === 'KALIMANTAN TIMUR').length;
+const KALIMANTANUTARA = userData.filter(alumni => alumni.province.name === 'KALIMANTAN UTARA').length;
+const KALIMANTANBARAT = userData.filter(alumni => alumni.province.name === 'KALIMANTAN BARAT').length;
+const BALI = userData.filter(alumni => alumni.province.name === 'BALI').length;
+const NUSATENGGARABARAT = userData.filter(alumni => alumni.province.name === 'NUSA TENGGARA BARAT (NTB)').length;
+const NUSATENGGARATIMUR = userData.filter(alumni => alumni.province.name === 'NUSA TENGGARA TIMUR (NTT)').length;
+const SULAWESISELATAN = userData.filter(alumni => alumni.province.name === 'SULAWESI SELATAN').length;
+const SULAWESIBARAT = userData.filter(alumni => alumni.province.name === 'SULAWESI BARAT').length;
+const SULAWESITENGGARA = userData.filter(alumni => alumni.province.name === 'SULAWESI TENGGARA').length;
+const SULAWESITENGAH = userData.filter(alumni => alumni.province.name === 'SULAWESI TENGAH').length;
+const SULAWESIUTARA = userData.filter(alumni => alumni.province.name === 'SULAWESI UTARA').length;
+const GORONTALO = userData.filter(alumni => alumni.province.name === 'GORONTALO').length;
+const MALUKU = userData.filter(alumni => alumni.province.name === 'MALUKU').length;
+const MALUKUUTARA = userData.filter(alumni => alumni.province.name === 'MALUKU UTARA').length;
+const PAPUA = userData.filter(alumni => alumni.province.name === 'PAPUA').length;
+const PAPUABARAT = userData.filter(alumni => alumni.province.name === 'PAPUA BARAT').length;
                 const data = [
                     ['id-3700', 10], ['id-ac', ACEH], ['id-jt', JAWATENGAH], ['id-be', BENGKULU],
-                    ['id-bt', countBantenUsers], ['id-kb', KALIMANTANBARAT], ['id-bb', BANGKABELITUNG], ['id-ba', BALI],
+                    ['id-bt', BANTEN], ['id-kb', KALIMANTANBARAT], ['id-bb', BANGKABELITUNG], ['id-ba', BALI],
                     ['id-ji', JAWATIMUR], ['id-ks', KALIMANTANSELATAN], ['id-nt', NUSATENGGARATIMUR], ['id-se', SULAWESISELATAN],
                     ['id-kr', KEPULAUANRIAU], ['id-ib', PAPUABARAT], ['id-su', SUMATERAUTARA], ['id-ri', RIAU],
                     ['id-sw', SULAWESIUTARA], ['id-ku', KALIMANTANUTARA], ['id-la', MALUKUUTARA], ['id-sb', SUMATERABARAT],
@@ -540,5 +572,72 @@ const Guruesar = userData.filter(user => user.gelar === 'Guru Besar').length;
         );
         chart.render();
     </script>
+
+
+<script>
+
+const pendidikanData = {!! json_encode($users) !!};
+const ASG = pendidikanData.filter(user => user.gelar === 'ASG').length;
+const asramaData = pendidikanData.map(alumni => alumni.asrama.nama_asrama);
+    const ASGJ = asramaData.filter(value => value === 'Asrama Sunan Gunung Jati');
+    const totalASGJ = ASGJ.length;
+const S2Column = pendidikanData.filter(user => user.gelar === 'S2').length;
+const S3Column = pendidikanData.filter(user => user.gelar === 'S3').length;
+const GuruesarColumn = pendidikanData.filter(user => user.gelar === 'Guru Besar').length;
+
+var optionsColumn = {
+    chart: {
+        height: 490,
+        type: 'bar',
+    },
+    series: [{
+        data: [totalASGJ, S2Column, S3Column, GuruesarColumn]
+    }],
+    xaxis: {
+        categories: ["ASGJ", "ASG", "AWS", "ASPURI"],
+    },
+    colors: ["#A8E9FF", "#5BD6FF", "#00BBF9", "#0089B7"],
+    legend: {
+        show: true,
+        position: 'bottom',
+        horizontalAlign: 'center',
+        verticalAlign: 'middle',
+        floating: false,
+        fontSize: '5px', // Ubah ukuran teks
+        offsetX: 0,
+        offsetY: 10, // Sesuaikan offset vertikal
+        itemMargin: {
+            horizontal: 10, // Sesuaikan jarak horizontal antara item
+            vertical: 5 // Sesuaikan jarak vertikal antara item
+        },
+        markers: {
+            width: 5, // Sesuaikan lebar marker
+            height: 12, // Sesuaikan tinggi marker
+            radius: 0 // Sesuaikan radius sudut marker
+        },
+        formatter: function(seriesName, opts) {
+            return seriesName + ' - ' + opts.w.globals.series[opts.seriesIndex];
+        }
+    },
+    responsive: [{
+        breakpoint: 600,
+        options: {
+            chart: {
+                height: 240
+            },
+            legend: {
+                show: false
+            },
+        }
+    }]
+}
+
+var chartColumn = new ApexCharts(
+    document.querySelector("#column_chart_pendidikan"),
+    optionsColumn
+);
+chartColumn.render();
+
+</script>
 
 @endsection

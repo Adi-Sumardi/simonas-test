@@ -128,8 +128,8 @@
                                             class="text-danger">
                                         <select name="id_province" class="form-control {{ $errors->has('id_province') ? ' is-invalid': '' }}">
                                             <option value="">Pilih Provinsi</option>
-                                            @foreach (array_unique(array_column($province->toArray(), 'provinsi')) as $uniqueProvince)
-                                            <option value="{{ $uniqueProvince }}">{{ $uniqueProvince }}</option>
+                                            @foreach ($province as $province)
+                                            <option value="{{ $province->id }}">{{ $province->name }}</option>
                                         @endforeach
                                         </select>
                                     </div>
@@ -221,10 +221,10 @@
                                         <label for="Daftar Asrama"
                                             class="control-label">Daftar Asrama</label><span
                                             class="text-danger">
-                                        <select name="id_asrama" class="form-control {{ $errors->has('id_asrama') ? ' is-invalid': '' }}">
+                                        <select name="id_asrama" class="form-control {{ $errors->has('id_asrama') ? ' is-invalid': '' }}" required>
                                             <option value="">Pilih Asrama</option>
                                             @foreach ($asrama as $row)
-                                            <option value="{{ $row->id }}">{{ $row->nama_asrama }} - Tahun {{ date('Y', strtotime($row->tahun_jabatan)) }}</option>
+                                            <option value="{{ $row->id }}">{{ $row->nama_asrama }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -258,7 +258,7 @@
                                         </span>
                                     @enderror
                                     <span class="invalid-feedback" style="display: block; color: #a0a0a0">
-                                        <strong>Tulis Nama Teman lebih dari 1, pisahkan dengan ; (titik koma)</strong>
+                                        <strong>Tulis Nama Teman lebih dari 1, pisahkan dengan @ (Tag)</strong>
                                     </span>
                                 </div>
                             </div>
@@ -655,7 +655,6 @@
                 data[val.name] = val.value;
             });
             data['id'] = '';
-
             switch (className) {
                 case ".modal-academic":
                     var val_academic = $("#alumni_academic").val() ? JSON.parse($("#alumni_academic").val()) : [];
@@ -693,8 +692,6 @@
         $(document).ready(function () {
             var regency = @json($regency);
 
-
-
             $('.modal-academic').on('hidden.bs.modal', function () {
                 $(this).find("input").val("");
                 $(this).find("select").val("S1");
@@ -730,11 +727,10 @@
                 type: 'GET',
                 data: { province: selectedProvince },
                 success: function (data) {
-                    // Kosongkan dan isi dropdown kecamatan dengan data yang diterima
                     $('select[name="id_district"]').empty();
                     $('select[name="id_district"]').append('<option value="">Pilih Kecamatan</option>');
                     $.each(data, function (key, value) {
-                        $('select[name="id_district"]').append('<option value="' + value + '">' + value + '</option>');
+                        $('select[name="id_district"]').append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
                 }
             });

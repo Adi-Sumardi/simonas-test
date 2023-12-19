@@ -45,9 +45,12 @@ class AlumniController extends Controller
     public function getDistricts(Request $request)
     {
         $province = $request->input('province');
-        $districts = DB::table('provinces')
-            ->where('provinsi', $province)->distinct()
-            ->pluck('kabupaten');
+$districts = DB::table('regencies')
+    ->where('province_id', $province)
+    ->distinct()
+    ->get();
+
+
 
         return response()->json($districts);
     }
@@ -65,8 +68,7 @@ if ($request->hasFile('foto')) {
     $lokasiTujuan = public_path('images');
     $compressedImage->save($lokasiTujuan . '/' . $namaFile);
     $data['foto'] = $namaFile;
-}
-
+}    $data['id_asrama'] = $request->input('id_asrama');
 
         // // echo "<pre/>";
         // // print_r($data);die;
@@ -154,7 +156,7 @@ if ($request->hasFile('foto')) {
     {
         $alumni = Alumni::findOrFail($id);
         $Asramanya = Alumni::find($id)->value('id_asrama');
-        $Asrama = Asrama::find($Asramanya);
+        $Asrama = $alumni->asrama;
         $AlumniPrestasi = $alumni->prestasi;
         $AlumniPendidikan = $alumni->pendidikan;
         $AlumniOrganisasi = $alumni->organisasi;
@@ -180,10 +182,12 @@ if ($request->hasFile('foto')) {
     public function indexAlumni()
     {
         $tahunIni = Carbon::now()->year;
-        $users = Alumni::all();
+        $users = Alumni::with('asrama')->get();
+        $datanya = Alumni::all();
+        $alumniWithProvince  =Alumni::with('province')->get();;
         $jumlahtotal = Alumni::all()->count();
         $jumlahtotalTahunIni = Alumni::whereYear('created_at', $tahunIni)->count();
-        $alumni = Alumni::all();
+        $alumni = Alumni::with('province');
         $AlumniPendidikan= AlumniPendidikan::all();
         // $Asramanya = Alumni::find($id)->value('id_asrama');
         // $Asrama = Asrama::find($Asramanya);
@@ -196,11 +200,12 @@ if ($request->hasFile('foto')) {
         $AWS = Alumni::where('id_asrama', '4')->count();
         $ASPURI = Alumni::where('id_asrama', '1')->count();
 
-        return view('alumni.index', compact('users','AlumniPendidikan','ASGJ','ASG','AWS','ASPURI','jumlahtotal','jumlahtotalTahunIni'));
+        return view('alumni.index', compact('datanya','alumniWithProvince','users','AlumniPendidikan','ASGJ','ASG','AWS','ASPURI','jumlahtotal','jumlahtotalTahunIni'));
     }
 
     public function viewAlumni()
     {
+        $alumnis= Alumni::all();
         $users = User::where('role', 'alumni')->orderBy('name', 'asc')->get();
         return view('alumni.alumni_index', compact('alumnis'));
     }

@@ -6,9 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class EventRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
         return true;
@@ -19,13 +17,13 @@ class EventRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    public function rules(): array
-    {
-        return [
-            'start_date' => 'required|date_format:Y-m-d',
-            'end_date' => 'required|date_format:Y-m-d',
-            'title' => 'required',
-            'category' => 'required'
-        ];
-    }
+    // public function rules(): array
+    // {
+    //     return [
+    //         'event_start_date' => 'required|date_format:Y-m-d',
+    //         'event_end_date' => 'required|date_format:Y-m-d',
+    //         'event_title' => 'required',
+    //         'event_description' => 'required'
+    //     ];
+    // }
 }

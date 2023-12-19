@@ -571,13 +571,13 @@ Route::middleware(['auth', 'alumni'])->group(function() {
     // Route::get('/alumni-events-edit','KalenderController@edit')->name('events.edit');
     // Route::get('/alumni-events-update','KalenderController@update')->name('events.update');
     // Route::get('/alumni-events-destroy','KalenderController@destroy')->name('events.destroy');
-
+    Route::post('/events/store', 'EventController@store1')->name('events.store');
     Route::get('/events', 'EventController@index')->name('events');
     Route::get('/events/list', 'EventController@listEvent')->name('events.list');
     Route::get('/events/create', 'EventController@create')->name('events.create');
-    Route::post('/events/store', 'EventController@store')->name('events.store');
+
     Route::get('/events/{event}/edit', 'EventController@edit')->name('events.edit');
-    Route::put('/events/{event}', 'EventController@update')->name('events.update');
+    Route::put('/events1/{event}', 'EventController@update1')->name('events.update');
     Route::delete('/events/{event}', 'EventController@destroy')->name('events.delete');
 
 

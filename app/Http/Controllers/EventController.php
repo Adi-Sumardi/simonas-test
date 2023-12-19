@@ -10,23 +10,53 @@ class EventController extends Controller
 {
     public function index()
     {
-        $action = route('events.store'); // Atur aksi untuk tampilan awal
-        return view('alumni.pages.calender.index', compact('action'));
+
+        return view('alumni.pages.calender.index', ['action'=> route('events.store')]);
     }
+    // public function ajax(Request $request)
+    // {
+
+        // switch ($request->type) {
+        // case 'add':
+        // $event = Event::create([
+        // 'title' => $request->title,
+        // 'start' => $request->start,
+        // 'end' => $request->end,]);
+        // return response()->json($event);
+        // break;
+        // case 'update':
+        // $event = Event::find($request->id)->update([
+        // 'title' => $request->title,
+        // 'start' => $request->start,
+        // 'end' => $request->end,
+        // ]);
+        // return response()->json($event);
+        // break;
+        // case 'delete':
+        // $event = Event::find($request->id)->delete();
+        // return response()->json($event);
+        // break;
+
+        // default:
+        // break;
+        // }
+        // }
 
     public function listEvent(Request $request)
     {
         $start = date('Y-m-d', strtotime($request->start));
         $end = date('Y-m-d', strtotime($request->end));
 
-        $events = Event::where('start_date', '>=', $start)
-        ->where('end_date', '<=' , $end)->get()
+        $events = Event::where('event_start_date', '>=', $start)
+        ->where('event_end_date', '<=' , $end)->get()
         ->map( fn ($item) => [
             'id' => $item->id,
-            'title' => $item->title,
-            'start' => $item->start_date,
-            'end' => date('Y-m-d',strtotime($item->end_date. '+1 days')),
-            'category' => $item->category,
+            'title' => $item->event_title,
+            'start' => $item->event_start_date,
+            'end' => date('Y-m-d',strtotime($item->event_end_date. '+1 days')),
+            'event_description' => $item->event_description,
+            'event_start_time' => $item->event_start_time,
+            'event_end_time' => $item->event_end_time,
             'className' => ['bg-'. $item->category]
         ]);
 
@@ -35,14 +65,21 @@ class EventController extends Controller
 
     public function create(Event $event)
     {
-        $action = route('events.store');
-        return view('alumni.pages.calender.index', compact('event', 'action'));
+
+        return view('alumni.pages.calender.event-form', ['data' => $event,'action'=> route('events.store')]);
     }
 
-    public function store(EventRequest $request, Event $event)
+    public function store1(Request $request,Event $event)
     {
-        return $this->update($request, $event);
-    }
+       $event->event_title =$request->title;
+       $event->event_start_date =$request->start_date;
+       $event->event_end_date =$request->end_date;
+       $event->event_start_time =$request->strat_time;
+       $event->event_end_time =$request->end_strat_time;
+       $event->event_description =$request->category;
+       $event->save();
+        return $event;
+     }
 
     public function show(Event $event)
     {
@@ -55,22 +92,11 @@ class EventController extends Controller
         return view('alumni.pages.calender.index', compact('event', 'action'));
     }
 
-    public function update(EventRequest $request, Event $event)
+    public function update1(Request $request,$id)
     {
-        if ($request->has('delete')) {
-            return $this->destroy($event);
-        }
-        $event->start_date = $request->start_date;
-        $event->end_date = $request->end_date;
-        $event->title = $request->title;
-        $event->category = $request->category;
 
-        $event->save();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Save data successfully'
-        ]);
+        dd($request->all());
+        // return response()->json(['message' => 'Event updated successfully']);
     }
 
     public function destroy(Event $event)

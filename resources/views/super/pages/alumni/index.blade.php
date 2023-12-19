@@ -101,9 +101,9 @@
                             <tbody>
                                 @foreach ($alumnis as $alumni)
                                     <tr>
-
                                         <td>{{$alumni->nama}}</td>
-                                        <td>{{$alumni->asal_asrama}}</td>
+                                        <td> {{$alumni->asrama->nama_asrama}}<br>
+                                        </td>
                                         <td>{{$alumni->tahun_masuk_asrama}}</td>
                                         <td>{{$alumni->tahun_keluar_asrama}}</td>
                                         <td>            @foreach($alumni->pendidikan as $pendidikan)

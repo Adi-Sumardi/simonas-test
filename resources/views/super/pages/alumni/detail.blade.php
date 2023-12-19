@@ -48,10 +48,10 @@
                             </div>
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-3" style="border-bottom: 2px solid #f9f6f6; padding-bottom: 10px;">Data Keasramaan</h5>
+                                    <h5 class="card-title mb-3" style="border-bottom: 2px solid #f9f6f6; padding-bottom: 10px;">BIODATA</h5>
                                     <div class="mt-3">
                                         <p class="font-size-12 text-muted mb-1">Tempat dan Tanggal Lahir</p>
-                                        <h6 class="">{{$alumni->provinsi_asal}},{{$alumni->tanggal_lahir}}</h6>
+                                        <h6 class="">{{$alumni->provinsi_asal}},{{ \Carbon\Carbon::parse($alumni->tanggal_lahir)->format('d M Y') }}</h6>
                                     </div>
                                     <div class="mt-3">
                                         <p class="font-size-12 text-muted mb-1">Kota Asal</p>
@@ -81,7 +81,7 @@
                                     <div class="card h-100 border">
                                         <div class="card-body">
                                             <fieldset  style="height: 560px;">
-                                                <h4 class="card-title mb-4" style="border-bottom: 2px solid #f9f6f6; padding-bottom: 10px;">Data Keasramaan</h4>
+                                                <h4 class="card-title mb-4" style="border-bottom: 2px solid #f9f6f6; padding-bottom: 10px;"><strong>DATA KEASRAMAAN</strong></h4>
                                                 <div class="mt-3">
                                                     <p class="font-size-12 text-muted mb-1">Asal Asrama</p>
                                                     <h6>{{$Asrama->nama_asrama}}</h6>
@@ -110,7 +110,7 @@
                                                 </div>
                                                 <div class="mt-3 mb-auto">
                                                     <p class="font-size-12 text-muted mb-1">Teman Satu Angkatan</p>
-                                                    @foreach(explode(';', $alumni->teman_angkatan) as $teman)
+                                                    @foreach(explode('@', $alumni->teman_angkatan) as $teman)
     <h6 class="">{{$teman}}</h6>
 @endforeach
 
@@ -124,7 +124,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <fieldset style="height: 580px; overflow-y: auto;">
-                                                <h4 class="card-title mb-2" >Pendidikan</h4>
+                                                <h4 class="card-title mb-2" ><strong>PENDIDIKAN</strong></h4>
                                                 <div class="form-group row">
                                                       <div class="container">
                                                         <div class="row">
@@ -179,7 +179,7 @@
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <h4 class="card-title mb-2">Pekerjaan</h4>
+                                                    <h4 class="card-title mb-2"><strong>PEKERJAAN</strong></h4>
                                                     <div class="form-group row">
                                                         <div class="container">
                                                             <div class="row">
@@ -211,7 +211,7 @@
                                                         </div>
                                                     </div>
 <br>
-                                                    <h4 class="card-title mb-2">Organisasi</h4>
+                                                    <h4 class="card-title mb-2"><strong>ORGANISASI</strong></h4>
                                                     <div class="form-group row">
                                                         <div class="container">
                                                             <div class="row">

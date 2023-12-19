@@ -44,6 +44,14 @@ class Alumni extends Model
     public function prestasi() {
         return $this->hasMany('App\AlumniPrestasi', 'id_alumni');
     }
+    public function asrama()
+    {
+        return $this->belongsTo(Asrama::class, 'id_asrama', 'id');
+    }
+    public function province()
+    {
+        return $this->belongsTo(Province::class, 'id_province', 'id');
+    }
 
     protected static function boot()
     {
