@@ -91,6 +91,9 @@ Route::middleware(['auth', 'super'])->group(function() {
     Route::get('/super', 'SuperController@index');
     Route::get('/super-dashboard', 'SuperController@dashboard');
 
+    Route::get('/super-pekerjaan', 'AlumniController@IndexPekerjaan')->name('pekerjaan');
+
+
     Route::get('/super-akun', 'UserController@akun')->name('super-akun');
     Route::get('/super-akun-edit/{id}', 'UserController@akunEdit')->name('super-akun-edit');
     Route::delete('/super-akun-delete/{id}', 'UserController@akunDelete')->name('super-akun-delete');
@@ -266,6 +269,8 @@ Route::middleware(['auth', 'super'])->group(function() {
 
     //fullcalender
     Route::get('/fullcalendar', 'FullCalendarController@index');
+    Route::get('/eventCalender', 'EventController@indexUNI')->name('eventCalender');
+    Route::get('/eventsSuper1', 'EventController@listEventSuper1')->name('event.listsuper1');
     Route::post('/fullcalendar/action', 'FullCalendarController@action');
 
 });
@@ -516,6 +521,8 @@ Route::middleware(['auth', 'mahasiswa'])->group(function() {
     Route::patch('/mahasiswa-kegiatan-asrama-update/{id}', 'MahasiswaController@updateKegiatan')->name('mahasiswa-kegiatan-asrama-update');
     Route::delete('/mahasiswa-kegiatan-asrama-delete/{id}', 'MahasiswaController@deleteKegiatan')->name('mahasiswa-kegiatan-asrama-delete');
 
+    Route::get('/listEventSuperMahasiswa', 'EventController@listEventSuperMahasiswa')->name('event.mahasiswa');
+
     Route::get('/mahasiswa-warga-asgj', 'MahasiswaController@asgj')->name('mahasiswa-warga-asgj');
     Route::get('/mahasiswa-warga-asg', 'MahasiswaController@asg')->name('mahasiswa-warga-asg');
     Route::get('/mahasiswa-warga-aws', 'MahasiswaController@aws')->name('mahasiswa-warga-aws');
@@ -573,6 +580,7 @@ Route::middleware(['auth', 'alumni'])->group(function() {
     // Route::get('/alumni-events-destroy','KalenderController@destroy')->name('events.destroy');
     Route::post('/events/store', 'EventController@store1')->name('events.store');
     Route::get('/events', 'EventController@index')->name('events');
+    Route::get('/eventsSuper', 'EventController@listEventSuper')->name('event.listsuper');
     Route::get('/events/list', 'EventController@listEvent')->name('events.list');
     Route::get('/events/create', 'EventController@create')->name('events.create');
 

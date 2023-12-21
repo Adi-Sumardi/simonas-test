@@ -52,6 +52,10 @@ class Alumni extends Model
     {
         return $this->belongsTo(Province::class, 'id_province', 'id');
     }
+    public function materJob()
+    {
+        return $this->belongsTo(MasterJob::class, 'materjob_id');
+    }
 
     protected static function boot()
     {

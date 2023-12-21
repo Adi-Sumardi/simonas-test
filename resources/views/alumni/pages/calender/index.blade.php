@@ -30,20 +30,7 @@
     <div class="container mt-5">
         {{-- For Search --}}
         <div class="row">
-            <div class="col-md-6">
-                <div class="input-group mb-3">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search events">
-                    <div class="input-group-append">
-                        <button id="searchButton" class="btn btn-primary">Search</button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-md-6">
-                <div class="btn-group mb-3" role="group" aria-label="Calendar Actions">
-                    <button id="exportButton" class="btn btn-success">Export Calendar</button>
-                </div>
-            </div>
         </div>
 
         <div class="card">
@@ -147,7 +134,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <input type="hidden" name="event_id" id="event_id" value="">
-                        <h5 class="modal-title">Input Kegiatan</h5>
+                        <h5 class="modal-title">KEGIATAN ASRAMA</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -156,53 +143,46 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>TANGGAL AWAL</h5>
-                                    <input type="text" name="start_dateupdate" readonly  class="form-control datepicker">
+                                    <h5>NAMA KEGIATAN</h5>
+                                    <input type="text" name="NAMA_KEGIATAN" readonly>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>TANGGAL AKHIR</h5>
-                                    <input type="text" name="end_dateupdate" readonly  class="form-control datepicker">
+                                    <h5>TUJUAN</h5>
+                                    <input type="text" name="TUJUAN" readonly  >
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>START TIME</h5>
-                                    <input type="text" name="strat_timeupdate" readonly  class="form-control datepicker">
+                                    <h5>PENYELENGGARA</h5>
+                                    <input type="text" name="PENYELENGGARA" readonly>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>END START TIME</h5>
-                                    <input type="text" name="end_strat_timeupdate" readonly  class="form-control datepicker">
+                                    <h5>JENIS KEGIATAN</h5>
+                                    <input type="text" name="JENIS_KEGIATAN" readonly>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="mb-3">
-                                    <textarea name="event_title" readonly class="form-control"></textarea>
+                                    <h5>TANGGAL</h5>
+                                    <input type="text" name="WAKTU" readonly>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="mb-3">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input"  type="radio" name="categoryupdate" id="category-success"  value="success"  {{ (isset($data) && $data->category == 'success') ? 'checked' : '' }} enable =false>
-                                        <label class="form-check-label" for="category-success">Success</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="categoryupdate" id="category-danger" value="danger" {{ (isset($data) && $data->category == 'danger') ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="category-danger">Danger</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="categoryupdate" id="category-warning" value="warning" {{ (isset($data) && $data->category == 'warning') ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="category-warning">Warning</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="categoryupdate" id="category-info" value="info" {{ (isset($data) && $data->category == 'info') ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="category-info">Info</label>
-                                    </div>
+                                    <h5>KETERANGAN</h5>
+                                    <input type="text" name="KETERANGAN" readonly  class="form-control datepicker">
                                 </div>
                             </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <img type="text" name="fotonya" src="" width="200" height="auto">
+                                </div>
+                            </div>
+
                             <div class="col-12">
                                 <div class="mb-3">
                                     {{-- <div class="form-check form-switch">
@@ -240,7 +220,12 @@
                     },
                 initialView: 'dayGridMonth',
                 themeSystem: 'bootstrap5',
-                events: `{{ route('events.list')}}`,
+                events: {
+        url: `{{ route('event.listsuper')}}`,
+        color: 'green',
+        textColor: 'black'
+    },
+
                 editable: true,
                 dateClick: function(info) {
                     var currentTime = new Date();
@@ -270,6 +255,10 @@
                             })
                         })
                 },
+                eventRender: function (info) {
+        // Mengatur warna latar belakang acara menjadi hijau
+        info.el.style.backgroundColor = 'green';
+    },
                 eventClick: function (info) {
     // Show the modal
     $('#form-action-update').modal('show');
@@ -279,14 +268,18 @@
     var dateOnly = startDate.toISOString().split('T')[0];
     var endnya = endDate.toISOString().split('T')[0];
 
-    $('input[name="strat_timeupdate"]').val(info.event.extendedProps.event_start_time);
-    $('input[name="end_strat_timeupdate"]').val(info.event.extendedProps.event_end_time);
-    $('textarea[name="event_title"]').val(info.event.title);
-    $('input[name="start_dateupdate"]').val(dateOnly);
-    $('input[name="end_dateupdate"]').val(endnya);
-    $('input[name="categoryupdate"]').prop('checked', false);
-    var categoryValue = info.event.extendedProps.event_description.toLowerCase();
-    $('input[name="categoryupdate"][value="' + categoryValue + '"]').prop('checked', true);
+    // $('input[name="strat_timeupdate"]').val(info.event.extendedProps.event_start_time);
+    $('input[name="NAMA_KEGIATAN"]').val(info.event.title);
+    $('input[name="TUJUAN"]').val(info.event.extendedProps.tujuan);
+    $('input[name="PENYELENGGARA"]').val(info.event.extendedProps.penyelenggara);
+    $('input[name="JENIS_KEGIATAN"]').val(info.event.extendedProps.jenis_kegiatan);
+    $('input[name="WAKTU"]').val(dateOnly);
+    $('input[name="KETERANGAN"]').val(info.event.extendedProps.keterangan);
+    $('img[name="fotonya"]').attr('src', 'data_file_kegiatan/' + info.event.extendedProps.file);
+    // $('input[name="categoryupdate"]').prop('checked', false);
+    // console.log("INPO",info.event.extendedProps)
+    // var categoryValue = info.event.extendedProps.event_description.toLowerCase();
+    // $('input[name="categoryupdate"][value="' + categoryValue + '"]').prop('checked', true);
     $('#form-action-update').off('submit').on('submit', function (e) {
         e.preventDefault();
 

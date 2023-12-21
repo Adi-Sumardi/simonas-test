@@ -575,7 +575,6 @@ const Guruesar = userData.filter(user => user.gelar === 'Guru Besar').length;
 
 
 <script>
-
 const pendidikanData = {!! json_encode($users) !!};
 const ASG = pendidikanData.filter(user => user.gelar === 'ASG').length;
 const asramaData = pendidikanData.map(alumni => alumni.asrama.nama_asrama);

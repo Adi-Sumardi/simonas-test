@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Kegiatan;
 use App\Http\Requests\EventRequest;
 use Illuminate\Http\Request;
 
@@ -46,7 +47,6 @@ class EventController extends Controller
     {
         $start = date('Y-m-d', strtotime($request->start));
         $end = date('Y-m-d', strtotime($request->end));
-
         $events = Event::where('event_start_date', '>=', $start)
         ->where('event_end_date', '<=' , $end)->get()
         ->map( fn ($item) => [
@@ -62,7 +62,79 @@ class EventController extends Controller
 
         return response()->json($events);
     }
+    public function indexUNI()
+    {
 
+        return view('super.pages.master.calender');
+    }
+
+    public function listEventSuper(Request $request)
+    {
+        $start = date('Y-m-d', strtotime($request->start));
+        $end = date('Y-m-d', strtotime($request->end));
+
+        $events = Kegiatan::where('waktu', '>=', $start)
+        ->where('waktu', '<=' , $end)->get()
+        ->map( fn ($item) => [
+            'id' => $item->id,
+            'title' => $item->nama_kegiatan,
+            'start' => $item->waktu,
+            'end' => date('Y-m-d',strtotime($item->waktu. '+1 days')),
+            'tempat' => $item->tempat,
+            'penyelenggara' => $item->penyelenggara,
+            'jenis_kegiatan' => $item->jenis_kegiatan,
+            'keterangan' => $item->keterangan,
+            'file' => $item->file,
+            'tujuan' => $item->tujuan
+        ]);
+
+        return response()->json($events);
+    }
+
+    public function listEventSuper1(Request $request)
+    {
+        $start = date('Y-m-d', strtotime($request->start));
+        $end = date('Y-m-d', strtotime($request->end));
+
+        $events = Kegiatan::where('waktu', '>=', $start)
+        ->where('waktu', '<=' , $end)->get()
+        ->map( fn ($item) => [
+            'id' => $item->id,
+            'title' => $item->nama_kegiatan,
+            'start' => $item->waktu,
+            'end' => date('Y-m-d',strtotime($item->waktu. '+1 days')),
+            'tempat' => $item->tempat,
+            'penyelenggara' => $item->penyelenggara,
+            'jenis_kegiatan' => $item->jenis_kegiatan,
+            'keterangan' => $item->keterangan,
+            'file' => $item->file,
+            'tujuan' => $item->tujuan
+        ]);
+
+        return response()->json($events);
+    }
+    public function listEventSuperMahasiswa(Request $request)
+    {
+        $start = date('Y-m-d', strtotime($request->start));
+        $end = date('Y-m-d', strtotime($request->end));
+
+        $events = Kegiatan::where('waktu', '>=', $start)
+        ->where('waktu', '<=' , $end)->get()
+        ->map( fn ($item) => [
+            'id' => $item->id,
+            'title' => $item->nama_kegiatan,
+            'start' => $item->waktu,
+            'end' => date('Y-m-d',strtotime($item->waktu. '+1 days')),
+            'tempat' => $item->tempat,
+            'penyelenggara' => $item->penyelenggara,
+            'jenis_kegiatan' => $item->jenis_kegiatan,
+            'keterangan' => $item->keterangan,
+            'file' => $item->file,
+            'tujuan' => $item->tujuan
+        ]);
+
+        return response()->json($events);
+    }
     public function create(Event $event)
     {
 

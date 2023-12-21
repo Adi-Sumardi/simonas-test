@@ -169,6 +169,10 @@ if ($request->hasFile('foto')) {
     {
         return Excel::download(new CustomExport(), 'alumni_data.xlsx');
     }
+    public function IndexPekerjaan()
+    {
+        return view('super.pages.master.pekerjaan');
+    }
 
     public function import(Request $request)
     {
