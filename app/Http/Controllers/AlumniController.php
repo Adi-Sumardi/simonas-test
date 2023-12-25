@@ -31,8 +31,16 @@ class AlumniController extends Controller
 {
     public function index()
     {
+
+        $role = auth()->user()->role;
+        if($role ==="super"){
+            $layouts =  'super.layouts.master';
+        }
+        elseif($role ==="alumni"){
+            $layouts =  'alumni.layouts.master';
+        }
         $alumnis = Alumni::all();
-        return view('super.pages.alumni.index', compact('alumnis'));
+        return view('super.pages.alumni.index', ['alumnis'=>$alumnis,'layouts' => $layouts]);
     }
 
     public function create()

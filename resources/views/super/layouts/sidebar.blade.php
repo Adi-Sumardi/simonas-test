@@ -37,10 +37,14 @@
                 </li>
 
                 <li>
-                    <a href="/super-kegiatan-asrama" class=" waves-effect">
-                        <i class="mdi mdi-calendar-text"></i>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-library-books"></i>
                         <span>Kegiatan Asrama</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="/super-kegiatan-asrama">Kegiatan </a></li>
+                        <li><a href="/eventCalender">Kalender</a></li>
+                    </ul>
                 </li>
 
                 <li>
@@ -62,7 +66,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="/super-pekerjaan">Pekerjaan</a></li>
-                        <li><a href="/eventCalender">Kalender</a></li>
+
                     </ul>
                 </li>
 

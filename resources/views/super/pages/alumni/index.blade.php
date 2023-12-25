@@ -1,4 +1,4 @@
-@extends('super.layouts.master')
+@extends($layouts)
 
 @section('title')
     List Alumni Asrama

@@ -1,4 +1,4 @@
-@extends('super.layouts.master')
+@extends($layouts)
 
 @section('title')
 Kalender
@@ -43,7 +43,7 @@ Kalender
                 <div class="modal-content">
                     <div class="modal-header">
                         <input type="hidden" name="event_id" id="event_id" value="">
-                        <h5 class="modal-title">KEGIATAN ASRAMA</h5>
+                        <h5 class="modal-title">Kegiatan Asrama</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -52,43 +52,43 @@ Kalender
                         <div class="row">
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>NAMA KEGIATAN</h5>
-                                    <input type="text" name="NAMA_KEGIATAN" readonly>
+                                    <h5>Nama Kegiatan</h5>
+                                    <input type="text" name="NAMA_KEGIATAN" readonly class="form-control datepicker">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>TUJUAN</h5>
-                                    <input type="text" name="TUJUAN" readonly  >
+                                    <h5>Tujuan</h5>
+                                    <input type="text" name="TUJUAN" readonly  class="form-control datepicker" >
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>PENYELENGGARA</h5>
-                                    <input type="text" name="PENYELENGGARA" readonly>
+                                    <h5>Penyelenggara</h5>
+                                    <input type="text" name="PENYELENGGARA" readonly class="form-control datepicker">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>JENIS KEGIATAN</h5>
-                                    <input type="text" name="JENIS_KEGIATAN" readonly>
+                                    <h5>Jenis Kegiatan</h5>
+                                    <input type="text" name="JENIS_KEGIATAN" readonly class="form-control datepicker">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>TANGGAL</h5>
-                                    <input type="text" name="WAKTU" readonly>
+                                    <h5>Tanggal</h5>
+                                    <input type="text" name="WAKTU" readonly class="form-control datepicker">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <h5>KETERANGAN</h5>
+                                    <h5>keterangan</h5>
                                     <input type="text" name="KETERANGAN" readonly  class="form-control datepicker">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <img type="text" name="fotonya" src="" width="200" height="auto">
+                                    <img type="text" name="fotonya" src="" width="200" height="auto" class="form-control datepicker">
                                 </div>
                             </div>
 
@@ -122,21 +122,21 @@ Kalender
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
+
             var calendarEl = document.getElementById('calendar');
+            var events = @json($events);
+    console.log(events);
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                     },
+                    events: events,
                 initialView: 'dayGridMonth',
                 themeSystem: 'bootstrap5',
-                events: {
-        url: `{{ route('event.listsuper1')}}`,
-        color: 'green',
-        textColor: 'black'
-    },
                 editable: true,
                 eventClick: function (info) {
     // Show the modal

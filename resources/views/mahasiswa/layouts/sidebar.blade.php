@@ -45,6 +45,7 @@
                         <li><a href="/mahasiswa/asrama">Direktur & Ketua</a></li>
                         <li><a href="/mahasiswa/warga">Warga Asrama</a></li>
                         <li><a href="/mahasiswa/alumni">Alumni Asrama</a></li>
+                        <li><a href="/eventCalender">Calender</a></li>
                     </ul>
                 </li>
 

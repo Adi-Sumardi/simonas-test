@@ -10,7 +10,7 @@
 @section('body')
 <body data-layout="detached" data-topbar="colored">
     <!-- Loader -->
-    <div id="preloader">
+
         <div id="status">
             <div class="spinner-chase">
                 <div class="chase-dot"></div>
@@ -21,7 +21,7 @@
                 <div class="chase-dot"></div>
             </div>
         </div>
-    </div>
+
 
     @endsection
 
@@ -539,7 +539,7 @@
 
     <!-- jquery.vectormap map -->
     <script src="{{URL::asset('/libs/jquery-vectormap/jquery-vectormap.min.js')}}"></script>
-    
+
     <script src="{{URL::asset('/js/pages/dashboard.init.js')}}"></script>
 
     @endsection

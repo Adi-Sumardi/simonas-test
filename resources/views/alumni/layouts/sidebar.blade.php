@@ -29,14 +29,14 @@
                 </li>
 
                 <li>
-                    <a href="#" class=" waves-effect">
+                    <a href="" class=" waves-effect">
                         <i class="mdi mdi-library-books"></i>
                         <span>Data Warga</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/events" class=" waves-effect">
+                    <a href="/eventCalender" class=" waves-effect">
                         <i class="mdi mdi-calendar-text"></i>
                         <span>Kegiatan</span>
                     </a>
@@ -50,7 +50,7 @@
                 </li>
 
                 <li>
-                    <a href="/lumni-profile-foto" class=" waves-effect">
+                    <a href="/super-alumni-asrama" class=" waves-effect">
                         <i class="mdi mdi-library-books"></i>
                         <span>Data Alumni</span>
                     </a>

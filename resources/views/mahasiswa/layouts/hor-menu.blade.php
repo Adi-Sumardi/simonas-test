@@ -38,9 +38,14 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link" href="/mahasiswa-kegiatan-asrama" id="topnav-components" role="button" aria-expanded="false">
-                                    Data Kegiatan
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   Kegiatan
                                 </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                                    <a href="/mahasiswa-kegiatan-asrama" class="dropdown-item">Data Kegiatan</a>
+                                    <a href="/eventCalender" class="dropdown-item">Calender</a>
+                                </div>
+
                             </li>
 
                             <li class="nav-item dropdown">
@@ -112,7 +117,7 @@
                     <i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> Logout</a>
                     <form id="logout-form" action="{{ url('/logout')}}" method="POST" class="d-none">
                         {{ csrf_field() }}
-                    </form>                
+                    </form>
                 </div>
             </div>
             @else

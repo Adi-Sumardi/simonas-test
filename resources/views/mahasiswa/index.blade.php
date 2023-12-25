@@ -115,7 +115,7 @@
             <div class="card">
 
                 {{--  Akademik Create  --}}
-                
+
                 <div class="col-sm-6 col-md-4 col-xl-3">
                     <div class="modal fade bs-akademik-modal-xl" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
@@ -143,7 +143,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6" hidden>
                                                     <div class="form-group">
                                                         <label for="asrama">Asrama</label>
@@ -156,18 +156,16 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-12">
                                                     <div class="form-group">
+                                                        <input type="hidden" name="komponen_id_akademik" id="komponen_id_akademik">
                                                         <label for="komponen" class="mb-0 badge badge-soft-primary font-size-14">Komponen</label>
                                                         <select id="data_komponen_akademik" type="text" class="form-control @error('komponen') is-invalid @enderror"
-                                                            name="komponen">
+                                                            name="komponen_akademik">
                                                             <option>- Pilih Komponen Kegiatan Akademik -</option>
                                                             @foreach ($komponen_akademiks as $item)
-                                                                <option value="{{ $item->nama_komponen }}"
-                                                                        data-kode="{{ $item->kode }}"
-                                                                        data-id="{{ $item->id }}" 
-                                                                        data-aspek="{{ $item->aspek }}">
+                                                                <option value="{{ $item->nama_komponen }}" data-id="{{ $item->id }}" data-kode="{{ $item->kode }}" data-aspek="{{ $item->aspek }}">
                                                                     {{ $item->kode }} - {{ $item->nama_komponen }}
                                                                 </option>
                                                             @endforeach
@@ -179,7 +177,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6" hidden>
                                                     <div class="form-group">
                                                         <label>ID Komponen</label>
@@ -187,7 +185,7 @@
                                                             readonly></input>
                                                     </div>
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="kegiatan">Nama Kegiatan</label>
@@ -200,7 +198,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="waktu">Waktu Kegiatan</label>
@@ -213,7 +211,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="tempat">Tempat Kegiatan</label>
@@ -226,7 +224,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="keterangan">Uraian Kegiatan</label>
@@ -239,7 +237,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                                                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="file">file Kegiatan</label>
@@ -268,7 +266,7 @@
                 </div>
 
                 {{--  Leadership Create  --}}
-                
+
                 <div class="col-sm-6 col-md-4 col-xl-3">
                     <div class="modal fade bs-leadership-modal-xl" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
@@ -296,7 +294,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6" hidden>
                                                     <div class="form-group">
                                                         <label for="asrama">Asrama</label>
@@ -309,18 +307,17 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-12">
+                                                    <input type="hidden" name="komponen_id_leader" id="komponen_id_leader">
+
                                                     <div class="form-group">
                                                         <label for="komponen" class="mb-0 badge badge-soft-primary font-size-14">Komponen</label>
                                                         <select id="data_komponen_leadership" type="text" class="form-control @error('komponen') is-invalid @enderror"
-                                                            name="komponen">
+                                                            name="komponen_leader">
                                                             <option>- Pilih Komponen Kegiatan Leadership -</option>
                                                             @foreach ($komponen_leaderships as $item)
-                                                                <option value="{{ $item->nama_komponen }}"
-                                                                        data-kode="{{ $item->kode }}"
-                                                                        data-id="{{ $item->id }}" 
-                                                                        data-aspek="{{ $item->aspek }}">
+                                                                <option value="{{ $item->nama_komponen }}" data-id="{{ $item->id }}" data-kode="{{ $item->kode }}" data-aspek="{{ $item->aspek }}">
                                                                     {{ $item->kode }} - {{ $item->nama_komponen }}
                                                                 </option>
                                                             @endforeach
@@ -332,7 +329,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6" hidden>
                                                     <div class="form-group">
                                                         <label>ID Komponen</label>
@@ -340,7 +337,7 @@
                                                             readonly></input>
                                                     </div>
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="kegiatan">Nama Kegiatan</label>
@@ -353,7 +350,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="waktu">Waktu Kegiatan</label>
@@ -366,7 +363,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="tempat">Tempat Kegiatan</label>
@@ -379,7 +376,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="keterangan">Uraian Kegiatan</label>
@@ -392,7 +389,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                                                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="file">file Kegiatan</label>
@@ -421,7 +418,7 @@
                 </div>
 
                 {{--  Karakter Create  --}}
-                
+
                 <div class="col-sm-6 col-md-4 col-xl-3">
                     <div class="modal fade bs-karakter-modal-xl" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
@@ -449,7 +446,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6" hidden>
                                                     <div class="form-group">
                                                         <label for="asrama">Asrama</label>
@@ -462,18 +459,15 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-12">
+                                                    <input type="hidden" name="komponen_id_karak" id="komponen_id_karak">
                                                     <div class="form-group">
                                                         <label for="komponen" class="mb-0 badge badge-soft-primary font-size-14">Komponen</label>
-                                                        <select id="data_komponen_karakter" type="text" class="form-control @error('komponen') is-invalid @enderror"
-                                                            name="komponen">
-                                                            <option>- Pilih Komponen Kegiatan Karakter Islami -</option>
+                                                        <select id="data_komponen_karakter" type="text" class="form-control @error('komponen') is-invalid @enderror" name="komponen_karakter">
+                                                            <option value="">- Pilih Komponen Kegiatan Karakter Islami -</option>
                                                             @foreach ($komponen_karakters as $item)
-                                                                <option value="{{ $item->nama_komponen }}"
-                                                                        data-kode="{{ $item->kode }}"
-                                                                        data-id="{{ $item->id }}" 
-                                                                        data-aspek="{{ $item->aspek }}">
+                                                                <option value="{{ $item->nama_komponen }}" data-id="{{ $item->id }}" data-kode="{{ $item->kode }}" data-aspek="{{ $item->aspek }}">
                                                                     {{ $item->kode }} - {{ $item->nama_komponen }}
                                                                 </option>
                                                             @endforeach
@@ -485,7 +479,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6" hidden>
                                                     <div class="form-group">
                                                         <label>ID Komponen</label>
@@ -493,7 +487,7 @@
                                                             readonly></input>
                                                     </div>
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="kegiatan">Nama Kegiatan</label>
@@ -506,7 +500,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="waktu">Waktu Kegiatan</label>
@@ -519,7 +513,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="tempat">Tempat Kegiatan</label>
@@ -532,7 +526,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="keterangan">Uraian Kegiatan</label>
@@ -545,7 +539,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                                                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="file">file Kegiatan</label>
@@ -574,7 +568,7 @@
                 </div>
 
                 {{--  Kreatif Create  --}}
-                
+
                 <div class="col-sm-6 col-md-4 col-xl-3">
                     <div class="modal fade bs-kreatif-modal-xl" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
@@ -602,7 +596,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6" hidden>
                                                     <div class="form-group">
                                                         <label for="asrama">Asrama</label>
@@ -615,21 +609,20 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-12">
                                                     <div class="form-group">
+                                                        <input type="hidden" name="komponen_id_kreatif" id="komponen_id_kreatif">
+
                                                         <label for="komponen" class="mb-0 badge badge-soft-primary font-size-14">Komponen</label>
                                                         <select id="data_komponen_kreatif" type="text" class="form-control @error('komponen') is-invalid @enderror"
-                                                            name="komponen">
+                                                            name="komponen_kreatif">
                                                             <option>- Pilih Komponen Kegiatan Kreativitas -</option>
                                                             @foreach ($komponen_kreatifs as $item)
-                                                                <option value="{{ $item->nama_komponen }}"
-                                                                        data-kode="{{ $item->kode }}"
-                                                                        data-id="{{ $item->id }}" 
-                                                                        data-aspek="{{ $item->aspek }}">
+                                                                <option value="{{ $item->nama_komponen }}" data-id="{{ $item->id }}" data-kode="{{ $item->kode }}" data-aspek="{{ $item->aspek }}">
                                                                     {{ $item->kode }} - {{ $item->nama_komponen }}
                                                                 </option>
-                                                            @endforeach
+                                                           @endforeach
                                                         </select>
                                                     </div>
                                                     @error('komponen')
@@ -638,7 +631,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6" hidden>
                                                     <div class="form-group">
                                                         <label>ID Komponen</label>
@@ -646,7 +639,7 @@
                                                             readonly></input>
                                                     </div>
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="kegiatan">Nama Kegiatan</label>
@@ -659,7 +652,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="waktu">Waktu Kegiatan</label>
@@ -672,7 +665,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="tempat">Tempat Kegiatan</label>
@@ -685,7 +678,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="keterangan">Uraian Kegiatan</label>
@@ -698,7 +691,7 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                                                
+
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="file">file Kegiatan</label>
@@ -727,7 +720,7 @@
                 </div>
 
                 {{--  Foto  --}}
-                
+
                 <div class="col-sm-6 col-md-4 col-xl-3">
                     <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -738,7 +731,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="/mahasiswa-profile-foto-update/{{Auth::user()->id}}" method="POST" enctype="multipart/form-data">                            
+                                <form action="/mahasiswa-profile-foto-update/{{Auth::user()->id}}" method="POST" enctype="multipart/form-data">
                                     @method('PATCH')
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                     <div class="modal-body">
@@ -803,7 +796,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-                    
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="no_induk">Nomor Induk Warga<span style="color: red">*</span>:</label>
@@ -816,7 +809,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-        
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="tgl_masuk">Tanggal Masuk<span style="color: red">*</span>:</label>
@@ -829,7 +822,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-        
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="nik">NIK<span style="color: red">*</span>:</label>
@@ -842,7 +835,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-        
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="tgl_lahir">Tanggal Lahir<span style="color: red">*</span>:</label>
@@ -855,7 +848,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-        
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="alamat">Alamat Jalan<span style="color: red">*</span>:</label>
@@ -920,7 +913,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-        
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="no_telp">Nomor Telepon<span style="color: red">*</span>:</label>
@@ -933,7 +926,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-        
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="asal_sekolah">Asal Sekolah<span style="color: red">*</span>:</label>
@@ -946,7 +939,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-        
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="nama_ayah">Nama Ayah<span style="color: red">*</span>:</label>
@@ -959,7 +952,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-        
+
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="nama_ibu">Nama Ibu<span style="color: red">*</span>:</label>
@@ -972,7 +965,7 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -980,7 +973,7 @@
                                             <h5 style="text-align: center" class="mb-4"><strong>DATA PENDIDIKAN</strong></h5>
                                             <p class="badge badge-soft-secondary font-size-12">Perhatikan tanda (<span style="color: red">*</span>) pada form wajib diisi!</p>
                                             <div class="form-group">
-                                                <div class="row">                
+                                                <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="universitas">Universitas<span style="color: red">*</span>:</label>
@@ -1161,7 +1154,7 @@
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                     <div class="modal-body">
                                         <div class="row">
-                                            
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="semester">Semester:</label>
@@ -1174,7 +1167,7 @@
                                                     </span>
                                                 @enderror
                                             </div>
-            
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="tahun">Tahun:</label>
@@ -1200,7 +1193,7 @@
                                                     </span>
                                                 @enderror
                                             </div>
-                                            
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="file">File KHS: <span style="color: red">Support PDF aja!</span></label>
@@ -1266,7 +1259,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-body">
                     <div class="float-right">
@@ -1463,17 +1456,17 @@
                                             <div class="panel-body">
                                                 <div style="overflow: scroll">
                                                     <table class="table table-condensed" style="border-collapse:collapse;">
-                                                    
+
                                                         <thead>
                                                             <tr><th>&nbsp;</th>
                                                                 <th><strong>Kode</strong></th>
                                                                 <th><strong>Komponen</strong></th>
                                                                 <th><strong>Jumlah</strong></th>
                                                                 <th><strong>Presentase</strong></th>
-                                                               
+
                                                             </tr>
                                                         </thead>
-                                                    
+
                                                         <tbody>
                                                             <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
                                                                     <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
@@ -1481,11 +1474,11 @@
                                                                     <td>Mendapatkan nilai (prestasi) akademik</td>
                                                                     <td>{{$kom1_akademiks_count}}</td>
                                                                     <td>0%</td>
-                                                                    
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo1"> 
+                                                                    <div class="accordian-body collapse" id="demo1">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1496,7 +1489,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom1_akademiks as $data_kom1)    
+                                                                                @foreach ($kom1_akademiks as $data_kom1)
                                                                                 <tr>
                                                                                     <td>{{$data_kom1->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom1->waktu))}}</td>
@@ -1506,7 +1499,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
 
@@ -1516,11 +1509,11 @@
                                                                     <td>Mengikuti kegiatan mentoring</td>
                                                                     <td>{{$kom2_akademiks_count}}</td>
                                                                     <td>0%</td>
-                                                                    
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo2"> 
+                                                                    <div class="accordian-body collapse" id="demo2">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1531,7 +1524,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom2_akademiks as $data_kom2)    
+                                                                                @foreach ($kom2_akademiks as $data_kom2)
                                                                                 <tr>
                                                                                     <td>{{$data_kom2->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom2->waktu))}}</td>
@@ -1541,21 +1534,21 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
-                                                            
+
                                                             <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
                                                                 <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
                                                                 <td>1003</td>
                                                                 <td>Mengikuti forum akademik</td>
                                                                 <td>{{$kom3_akademiks_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo3"> 
+                                                                    <div class="accordian-body collapse" id="demo3">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1566,7 +1559,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom3_akademiks as $data_kom3)    
+                                                                                @foreach ($kom3_akademiks as $data_kom3)
                                                                                 <tr>
                                                                                     <td>{{$data_kom3->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom3->waktu))}}</td>
@@ -1576,7 +1569,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle">
@@ -1585,11 +1578,11 @@
                                                                 <td>Membaca buku atau artikel dll</td>
                                                                 <td>{{$kom4_akademiks_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo4"> 
+                                                                    <div class="accordian-body collapse" id="demo4">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1600,7 +1593,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom4_akademiks as $data_kom4)    
+                                                                                @foreach ($kom4_akademiks as $data_kom4)
                                                                                 <tr>
                                                                                     <td>{{$data_kom4->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom4->waktu))}}</td>
@@ -1610,7 +1603,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo5" class="accordion-toggle">
@@ -1619,11 +1612,11 @@
                                                                 <td>Memanfaatkan TIK untuk pengembangan diri</td>
                                                                 <td>{{$kom5_akademiks_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo5"> 
+                                                                    <div class="accordian-body collapse" id="demo5">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1634,7 +1627,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom5_akademiks as $data_kom5)    
+                                                                                @foreach ($kom5_akademiks as $data_kom5)
                                                                                 <tr>
                                                                                     <td>{{$data_kom5->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom5->waktu))}}</td>
@@ -1644,7 +1637,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo6" class="accordion-toggle">
@@ -1653,11 +1646,11 @@
                                                                 <td>Menulis makalah, artikel dll</td>
                                                                 <td>{{$kom6_akademiks_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo6"> 
+                                                                    <div class="accordian-body collapse" id="demo6">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1668,7 +1661,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom6_akademiks as $data_kom6)    
+                                                                                @foreach ($kom6_akademiks as $data_kom6)
                                                                                 <tr>
                                                                                     <td>{{$data_kom6->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom6->waktu))}}</td>
@@ -1678,7 +1671,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo7" class="accordion-toggle">
@@ -1687,11 +1680,11 @@
                                                                 <td>Menyampaikan gagasan, presentasi, moderator</td>
                                                                 <td>{{$kom7_akademiks_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo7"> 
+                                                                    <div class="accordian-body collapse" id="demo7">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1702,7 +1695,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom7_akademiks as $data_kom7)    
+                                                                                @foreach ($kom7_akademiks as $data_kom7)
                                                                                 <tr>
                                                                                     <td>{{$data_kom7->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom7->waktu))}}</td>
@@ -1712,7 +1705,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
@@ -1721,11 +1714,11 @@
                                                                 <td>Memberikan kontribusi (mengajar, melatih,membimbing)</td>
                                                                 <td>{{$kom8_akademiks_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo8"> 
+                                                                    <div class="accordian-body collapse" id="demo8">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1736,7 +1729,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom8_akademiks as $data_kom8)    
+                                                                                @foreach ($kom8_akademiks as $data_kom8)
                                                                                 <tr>
                                                                                     <td>{{$data_kom8->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
@@ -1746,18 +1739,18 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
-            
-                                    </div> 
-            
+
+                                    </div>
+
                                 </div>
-                                
+
                             </div>
                         </div>
 
@@ -1783,17 +1776,17 @@
                                             <div class="panel-body">
                                                 <div style="overflow: scroll">
                                                     <table class="table table-condensed" style="border-collapse:collapse;">
-                                                    
+
                                                         <thead>
                                                             <tr><th>&nbsp;</th>
                                                                 <th><strong>Kode</strong></th>
                                                                 <th><strong>Komponen</strong></th>
                                                                 <th><strong>Jumlah</strong></th>
                                                                 <th><strong>Presentase</strong></th>
-                                                               
+
                                                             </tr>
                                                         </thead>
-                                                    
+
                                                         <tbody>
                                                             <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
                                                                     <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
@@ -1801,11 +1794,11 @@
                                                                     <td>Mengikuti pelatihan kepemimpinan</td>
                                                                     <td>{{$kom1_leaderships_count}}</td>
                                                                     <td>0%</td>
-                                                                    
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo1"> 
+                                                                    <div class="accordian-body collapse" id="demo1">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1816,7 +1809,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom1_leaderships as $data_kom1)    
+                                                                                @foreach ($kom1_leaderships as $data_kom1)
                                                                                 <tr>
                                                                                     <td>{{$data_kom1->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom1->waktu))}}</td>
@@ -1826,7 +1819,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
 
@@ -1836,11 +1829,11 @@
                                                                     <td>Mengikuti kegiatan mentoring</td>
                                                                     <td>{{$kom2_leaderships_count}}</td>
                                                                     <td>0%</td>
-                                                                    
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo2"> 
+                                                                    <div class="accordian-body collapse" id="demo2">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1851,7 +1844,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom2_leaderships as $data_kom2)    
+                                                                                @foreach ($kom2_leaderships as $data_kom2)
                                                                                 <tr>
                                                                                     <td>{{$data_kom2->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom2->waktu))}}</td>
@@ -1861,21 +1854,21 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
-                                                            
+
                                                             <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
                                                                 <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
                                                                 <td>2003</td>
                                                                 <td>Melaksanakan tugas kepanitiaan (mandat)</td>
                                                                 <td>{{$kom3_leaderships_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo3"> 
+                                                                    <div class="accordian-body collapse" id="demo3">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1886,7 +1879,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom3_leaderships as $data_kom3)    
+                                                                                @foreach ($kom3_leaderships as $data_kom3)
                                                                                 <tr>
                                                                                     <td>{{$data_kom3->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom3->waktu))}}</td>
@@ -1896,7 +1889,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle">
@@ -1905,11 +1898,11 @@
                                                                 <td>Melakukan tugas sebagai pengurus organisasi</td>
                                                                 <td>{{$kom4_leaderships_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo4"> 
+                                                                    <div class="accordian-body collapse" id="demo4">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1920,7 +1913,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom4_leaderships as $data_kom4)    
+                                                                                @foreach ($kom4_leaderships as $data_kom4)
                                                                                 <tr>
                                                                                     <td>{{$data_kom4->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom4->waktu))}}</td>
@@ -1930,7 +1923,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo5" class="accordion-toggle">
@@ -1939,11 +1932,11 @@
                                                                 <td>Menjadi peserta atau memimpin rapat</td>
                                                                 <td>{{$kom5_leaderships_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo5"> 
+                                                                    <div class="accordian-body collapse" id="demo5">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1954,7 +1947,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom5_leaderships as $data_kom5)    
+                                                                                @foreach ($kom5_leaderships as $data_kom5)
                                                                                 <tr>
                                                                                     <td>{{$data_kom5->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom5->waktu))}}</td>
@@ -1964,7 +1957,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo6" class="accordion-toggle">
@@ -1973,11 +1966,11 @@
                                                                 <td>Mengikuti diskusi atau debat penyelesaian masalah</td>
                                                                 <td>{{$kom6_leaderships_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo6"> 
+                                                                    <div class="accordian-body collapse" id="demo6">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -1988,7 +1981,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom6_leaderships as $data_kom6)    
+                                                                                @foreach ($kom6_leaderships as $data_kom6)
                                                                                 <tr>
                                                                                     <td>{{$data_kom6->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom6->waktu))}}</td>
@@ -1998,7 +1991,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo7" class="accordion-toggle">
@@ -2007,11 +2000,11 @@
                                                                 <td>Menulis surat, proposal kegiatan, laporan dll</td>
                                                                 <td>{{$kom7_leaderships_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo7"> 
+                                                                    <div class="accordian-body collapse" id="demo7">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2022,7 +2015,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom7_leaderships as $data_kom7)    
+                                                                                @foreach ($kom7_leaderships as $data_kom7)
                                                                                 <tr>
                                                                                     <td>{{$data_kom7->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom7->waktu))}}</td>
@@ -2032,7 +2025,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
@@ -2041,11 +2034,11 @@
                                                                 <td>Memberikan kontribusi baik harta, tenaga, waktu</td>
                                                                 <td>{{$kom8_leaderships_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo8"> 
+                                                                    <div class="accordian-body collapse" id="demo8">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2056,7 +2049,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom8_leaderships as $data_kom8)    
+                                                                                @foreach ($kom8_leaderships as $data_kom8)
                                                                                 <tr>
                                                                                     <td>{{$data_kom8->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
@@ -2066,7 +2059,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
@@ -2075,11 +2068,11 @@
                                                                 <td>Menyampaikan gagasan baik lisan atau tulisan</td>
                                                                 <td>{{$kom9_leaderships_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo9"> 
+                                                                    <div class="accordian-body collapse" id="demo9">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2090,7 +2083,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom9_leaderships as $data_kom8)    
+                                                                                @foreach ($kom9_leaderships as $data_kom8)
                                                                                 <tr>
                                                                                     <td>{{$data_kom8->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
@@ -2100,18 +2093,18 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
-            
-                                    </div> 
-            
+
+                                    </div>
+
                                 </div>
-                                
+
                             </div>
                         </div>
 
@@ -2137,17 +2130,17 @@
                                             <div class="panel-body">
                                                 <div style="overflow: scroll">
                                                     <table class="table table-condensed" style="border-collapse:collapse;">
-                                                    
+
                                                         <thead>
                                                             <tr><th>&nbsp;</th>
                                                                 <th><strong>Kode</strong></th>
                                                                 <th><strong>Komponen</strong></th>
                                                                 <th><strong>Jumlah</strong></th>
                                                                 <th><strong>Presentase</strong></th>
-                                                               
+
                                                             </tr>
                                                         </thead>
-                                                    
+
                                                         <tbody>
                                                             <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
                                                                     <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
@@ -2155,11 +2148,11 @@
                                                                     <td>Membaca Al Quran, hafalan, hadits pilihan</td>
                                                                     <td>{{$kom1_karakters_count}}</td>
                                                                     <td>0%</td>
-                                                                    
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo1"> 
+                                                                    <div class="accordian-body collapse" id="demo1">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2170,7 +2163,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom1_karakters as $data_kom1)    
+                                                                                @foreach ($kom1_karakters as $data_kom1)
                                                                                 <tr>
                                                                                     <td>{{$data_kom1->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom1->waktu))}}</td>
@@ -2180,7 +2173,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
 
@@ -2190,11 +2183,11 @@
                                                                     <td>Mengikuti kegiatan mentoring</td>
                                                                     <td>{{$kom2_karakters_count}}</td>
                                                                     <td>0%</td>
-                                                                    
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo2"> 
+                                                                    <div class="accordian-body collapse" id="demo2">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2205,7 +2198,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom2_karakters as $data_kom2)    
+                                                                                @foreach ($kom2_karakters as $data_kom2)
                                                                                 <tr>
                                                                                     <td>{{$data_kom2->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom2->waktu))}}</td>
@@ -2215,21 +2208,21 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
-                                                            
+
                                                             <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
                                                                 <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
                                                                 <td>3003</td>
                                                                 <td>Mengikuti kajian, membaca buku atau ceramah agama</td>
                                                                 <td>{{$kom3_karakters_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo3"> 
+                                                                    <div class="accordian-body collapse" id="demo3">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2240,7 +2233,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom3_karakters as $data_kom3)    
+                                                                                @foreach ($kom3_karakters as $data_kom3)
                                                                                 <tr>
                                                                                     <td>{{$data_kom3->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom3->waktu))}}</td>
@@ -2250,7 +2243,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle">
@@ -2259,11 +2252,11 @@
                                                                 <td>Menjadi imam shalat jamaah atau memimpin doa</td>
                                                                 <td>{{$kom4_karakters_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo4"> 
+                                                                    <div class="accordian-body collapse" id="demo4">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2274,7 +2267,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom4_karakters as $data_kom4)    
+                                                                                @foreach ($kom4_karakters as $data_kom4)
                                                                                 <tr>
                                                                                     <td>{{$data_kom4->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom4->waktu))}}</td>
@@ -2284,7 +2277,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo5" class="accordion-toggle">
@@ -2293,11 +2286,11 @@
                                                                 <td>Mengamalkan ibadah harian; shalat, puasa, zakat, dll</td>
                                                                 <td>{{$kom5_karakters_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo5"> 
+                                                                    <div class="accordian-body collapse" id="demo5">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2308,7 +2301,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom5_karakters as $data_kom5)    
+                                                                                @foreach ($kom5_karakters as $data_kom5)
                                                                                 <tr>
                                                                                     <td>{{$data_kom5->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom5->waktu))}}</td>
@@ -2318,7 +2311,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo6" class="accordion-toggle">
@@ -2327,11 +2320,11 @@
                                                                 <td>Menyampaikan dakwah, kultum, baik lisan, tulisan</td>
                                                                 <td>{{$kom6_karakters_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo6"> 
+                                                                    <div class="accordian-body collapse" id="demo6">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2342,7 +2335,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom6_karakters as $data_kom6)    
+                                                                                @foreach ($kom6_karakters as $data_kom6)
                                                                                 <tr>
                                                                                     <td>{{$data_kom6->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom6->waktu))}}</td>
@@ -2352,7 +2345,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo7" class="accordion-toggle">
@@ -2361,11 +2354,11 @@
                                                                 <td>Memelihara kebersihan (kamar, lingkungan, dll)</td>
                                                                 <td>{{$kom7_karakters_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo7"> 
+                                                                    <div class="accordian-body collapse" id="demo7">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2376,7 +2369,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom7_karakters as $data_kom7)    
+                                                                                @foreach ($kom7_karakters as $data_kom7)
                                                                                 <tr>
                                                                                     <td>{{$data_kom7->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom7->waktu))}}</td>
@@ -2386,7 +2379,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
@@ -2395,11 +2388,11 @@
                                                                 <td>Mengajar pengajian, TPA, TPQ, dll</td>
                                                                 <td>{{$kom8_karakters_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo8"> 
+                                                                    <div class="accordian-body collapse" id="demo8">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2410,7 +2403,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom8_karakters as $data_kom8)    
+                                                                                @foreach ($kom8_karakters as $data_kom8)
                                                                                 <tr>
                                                                                     <td>{{$data_kom8->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
@@ -2420,7 +2413,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
@@ -2429,11 +2422,11 @@
                                                                 <td>Memelihara silaturahmi dan menolong sesama</td>
                                                                 <td>{{$kom9_karakters_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo9"> 
+                                                                    <div class="accordian-body collapse" id="demo9">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2444,7 +2437,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom9_karakters as $data_kom8)    
+                                                                                @foreach ($kom9_karakters as $data_kom8)
                                                                                 <tr>
                                                                                     <td>{{$data_kom8->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
@@ -2454,18 +2447,18 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
-            
-                                    </div> 
-            
+
+                                    </div>
+
                                 </div>
-                                
+
                             </div>
                         </div>
 
@@ -2491,17 +2484,17 @@
                                             <div class="panel-body">
                                                 <div style="overflow: scroll">
                                                     <table class="table table-condensed" style="border-collapse:collapse;">
-                                                    
+
                                                         <thead>
                                                             <tr><th>&nbsp;</th>
                                                                 <th><strong>Kode</strong></th>
                                                                 <th><strong>Komponen</strong></th>
                                                                 <th><strong>Jumlah</strong></th>
                                                                 <th><strong>Presentase</strong></th>
-                                                               
+
                                                             </tr>
                                                         </thead>
-                                                    
+
                                                         <tbody>
                                                             <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
                                                                     <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
@@ -2509,11 +2502,11 @@
                                                                     <td>Mengikuti pelatihan kreativitas dan kewirausahaan</td>
                                                                     <td>{{$kom1_kreatifs_count}}</td>
                                                                     <td>0%</td>
-                                                                    
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo1"> 
+                                                                    <div class="accordian-body collapse" id="demo1">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2524,7 +2517,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom1_kreatifs as $data_kom1)    
+                                                                                @foreach ($kom1_kreatifs as $data_kom1)
                                                                                 <tr>
                                                                                     <td>{{$data_kom1->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom1->waktu))}}</td>
@@ -2534,7 +2527,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
 
@@ -2544,11 +2537,11 @@
                                                                     <td>Mengikuti kegiatan mentoring</td>
                                                                     <td>{{$kom2_kreatifs_count}}</td>
                                                                     <td>0%</td>
-                                                                    
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo2"> 
+                                                                    <div class="accordian-body collapse" id="demo2">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2559,7 +2552,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom2_kreatifs as $data_kom2)    
+                                                                                @foreach ($kom2_kreatifs as $data_kom2)
                                                                                 <tr>
                                                                                     <td>{{$data_kom2->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom2->waktu))}}</td>
@@ -2569,21 +2562,21 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
-                                                            
+
                                                             <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
                                                                 <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
                                                                 <td>4003</td>
                                                                 <td>Membaca buku, majalah, internet dll terkait kewirausahaan</td>
                                                                 <td>{{$kom3_kreatifs_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo3"> 
+                                                                    <div class="accordian-body collapse" id="demo3">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2594,7 +2587,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom3_kreatifs as $data_kom3)    
+                                                                                @foreach ($kom3_kreatifs as $data_kom3)
                                                                                 <tr>
                                                                                     <td>{{$data_kom3->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom3->waktu))}}</td>
@@ -2604,7 +2597,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle">
@@ -2613,11 +2606,11 @@
                                                                 <td>Mengikuti forum ceramah atau diskusi kewirausahaan</td>
                                                                 <td>{{$kom4_kreatifs_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo4"> 
+                                                                    <div class="accordian-body collapse" id="demo4">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2628,7 +2621,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom4_kreatifs as $data_kom4)    
+                                                                                @foreach ($kom4_kreatifs as $data_kom4)
                                                                                 <tr>
                                                                                     <td>{{$data_kom4->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom4->waktu))}}</td>
@@ -2638,7 +2631,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo5" class="accordion-toggle">
@@ -2647,11 +2640,11 @@
                                                                 <td>Melakukan tugas dalam kegiatan usaha asrama</td>
                                                                 <td>{{$kom5_kreatifs_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo5"> 
+                                                                    <div class="accordian-body collapse" id="demo5">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2662,7 +2655,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom5_kreatifs as $data_kom5)    
+                                                                                @foreach ($kom5_kreatifs as $data_kom5)
                                                                                 <tr>
                                                                                     <td>{{$data_kom5->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom5->waktu))}}</td>
@@ -2672,7 +2665,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo6" class="accordion-toggle">
@@ -2681,11 +2674,11 @@
                                                                 <td>Menulis proposal usaha</td>
                                                                 <td>{{$kom6_kreatifs_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo6"> 
+                                                                    <div class="accordian-body collapse" id="demo6">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2696,7 +2689,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom6_kreatifs as $data_kom6)    
+                                                                                @foreach ($kom6_kreatifs as $data_kom6)
                                                                                 <tr>
                                                                                     <td>{{$data_kom6->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom6->waktu))}}</td>
@@ -2706,7 +2699,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo7" class="accordion-toggle">
@@ -2715,11 +2708,11 @@
                                                                 <td>Menghasilkan karya kreatif (video, grafis, dll)</td>
                                                                 <td>{{$kom7_kreatifs_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo7"> 
+                                                                    <div class="accordian-body collapse" id="demo7">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2730,7 +2723,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom7_kreatifs as $data_kom7)    
+                                                                                @foreach ($kom7_kreatifs as $data_kom7)
                                                                                 <tr>
                                                                                     <td>{{$data_kom7->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom7->waktu))}}</td>
@@ -2740,7 +2733,7 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
@@ -2749,11 +2742,11 @@
                                                                 <td>Memiliki keberanian untuk memulai usaha</td>
                                                                 <td>{{$kom8_kreatifs_count}}</td>
                                                                 <td>0%</td>
-                                                                
+
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="12" class="hiddenRow">
-                                                                    <div class="accordian-body collapse" id="demo8"> 
+                                                                    <div class="accordian-body collapse" id="demo8">
                                                                         <table class="table table-striped">
                                                                             <thead>
                                                                                 <tr>
@@ -2764,7 +2757,7 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                @foreach ($kom8_kreatifs as $data_kom8)    
+                                                                                @foreach ($kom8_kreatifs as $data_kom8)
                                                                                 <tr>
                                                                                     <td>{{$data_kom8->kegiatan}}</td>
                                                                                     <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
@@ -2774,18 +2767,18 @@
                                                                                 @endforeach
                                                                             </tbody>
                                                                         </table>
-                                                                    </div> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
-            
-                                    </div> 
-            
+
+                                    </div>
+
                                 </div>
-                                
+
                             </div>
 
                         </div>
@@ -2817,7 +2810,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($ipks as $item)
-                                        
+
                                     <tr>
                                         <td>{{$item->semester}}</td>
                                         <td>{{$item->tahun}}</td>
@@ -2831,7 +2824,7 @@
                                                     <i class="mdi mdi-image-edit-outline"></i> Update KHS</a>
                                             </td>
                                         </tr>
-                                        
+
                                     @endforeach
                                 </tbody>
                             </table>
@@ -2929,8 +2922,8 @@
             chart: {
                 height: 320,
                 type: 'donut',
-            }, 
-            series: [{{$kom1_akademiks_count}}, {{$kom2_akademiks_count}}, {{$kom3_akademiks_count}}, {{$kom4_akademiks_count}}, {{$kom5_akademiks_count}}, {{$kom6_akademiks_count}}, {{$kom7_akademiks_count}}, {{$kom8_akademiks_count}}],
+            },
+            series: [{{ $akademiks }}, {{ $leaderships }}, {{ $karakters }}, {{ $kreatifs }}],
             labels: ["1001", "1002", "1003", "1004", "1005", "1006", "1007", "1008"],
             colors: ["#45cb85", "#3b5de7","#ff715b", "#0caadc", "#eeb902", "#ecf542", "#42e0f5", "#f542f2"],
             legend: {
@@ -2953,14 +2946,14 @@
                     },
                 }
             }]
-        
+
         }
-        
+
         var chart = new ApexCharts(
             document.querySelector("#akademik_chart"),
             options
         );
-        
+
         chart.render();
     </script>
 
@@ -2971,7 +2964,7 @@
             chart: {
                 height: 320,
                 type: 'donut',
-            }, 
+            },
             series: [{{$kom1_leaderships_count}}, {{$kom2_leaderships_count}}, {{$kom3_leaderships_count}}, {{$kom4_leaderships_count}}, {{$kom5_leaderships_count}}, {{$kom6_leaderships_count}}, {{$kom7_leaderships_count}}, {{$kom8_leaderships_count}}, {{$kom9_leaderships_count}}],
             labels: ["2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009"],
             colors: ["#45cb85", "#3b5de7","#ff715b", "#0caadc", "#eeb902", "#ecf542", "#42e0f5", "#f542f2", "#030836"],
@@ -2995,14 +2988,14 @@
                     },
                 }
             }]
-        
+
         }
-        
+
         var chart = new ApexCharts(
             document.querySelector("#leadership_chart"),
             options
         );
-        
+
         chart.render();
     </script>
     <script>
@@ -3012,7 +3005,7 @@
             chart: {
                 height: 320,
                 type: 'donut',
-            }, 
+            },
             series: [{{$kom1_karakters_count}}, {{$kom2_karakters_count}}, {{$kom3_karakters_count}}, {{$kom4_karakters_count}}, {{$kom5_karakters_count}}, {{$kom6_karakters_count}}, {{$kom7_karakters_count}}, {{$kom8_karakters_count}}, {{$kom9_karakters_count}}],
             labels: ["3001", "3002", "3003", "3004", "3005", "3006", "3007", "3008", "3009"],
             colors: ["#45cb85", "#3b5de7","#ff715b", "#0caadc", "#eeb902", "#ecf542", "#42e0f5", "#f542f2", "#030836"],
@@ -3036,14 +3029,14 @@
                     },
                 }
             }]
-        
+
         }
-        
+
         var chart = new ApexCharts(
             document.querySelector("#karakter_chart"),
             options
         );
-        
+
         chart.render();
     </script>
     <script>
@@ -3053,7 +3046,7 @@
             chart: {
                 height: 320,
                 type: 'donut',
-            }, 
+            },
             series: [{{$kom1_kreatifs_count}}, {{$kom2_kreatifs_count}}, {{$kom3_kreatifs_count}}, {{$kom4_kreatifs_count}}, {{$kom5_kreatifs_count}}, {{$kom6_kreatifs_count}}, {{$kom7_kreatifs_count}}, {{$kom8_kreatifs_count}}],
             labels: ["4001", "4002", "4003", "4004", "4005", "4006", "4007", "4008"],
             colors: ["#45cb85", "#3b5de7","#ff715b", "#0caadc", "#eeb902", "#ecf542", "#42e0f5", "#f542f2"],
@@ -3077,39 +3070,39 @@
                     },
                 }
             }]
-        
+
         }
-        
+
         var chart = new ApexCharts(
             document.querySelector("#kreatif_chart"),
             options
         );
-        
+
         chart.render();
     </script>
 
     <script type="text/javascript">
-      
+
         $(document).ready(function (e) {
-         
-           
+
+
            $('#image').change(function(){
-                    
+
             let reader = new FileReader();
-         
-            reader.onload = (e) => { 
-         
-              $('#preview-image-before-upload').attr('src', e.target.result); 
+
+            reader.onload = (e) => {
+
+              $('#preview-image-before-upload').attr('src', e.target.result);
             }
-         
-            reader.readAsDataURL(this.files[0]); 
-           
+
+            reader.readAsDataURL(this.files[0]);
+
            });
-           
+
         });
-         
+
     </script>
-    
+
     {{--  <script>
         $(document).ready(function() {
             $('#data_komponen_akademik').select2();
@@ -3157,25 +3150,93 @@
             });
         });
     </script>  --}}
-
+{{--
     <script>
         $(document).ready(function() {
             // Inisialisasi Select2 untuk semua dropdown
             $('#data_komponen_akademik, #data_komponen_leadership, #data_komponen_karakter, #data_komponen_kreatif').select2();
-        
+
             // Event handler saat terjadi perubahan pada semua dropdown
             $('#data_komponen_akademik, #data_komponen_leadership, #data_komponen_karakter, #data_komponen_kreatif').on('change', function() {
                 // Mendapatkan elemen yang dipilih
                 const selectedOption = $(this).find('option:selected');
-        
                 // Mendapatkan nilai data-id dari elemen yang dipilih
                 const komponenId = selectedOption.data('id');
-        
+
                 // Mengisi nilai komponen_id ke dalam input dengan ID data
                 $("#data").val(komponenId);
             });
         });
+    </script> --}}
+    {{-- ini karakter --}}
+    <script>
+        document.getElementById('data_komponen_karakter').addEventListener('change', function () {
+            var selectedOption = this.options[this.selectedIndex];
+            var id = selectedOption.getAttribute('data-id');
+            var namaKomponen = selectedOption.text;
+
+            // Set nilai input tersembunyi
+            var komponenIdElement = document.getElementById('komponen_id_karak');
+            if (komponenIdElement) {
+                komponenIdElement.value = id;
+
+            } else {
+                alert('Elemen dengan ID "komponen_id" tidak ditemukan!');
+            }
+        });
     </script>
+
+ {{-- ini akademik --}}
+ <script>
+    document.getElementById('data_komponen_akademik').addEventListener('change', function () {
+        var selectedOption = this.options[this.selectedIndex];
+        var id = selectedOption.getAttribute('data-id');
+        var namaKomponen = selectedOption.text;
+
+        // Set nilai input tersembunyi
+        var komponenIdElement = document.getElementById('komponen_id_akademik');
+        if (komponenIdElement) {
+            komponenIdElement.value = id;
+            console.log('ID:', id);
+            alert(id);
+            console.log('Nama Komponen:', namaKomponen);
+        } else {
+            alert('Elemen dengan ID "komponen_id" tidak ditemukan!');
+        }
+    });
+</script>
+{{-- ini leader --}}
+<script>
+    document.getElementById('data_komponen_leadership').addEventListener('change', function () {
+        var selectedOption = this.options[this.selectedIndex];
+        var id = selectedOption.getAttribute('data-id');
+        var namaKomponen = selectedOption.text;
+
+        // Set nilai input tersembunyi
+        var komponenIdElement = document.getElementById('komponen_id_leader');
+        if (komponenIdElement) {
+            komponenIdElement.value = id;
+        } else {
+            alert('Elemen dengan ID "komponen_id" tidak ditemukan!');
+        }
+    });
+</script>
+{{-- ini kreatif --}}
+<script>
+    document.getElementById('data_komponen_kreatif').addEventListener('change', function () {
+        var selectedOption = this.options[this.selectedIndex];
+        var id = selectedOption.getAttribute('data-id');
+        var namaKomponen = selectedOption.text;
+
+        // Set nilai input tersembunyi
+        var komponenIdElement = document.getElementById('komponen_id_kreatif');
+        if (komponenIdElement) {
+            komponenIdElement.value = id;
+        } else {
+            alert('Elemen dengan ID "komponen_id" tidak ditemukan!');
+        }
+    });
+</script>
 
     <script type="text/javascript">
 		$(".tm-input").tagsManager();

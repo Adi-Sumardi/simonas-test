@@ -33,7 +33,7 @@ class MahasiswaController extends Controller
         $data_leaderships = User::find(auth()->id())->leaderships;
         $data_karakters = User::find(auth()->id())->karakters;
         $data_kreatifs = User::find(auth()->id())->kreatifs;
-        
+
         $kom1_akademiks = User::find(auth()->id())->akademiks->where('komponen', 'Mendapatkan nilai (prestasi) akademik');
         $kom2_akademiks = User::find(auth()->id())->akademiks->where('komponen', 'Mengikuti kegiatan mentoring');
         $kom3_akademiks = User::find(auth()->id())->akademiks->where('komponen', 'Mengikuti forum akademik');
@@ -124,6 +124,7 @@ class MahasiswaController extends Controller
 
         return view('mahasiswa.index', compact(
             'ipks',
+            'data_akademiks',
             'data_ipks',
             'akademiks',
             'leaderships',
@@ -211,7 +212,6 @@ class MahasiswaController extends Controller
     public function akademikStore(Request $request)
     {
         $request->validate([
-            'komponen' => 'required',
             'waktu' => 'required',
             'tempat' => 'required',
             'keterangan' => 'required',
@@ -228,8 +228,8 @@ class MahasiswaController extends Controller
 
             'file' => $nama_file,
             'user_id' => auth()->id(),
-            'komponen_id' => $request->komponen_id,
-            'komponen' => $request->komponen,
+            'komponen_id' => $request->komponen_id_akademik,
+            'komponen' => $request->komponen_akademik,
             'nama_warga' => $request->nama_warga,
             'asrama' => $request->asrama,
             'kegiatan' => $request->kegiatan,
@@ -244,25 +244,21 @@ class MahasiswaController extends Controller
     public function leadershipStore(Request $request)
     {
         $request->validate([
-            'komponen' => 'required',
             'waktu' => 'required',
             'tempat' => 'required',
             'keterangan' => 'required',
             'file' => 'required',
 
         ]);
-
         Leadership::create([
-
             $file = $request->file('file'),
             $nama_file = time()."_".$file->getClientOriginalName(),
             $tujuan_upload = 'data_file_akademik',
             $file->move($tujuan_upload,$nama_file),
-
             'file' => $nama_file,
             'user_id' => auth()->id(),
-            'komponen_id' => $request->komponen_id,
-            'komponen' => $request->komponen,
+            'komponen_id' => $request->komponen_id_leader,
+            'komponen' => $request->komponen_leader,
             'nama_warga' => $request->nama_warga,
             'asrama' => $request->asrama,
             'kegiatan' => $request->kegiatan,
@@ -273,11 +269,10 @@ class MahasiswaController extends Controller
 
         return back()->with('success-leadership', 'Data Berhasil Dibuat!');
     }
-    
+
     public function karakterStore(Request $request)
     {
         $request->validate([
-            'komponen' => 'required',
             'waktu' => 'required',
             'tempat' => 'required',
             'keterangan' => 'required',
@@ -294,8 +289,8 @@ class MahasiswaController extends Controller
 
             'file' => $nama_file,
             'user_id' => auth()->id(),
-            'komponen_id' => $request->komponen_id,
-            'komponen' => $request->komponen,
+            'komponen_id' =>$request->komponen_id_karak,
+            'komponen' => $request->komponen_karakter,
             'nama_warga' => $request->nama_warga,
             'asrama' => $request->asrama,
             'kegiatan' => $request->kegiatan,
@@ -306,11 +301,10 @@ class MahasiswaController extends Controller
 
         return back()->with('success-karakter', 'Data Berhasil Dibuat!');
     }
-    
+
     public function kreatifStore(Request $request)
     {
         $request->validate([
-            'komponen' => 'required',
             'waktu' => 'required',
             'tempat' => 'required',
             'keterangan' => 'required',
@@ -327,8 +321,8 @@ class MahasiswaController extends Controller
 
             'file' => $nama_file,
             'user_id' => auth()->id(),
-            'komponen_id' => $request->komponen_id,
-            'komponen' => $request->komponen,
+            'komponen_id' => $request->komponen_id_kreatif,
+            'komponen' => $request->komponen_kreatif,
             'nama_warga' => $request->nama_warga,
             'asrama' => $request->asrama,
             'kegiatan' => $request->kegiatan,
@@ -360,7 +354,7 @@ class MahasiswaController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        
+
         User::findOrFail($id)->update($request->all());
         return back()->with('info-status', 'Data status warga berhasil diperbarui!');
 
@@ -375,20 +369,20 @@ class MahasiswaController extends Controller
             'fakultas' => 'required',
             'prodi' => 'required',
             'angkatan' => 'required',
-            'nik' => 'required', 
-            'alamat' => 'required', 
-            'provinsi' => 'required', 
-            'kota' => 'required', 
-            'kecamatan' => 'required', 
-            'kode_pos' => 'required', 
-            'no_telp' => 'required', 
-            'asal_sekolah' => 'required', 
-            'tgl_lahir' => 'required', 
-            'organisasi' => 'required', 
-            'nama_ayah' => 'required', 
-            'nama_ibu' => 'required', 
+            'nik' => 'required',
+            'alamat' => 'required',
+            'provinsi' => 'required',
+            'kota' => 'required',
+            'kecamatan' => 'required',
+            'kode_pos' => 'required',
+            'no_telp' => 'required',
+            'asal_sekolah' => 'required',
+            'tgl_lahir' => 'required',
+            'organisasi' => 'required',
+            'nama_ayah' => 'required',
+            'nama_ibu' => 'required',
         ]);
-        
+
         User::findOrFail($id)->update($request->all());
         return redirect('/mahasiswa')->with('info-personal', 'Data personal berhasil diperbarui!');
 
@@ -441,7 +435,7 @@ class MahasiswaController extends Controller
     public function updateIPK(Request $request, $id)
     {
         $ipk = Ipk::findOrFail($id);
-  
+
             //for update in table
             $ipk->update([
                 'semester' => $request->semester,
@@ -457,14 +451,14 @@ class MahasiswaController extends Controller
         $ipk = Ipk::findOrFail($id);
 
         if($request->file != ''){
-  
+
             //code for remove old file
             if($file = $request->file('file')){
                 $nama_file = time()."_".$file->getClientOriginalName();
                 $tujuan_upload = 'data_file_khs';
                 $file->move($tujuan_upload, $nama_file);
             }
-  
+
             //for update in table
             $ipk->update([
                 'file' => $nama_file,
@@ -528,7 +522,7 @@ class MahasiswaController extends Controller
         $kegiatan = Kegiatan::findOrFail($id);
         return view('mahasiswa.pages.kegiatan.detail', compact('kegiatan'));
     }
-    
+
     public function updateKegiatan(Request $request, $id)
     {
         Kegiatan::findOrFail($id)->update($request->all());
@@ -550,7 +544,7 @@ class MahasiswaController extends Controller
                     return is_numeric($ipk->ip);
                 })
                 ->avg('ip');
-    
+
             // Menambahkan properti baru ke objek $user
             $user->average_ip = $averageIP;
         }
@@ -566,7 +560,7 @@ class MahasiswaController extends Controller
                     return is_numeric($ipk->ip);
                 })
                 ->avg('ip');
-    
+
             // Menambahkan properti baru ke objek $user
             $user->average_ip = $averageIP;
         }
@@ -582,7 +576,7 @@ class MahasiswaController extends Controller
                     return is_numeric($ipk->ip);
                 })
                 ->avg('ip');
-    
+
             // Menambahkan properti baru ke objek $user
             $user->average_ip = $averageIP;
         }
@@ -598,7 +592,7 @@ class MahasiswaController extends Controller
                     return is_numeric($ipk->ip);
                 })
                 ->avg('ip');
-    
+
             // Menambahkan properti baru ke objek $user
             $user->average_ip = $averageIP;
         }
@@ -617,7 +611,7 @@ class MahasiswaController extends Controller
         $data_leaderships = User::findOrFail($id)->leaderships;
         $data_karakters = User::findOrFail($id)->karakters;
         $data_kreatifs = User::findOrFail($id)->kreatifs;
-        
+
         $kom1_akademiks = User::findOrFail($id)->akademiks->where('komponen', 'Mendapatkan nilai (prestasi) akademik');
         $kom2_akademiks = User::findOrFail($id)->akademiks->where('komponen', 'Mengikuti kegiatan mentoring');
         $kom3_akademiks = User::findOrFail($id)->akademiks->where('komponen', 'Mengikuti forum akademik');
@@ -696,7 +690,7 @@ class MahasiswaController extends Controller
 
         $ipks = User::findOrFail($id)->ipks;
         $data_ipks = User::findOrFail($id)->ipks->avg('ip');
-        
+
         return view('mahasiswa.pages.warga.detail', compact(
             'user',
             'ipks',

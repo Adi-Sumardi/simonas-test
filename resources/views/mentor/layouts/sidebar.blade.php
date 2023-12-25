@@ -34,6 +34,11 @@
                         <i class="mdi mdi-calendar-text"></i>
                         <span>Kegiatan Asrama</span>
                     </a>
+                    <a href="/eventCalender" class=" waves-effect">
+                        <i class="mdi mdi-calendar-text"></i>
+                        <span>Kalender</span>
+                    </a>
+
                 </li>
 
                 <li>

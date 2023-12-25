@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-   
+
     @component('super.common-components.breadcrumb')
          @slot('title') Profile  @endslot
          @slot('li_1') Pages  @endslot
@@ -104,12 +104,12 @@
                                         <p class="font-size-12 text-muted mb-1">Kecamatan</p>
                                         <h6 class="">{{$user->kecamatan }}</h6>
                                     </div>
-                
+
                                     <div class="mt-3">
                                         <p class="font-size-12 text-muted mb-1">Kota/Kabupaten</p>
                                         <h6 class="">{{$user->kota }}</h6>
                                     </div>
-                
+
                                     <div class="mt-3">
                                         <p class="font-size-12 text-muted mb-1">Provinsi</p>
                                         <h6 class="">{{$user->provinsi }}</h6>
@@ -129,7 +129,7 @@
                                         <p class="font-size-12 text-muted mb-1">Program Studi</p>
                                         <h6 class="">{{$user->prodi}}</h6>
                                     </div>
-                
+
                                     <div class="mt-3">
                                         <p class="font-size-12 text-muted mb-1">Organisasi</p>
                                         <h6 class="">{{$user->organisasi}}</h6>
@@ -230,7 +230,7 @@
                                                 </div>
                                             </div>
                                             <br>
-                                            
+
                                             <div id="statistik_total" class="apex-charts" dir="ltr"></div>
                                         </div>
                                     </div>
@@ -285,29 +285,36 @@
                                                             <div class="panel-body">
                                                                 <div style="overflow: scroll">
                                                                     <table class="table table-condensed" style="border-collapse:collapse;">
-                                                                    
+
                                                                         <thead>
                                                                             <tr><th>&nbsp;</th>
                                                                                 <th><strong>Kode</strong></th>
                                                                                 <th><strong>Komponen</strong></th>
                                                                                 <th><strong>Jumlah</strong></th>
                                                                                 <th><strong>Presentase</strong></th>
-                                                                               
+
                                                                             </tr>
-                                                                        </thead>
-                                                                    
-                                                                        <tbody>
-                                                                            <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                                                                       </thead>
+                                                                                <tbody>
+                                                                                    @foreach ($komponen as $akademik)
+                                                                                    @if ($akademik->aspek == 'Akademik')
+                                                                                    <tr data-toggle="collapse" data-target="#demo{{ $akademik->id }}" class="accordion-toggle" >
                                                                                     <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                    <td>1001</td>
-                                                                                    <td>Mendapatkan nilai (prestasi) akademik</td>
-                                                                                    <td>{{$kom1_akademiks_count}}</td>
-                                                                                    <td>0%</td>
-                                                                                    
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo1"> 
+
+                                                                                    <td> {{ $akademik->kode }}</td>
+                                                                                    <td>{{ $akademik->nama_komponen }}</td>
+                                                                                    {{-- <td>{{$kom1_akademiks_count}}</td> --}}
+
+                                                                                    <td>{{ $akademiks->where('komponen_id', $akademik->id)->count() }}</td>
+                                                                                    <td>
+                                                                                        @if ($akademiks->count() > 0)
+                                                                                        {{ number_format(($akademiks->where('komponen_id', $akademik->id)->count() / $akademiks->count()) * 100, 2) }}%
+                                                                                    @else
+                                                                                        0%
+                                                                                    @endif</td>                                                                                    </tr>
+                                                                                    <tr>
+                                                                                    <td colspan="12" class="hiddenRow" >
+                                                                                    <div class="accordian-body collapse" id="demo{{ $akademik->id }}">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -318,66 +325,38 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom1_akademiks as $data_kom1)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom1->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom1->waktu))}}</td>
-                                                                                                    <td>{{$data_kom1->tempat}}</td>
-                                                                                                    <td>{{$data_kom1->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
+
+                                                                                               @foreach ($akademiks->where('komponen_id', $akademik->id) as $akademika)
+                                                                                                @if(is_object($akademika))
+                                                                                                    <tr>
+                                                                                                        <td>{{ $akademika->kegiatan }}</td>
+                                                                                                        <td>{{ date('d-m-Y', strtotime($akademika->waktu)) }}</td>
+                                                                                                        <td>{{ $akademika->tempat }}</td>
+                                                                                                        <td>{{ $akademika->keterangan }}</td>
+                                                                                                    </tr>
+                                                                                                @endif
+                                                                                            @endforeach
                                                                                             </tbody>
+
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
-                                                                            </tr>
-            
-                                                                            <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
-                                                                                    <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                    <td>1002</td>
-                                                                                    <td>Mengikuti kegiatan mentoring</td>
-                                                                                    <td>{{$kom2_akademiks_count}}</td>
-                                                                                    <td>0%</td>
-                                                                                    
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo2"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom2_akademiks as $data_kom2)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom2->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom2->waktu))}}</td>
-                                                                                                    <td>{{$data_kom2->tempat}}</td>
-                                                                                                    <td>{{$data_kom2->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            
-                                                                            <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
+                                                                                @endif
+                                                                                @endforeach
+                                                    </tr>
+
+
+                                                                            {{-- <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
                                                                                 <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
                                                                                 <td>1003</td>
                                                                                 <td>Mengikuti forum akademik</td>
                                                                                 <td>{{$kom3_akademiks_count}}</td>
                                                                                 <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
+
+                                                                            </tr> --}}
+                                                                            {{-- <tr>
                                                                                 <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo3"> 
+                                                                                    <div class="accordian-body collapse" id="demo3">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -388,7 +367,7 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom3_akademiks as $data_kom3)    
+                                                                                                @foreach ($kom3_akademiks as $data_kom3)
                                                                                                 <tr>
                                                                                                     <td>{{$data_kom3->kegiatan}}</td>
                                                                                                     <td>{{date('d-m-Y', strtotime($data_kom3->waktu))}}</td>
@@ -398,7 +377,7 @@
                                                                                                 @endforeach
                                                                                             </tbody>
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle">
@@ -407,11 +386,11 @@
                                                                                 <td>Membaca buku atau artikel dll</td>
                                                                                 <td>{{$kom4_akademiks_count}}</td>
                                                                                 <td>0%</td>
-                                                                                
+
                                                                             </tr>
                                                                             <tr>
                                                                                 <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo4"> 
+                                                                                    <div class="accordian-body collapse" id="demo4">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -422,7 +401,7 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom4_akademiks as $data_kom4)    
+                                                                                                @foreach ($kom4_akademiks as $data_kom4)
                                                                                                 <tr>
                                                                                                     <td>{{$data_kom4->kegiatan}}</td>
                                                                                                     <td>{{date('d-m-Y', strtotime($data_kom4->waktu))}}</td>
@@ -432,7 +411,7 @@
                                                                                                 @endforeach
                                                                                             </tbody>
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr data-toggle="collapse" data-target="#demo5" class="accordion-toggle">
@@ -441,11 +420,11 @@
                                                                                 <td>Memanfaatkan TIK untuk pengembangan diri</td>
                                                                                 <td>{{$kom5_akademiks_count}}</td>
                                                                                 <td>0%</td>
-                                                                                
+
                                                                             </tr>
                                                                             <tr>
                                                                                 <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo5"> 
+                                                                                    <div class="accordian-body collapse" id="demo5">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -456,7 +435,7 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom5_akademiks as $data_kom5)    
+                                                                                                @foreach ($kom5_akademiks as $data_kom5)
                                                                                                 <tr>
                                                                                                     <td>{{$data_kom5->kegiatan}}</td>
                                                                                                     <td>{{date('d-m-Y', strtotime($data_kom5->waktu))}}</td>
@@ -466,7 +445,7 @@
                                                                                                 @endforeach
                                                                                             </tbody>
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr data-toggle="collapse" data-target="#demo6" class="accordion-toggle">
@@ -475,11 +454,11 @@
                                                                                 <td>Menulis makalah, artikel dll</td>
                                                                                 <td>{{$kom6_akademiks_count}}</td>
                                                                                 <td>0%</td>
-                                                                                
+
                                                                             </tr>
                                                                             <tr>
                                                                                 <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo6"> 
+                                                                                    <div class="accordian-body collapse" id="demo6">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -490,7 +469,7 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom6_akademiks as $data_kom6)    
+                                                                                                @foreach ($kom6_akademiks as $data_kom6)
                                                                                                 <tr>
                                                                                                     <td>{{$data_kom6->kegiatan}}</td>
                                                                                                     <td>{{date('d-m-Y', strtotime($data_kom6->waktu))}}</td>
@@ -500,7 +479,7 @@
                                                                                                 @endforeach
                                                                                             </tbody>
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr data-toggle="collapse" data-target="#demo7" class="accordion-toggle">
@@ -509,11 +488,11 @@
                                                                                 <td>Menyampaikan gagasan, presentasi, moderator</td>
                                                                                 <td>{{$kom7_akademiks_count}}</td>
                                                                                 <td>0%</td>
-                                                                                
+
                                                                             </tr>
                                                                             <tr>
                                                                                 <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo7"> 
+                                                                                    <div class="accordian-body collapse" id="demo7">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -524,7 +503,7 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom7_akademiks as $data_kom7)    
+                                                                                                @foreach ($kom7_akademiks as $data_kom7)
                                                                                                 <tr>
                                                                                                     <td>{{$data_kom7->kegiatan}}</td>
                                                                                                     <td>{{date('d-m-Y', strtotime($data_kom7->waktu))}}</td>
@@ -534,7 +513,7 @@
                                                                                                 @endforeach
                                                                                             </tbody>
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
@@ -543,11 +522,11 @@
                                                                                 <td>Memberikan kontribusi (mengajar, melatih,membimbing)</td>
                                                                                 <td>{{$kom8_akademiks_count}}</td>
                                                                                 <td>0%</td>
-                                                                                
+
                                                                             </tr>
                                                                             <tr>
                                                                                 <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo8"> 
+                                                                                    <div class="accordian-body collapse" id="demo8">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -558,7 +537,7 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom8_akademiks as $data_kom8)    
+                                                                                                @foreach ($kom8_akademiks as $data_kom8)
                                                                                                 <tr>
                                                                                                     <td>{{$data_kom8->kegiatan}}</td>
                                                                                                     <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
@@ -568,19 +547,20 @@
                                                                                                 @endforeach
                                                                                             </tbody>
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
-                                                                            </tr>
+                                                                            </tr> --}}
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                            
-                                                    </div> 
-                            
+
+                                                    </div>
+
                                                 </div>
-                                                
+
                                             </div>
+
                                         </div>
 
                                         <!-- Tab Leadership -->
@@ -599,29 +579,37 @@
                                                             <div class="panel-body">
                                                                 <div style="overflow: scroll">
                                                                     <table class="table table-condensed" style="border-collapse:collapse;">
-                                                                    
+
                                                                         <thead>
                                                                             <tr><th>&nbsp;</th>
                                                                                 <th><strong>Kode</strong></th>
                                                                                 <th><strong>Komponen</strong></th>
                                                                                 <th><strong>Jumlah</strong></th>
                                                                                 <th><strong>Presentase</strong></th>
-                                                                               
+
                                                                             </tr>
-                                                                        </thead>
-                                                                    
-                                                                        <tbody>
-                                                                            <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                                                                       </thead>
+                                                                                <tbody>
+                                                                                    @foreach ($komponen as $Leader)
+                                                                                    @if ($Leader->aspek == 'Leadership')
+                                                                                    <tr data-toggle="collapse" data-target="#dewi{{ $Leader->id }}" class="accordion-toggle" >
                                                                                     <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                    <td>2001</td>
-                                                                                    <td>Mengikuti pelatihan kepemimpinan</td>
-                                                                                    <td>{{$kom1_leaderships_count}}</td>
-                                                                                    <td>0%</td>
-                                                                                    
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo1"> 
+
+                                                                                    <td> {{ $Leader->kode }}</td>
+                                                                                    <td>{{ $Leader->nama_komponen }}</td>
+                                                                                    {{-- <td>{{$kom1_akademiks_count}}</td> --}}
+
+                                                                                    <td>{{ $leaderships->where('komponen_id', $Leader->id)->count() }}</td>
+                                                                                    <td>
+                                                                                        @if ($leaderships->count() > 0)
+                                                                                        {{ number_format(($leaderships->where('komponen_id', $Leader->id)->count() / $leaderships->count()) * 100, 2) }}%
+                                                                                    @else
+                                                                                        0%
+                                                                                    @endif</td>
+                                                                                                                                                                        </tr>
+                                                                                    <tr>
+                                                                                    <td colspan="12" class="hiddenRow" >
+                                                                                    <div class="accordian-body collapse" id="dewi{{ $Leader->id }}">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -632,302 +620,35 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom1_leaderships as $data_kom1)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom1->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom1->waktu))}}</td>
-                                                                                                    <td>{{$data_kom1->tempat}}</td>
-                                                                                                    <td>{{$data_kom1->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
+
+                                                                                               @foreach ($leaderships->where('komponen_id', $Leader->id) as $leaderships11)
+                                                                                                @if(is_object($leaderships11))
+                                                                                                    <tr>
+                                                                                                        <td>{{ $leaderships11->kegiatan }}</td>
+                                                                                                        <td>{{ date('d-m-Y', strtotime($leaderships11->waktu)) }}</td>
+                                                                                                        <td>{{ $leaderships11->tempat }}</td>
+                                                                                                        <td>{{ $leaderships11->keterangan }}</td>
+                                                                                                    </tr>
+                                                                                                @endif
+                                                                                            @endforeach
                                                                                             </tbody>
+
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
-                                                                            </tr>
-            
-                                                                            <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
-                                                                                    <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                    <td>2002</td>
-                                                                                    <td>Mengikuti kegiatan mentoring</td>
-                                                                                    <td>{{$kom2_leaderships_count}}</td>
-                                                                                    <td>0%</td>
-                                                                                    
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo2"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom2_leaderships as $data_kom2)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom2->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom2->waktu))}}</td>
-                                                                                                    <td>{{$data_kom2->tempat}}</td>
-                                                                                                    <td>{{$data_kom2->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            
-                                                                            <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>2003</td>
-                                                                                <td>Melaksanakan tugas kepanitiaan (mandat)</td>
-                                                                                <td>{{$kom3_leaderships_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo3"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom3_leaderships as $data_kom3)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom3->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom3->waktu))}}</td>
-                                                                                                    <td>{{$data_kom3->tempat}}</td>
-                                                                                                    <td>{{$data_kom3->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>2004</td>
-                                                                                <td>Melakukan tugas sebagai pengurus organisasi</td>
-                                                                                <td>{{$kom4_leaderships_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo4"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom4_leaderships as $data_kom4)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom4->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom4->waktu))}}</td>
-                                                                                                    <td>{{$data_kom4->tempat}}</td>
-                                                                                                    <td>{{$data_kom4->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo5" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>2005</td>
-                                                                                <td>Menjadi peserta atau memimpin rapat</td>
-                                                                                <td>{{$kom5_leaderships_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo5"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom5_leaderships as $data_kom5)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom5->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom5->waktu))}}</td>
-                                                                                                    <td>{{$data_kom5->tempat}}</td>
-                                                                                                    <td>{{$data_kom5->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo6" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>2006</td>
-                                                                                <td>Mengikuti diskusi atau debat penyelesaian masalah</td>
-                                                                                <td>{{$kom6_leaderships_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo6"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom6_leaderships as $data_kom6)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom6->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom6->waktu))}}</td>
-                                                                                                    <td>{{$data_kom6->tempat}}</td>
-                                                                                                    <td>{{$data_kom6->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo7" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>2007</td>
-                                                                                <td>Menulis surat, proposal kegiatan, laporan dll</td>
-                                                                                <td>{{$kom7_leaderships_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo7"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom7_leaderships as $data_kom7)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom7->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom7->waktu))}}</td>
-                                                                                                    <td>{{$data_kom7->tempat}}</td>
-                                                                                                    <td>{{$data_kom7->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>2008</td>
-                                                                                <td>Memberikan kontribusi baik harta, tenaga, waktu</td>
-                                                                                <td>{{$kom8_leaderships_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo8"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom8_leaderships as $data_kom8)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom8->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
-                                                                                                    <td>{{$data_kom8->tempat}}</td>
-                                                                                                    <td>{{$data_kom8->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>2009</td>
-                                                                                <td>Menyampaikan gagasan baik lisan atau tulisan</td>
-                                                                                <td>{{$kom9_leaderships_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo9"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom9_leaderships as $data_kom8)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom8->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
-                                                                                                    <td>{{$data_kom8->tempat}}</td>
-                                                                                                    <td>{{$data_kom8->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
+                                                                                @endif
+                                                                                @endforeach
+                                                            </tr>
+
+                                                              </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                            
-                                                    </div> 
-                            
+
+                                                    </div>
+
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
 
@@ -947,29 +668,37 @@
                                                             <div class="panel-body">
                                                                 <div style="overflow: scroll">
                                                                     <table class="table table-condensed" style="border-collapse:collapse;">
-                                                                    
+
                                                                         <thead>
                                                                             <tr><th>&nbsp;</th>
                                                                                 <th><strong>Kode</strong></th>
                                                                                 <th><strong>Komponen</strong></th>
                                                                                 <th><strong>Jumlah</strong></th>
                                                                                 <th><strong>Presentase</strong></th>
-                                                                               
+
                                                                             </tr>
-                                                                        </thead>
-                                                                    
-                                                                        <tbody>
-                                                                            <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                                                                       </thead>
+                                                                                <tbody>
+                                                                                    @foreach ($komponen as $karak)
+                                                                                    @if ($karak->aspek == 'Karakter Islami')
+                                                                                    <tr data-toggle="collapse" data-target="#dewi{{ $karak->id }}" class="accordion-toggle" >
                                                                                     <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                    <td>3001</td>
-                                                                                    <td>Membaca Al Quran, hafalan, hadits pilihan</td>
-                                                                                    <td>{{$kom1_karakters_count}}</td>
-                                                                                    <td>0%</td>
-                                                                                    
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo1"> 
+
+                                                                                    <td> {{ $karak->kode }}</td>
+                                                                                    <td>{{ $karak->nama_komponen }}</td>
+                                                                                    {{-- <td>{{$kom1_akademiks_count}}</td> --}}
+
+                                                                                    <td>{{ $karakters->where('komponen_id', $karak->id)->count() }}</td>
+                                                                                    <td>
+                                                                                        @if ($karakters->count() > 0)
+                                                                                        {{ number_format(($karakters->where('komponen_id', $karak->id)->count() / $karakters->count()) * 100, 2) }}%
+                                                                                    @else
+                                                                                        0%
+                                                                                    @endif
+                                                                                                                                                                        </td>                                                                                    </tr>
+                                                                                    <tr>
+                                                                                    <td colspan="12" class="hiddenRow" >
+                                                                                    <div class="accordian-body collapse" id="dewi{{ $karak->id }}">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -980,302 +709,35 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom1_karakters as $data_kom1)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom1->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom1->waktu))}}</td>
-                                                                                                    <td>{{$data_kom1->tempat}}</td>
-                                                                                                    <td>{{$data_kom1->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
+
+                                                                                               @foreach ($karakters->where('komponen_id', $karak->id) as $karakters1)
+                                                                                                @if(is_object($karakters1))
+                                                                                                    <tr>
+                                                                                                        <td>{{ $karakters1->kegiatan }}</td>
+                                                                                                        <td>{{ date('d-m-Y', strtotime($karakters1->waktu)) }}</td>
+                                                                                                        <td>{{ $karakters1->tempat }}</td>
+                                                                                                        <td>{{ $karakters1->keterangan }}</td>
+                                                                                                    </tr>
+                                                                                                @endif
+                                                                                            @endforeach
                                                                                             </tbody>
+
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
-                                                                            </tr>
-            
-                                                                            <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
-                                                                                    <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                    <td>3002</td>
-                                                                                    <td>Mengikuti kegiatan mentoring</td>
-                                                                                    <td>{{$kom2_karakters_count}}</td>
-                                                                                    <td>0%</td>
-                                                                                    
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo2"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom2_karakters as $data_kom2)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom2->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom2->waktu))}}</td>
-                                                                                                    <td>{{$data_kom2->tempat}}</td>
-                                                                                                    <td>{{$data_kom2->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            
-                                                                            <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>3003</td>
-                                                                                <td>Mengikuti kajian, membaca buku atau ceramah agama</td>
-                                                                                <td>{{$kom3_karakters_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo3"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom3_karakters as $data_kom3)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom3->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom3->waktu))}}</td>
-                                                                                                    <td>{{$data_kom3->tempat}}</td>
-                                                                                                    <td>{{$data_kom3->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>3004</td>
-                                                                                <td>Menjadi imam shalat jamaah atau memimpin doa</td>
-                                                                                <td>{{$kom4_karakters_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo4"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom4_karakters as $data_kom4)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom4->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom4->waktu))}}</td>
-                                                                                                    <td>{{$data_kom4->tempat}}</td>
-                                                                                                    <td>{{$data_kom4->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo5" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>3005</td>
-                                                                                <td>Mengamalkan ibadah harian; shalat, puasa, zakat, dll</td>
-                                                                                <td>{{$kom5_karakters_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo5"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom5_karakters as $data_kom5)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom5->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom5->waktu))}}</td>
-                                                                                                    <td>{{$data_kom5->tempat}}</td>
-                                                                                                    <td>{{$data_kom5->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo6" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>3006</td>
-                                                                                <td>Menyampaikan dakwah, kultum, baik lisan, tulisan</td>
-                                                                                <td>{{$kom6_karakters_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo6"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom6_karakters as $data_kom6)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom6->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom6->waktu))}}</td>
-                                                                                                    <td>{{$data_kom6->tempat}}</td>
-                                                                                                    <td>{{$data_kom6->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo7" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>3007</td>
-                                                                                <td>Memelihara kebersihan (kamar, lingkungan, dll)</td>
-                                                                                <td>{{$kom7_karakters_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo7"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom7_karakters as $data_kom7)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom7->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom7->waktu))}}</td>
-                                                                                                    <td>{{$data_kom7->tempat}}</td>
-                                                                                                    <td>{{$data_kom7->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>3008</td>
-                                                                                <td>Mengajar pengajian, TPA, TPQ, dll</td>
-                                                                                <td>{{$kom8_karakters_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo8"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom8_karakters as $data_kom8)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom8->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
-                                                                                                    <td>{{$data_kom8->tempat}}</td>
-                                                                                                    <td>{{$data_kom8->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>3009</td>
-                                                                                <td>Memelihara silaturahmi dan menolong sesama</td>
-                                                                                <td>{{$kom9_karakters_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo9"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom9_karakters as $data_kom8)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom8->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
-                                                                                                    <td>{{$data_kom8->tempat}}</td>
-                                                                                                    <td>{{$data_kom8->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
+                                                                                @endif
+                                                                                @endforeach
+                                                            </tr>
+
+                                                              </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                            
-                                                    </div> 
-                            
+
+                                                    </div>
+
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
 
@@ -1290,34 +752,44 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="panel panel-default">
-                                                        <div class="panel-heading"><h5>Data Kegiatan Kreativitas & Kewirausahaan</h5></div>
+                                                        <div class="panel-heading"><h5>Data Kegiatan Kreativitas & Kewirausahaan
+                                                        </h5></div>
                                                         <br>
                                                             <div class="panel-body">
                                                                 <div style="overflow: scroll">
                                                                     <table class="table table-condensed" style="border-collapse:collapse;">
-                                                                    
+
                                                                         <thead>
                                                                             <tr><th>&nbsp;</th>
                                                                                 <th><strong>Kode</strong></th>
                                                                                 <th><strong>Komponen</strong></th>
                                                                                 <th><strong>Jumlah</strong></th>
                                                                                 <th><strong>Presentase</strong></th>
-                                                                               
+
                                                                             </tr>
-                                                                        </thead>
-                                                                    
-                                                                        <tbody>
-                                                                            <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
+                                                                       </thead>
+                                                                                <tbody>
+                                                                                    @foreach ($komponen as $krea)
+                                                                                    @if ($krea->aspek == 'Kreativitas & Kewirausahaan')
+                                                                                    <tr data-toggle="collapse" data-target="#dewi{{ $krea->id }}" class="accordion-toggle" >
                                                                                     <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                    <td>4001</td>
-                                                                                    <td>Mengikuti pelatihan kreativitas dan kewirausahaan</td>
-                                                                                    <td>{{$kom1_kreatifs_count}}</td>
-                                                                                    <td>0%</td>
-                                                                                    
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo1"> 
+
+                                                                                    <td> {{ $krea->kode }}</td>
+                                                                                    <td>{{ $krea->nama_komponen }}</td>
+                                                                                    {{-- <td>{{$kom1_akademiks_count}}</td> --}}
+
+                                                                                    <td>{{ $kreatifs->where('komponen_id', $krea->id)->count() }}</td>
+                                                                                    <td>
+                                                                                        @if ($kreatifs->count() > 0)
+                                                                                        {{ number_format(($kreatifs->where('komponen_id', $krea->id)->count() / $kreatifs->count()) * 100, 2) }}%
+                                                                                    @else
+                                                                                        0%
+                                                                                    @endif
+                                                                                                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                    <td colspan="12" class="hiddenRow" >
+                                                                                    <div class="accordian-body collapse" id="dewi{{ $krea->id }}">
                                                                                         <table class="table table-striped">
                                                                                             <thead>
                                                                                                 <tr>
@@ -1328,280 +800,47 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
-                                                                                                @foreach ($kom1_kreatifs as $data_kom1)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom1->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom1->waktu))}}</td>
-                                                                                                    <td>{{$data_kom1->tempat}}</td>
-                                                                                                    <td>{{$data_kom1->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
+
+                                                                                               @foreach ($kreatifs->where('komponen_id', $krea->id) as $kreatifs1)
+                                                                                                @if(is_object($kreatifs1))
+                                                                                                    <tr>
+                                                                                                        <td>{{ $kreatifs1->kegiatan }}</td>
+                                                                                                        <td>{{ date('d-m-Y', strtotime($kreatifs1->waktu)) }}</td>
+                                                                                                        <td>{{ $kreatifs1->tempat }}</td>
+                                                                                                        <td>{{ $kreatifs1->keterangan }}</td>
+                                                                                                    </tr>
+                                                                                                @endif
+                                                                                            @endforeach
                                                                                             </tbody>
+
                                                                                         </table>
-                                                                                    </div> 
+                                                                                    </div>
                                                                                 </td>
-                                                                            </tr>
-            
-                                                                            <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle">
-                                                                                    <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                    <td>4002</td>
-                                                                                    <td>Mengikuti kegiatan mentoring</td>
-                                                                                    <td>{{$kom2_kreatifs_count}}</td>
-                                                                                    <td>0%</td>
-                                                                                    
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo2"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom2_kreatifs as $data_kom2)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom2->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom2->waktu))}}</td>
-                                                                                                    <td>{{$data_kom2->tempat}}</td>
-                                                                                                    <td>{{$data_kom2->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            
-                                                                            <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>4003</td>
-                                                                                <td>Membaca buku, majalah, internet dll terkait kewirausahaan</td>
-                                                                                <td>{{$kom3_kreatifs_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo3"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom3_kreatifs as $data_kom3)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom3->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom3->waktu))}}</td>
-                                                                                                    <td>{{$data_kom3->tempat}}</td>
-                                                                                                    <td>{{$data_kom3->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>4004</td>
-                                                                                <td>Mengikuti forum ceramah atau diskusi kewirausahaan</td>
-                                                                                <td>{{$kom4_kreatifs_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo4"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom4_kreatifs as $data_kom4)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom4->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom4->waktu))}}</td>
-                                                                                                    <td>{{$data_kom4->tempat}}</td>
-                                                                                                    <td>{{$data_kom4->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo5" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>4005</td>
-                                                                                <td>Melakukan tugas dalam kegiatan usaha asrama</td>
-                                                                                <td>{{$kom5_kreatifs_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo5"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom5_kreatifs as $data_kom5)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom5->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom5->waktu))}}</td>
-                                                                                                    <td>{{$data_kom5->tempat}}</td>
-                                                                                                    <td>{{$data_kom5->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo6" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>4006</td>
-                                                                                <td>Menulis proposal usaha</td>
-                                                                                <td>{{$kom6_kreatifs_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo6"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom6_kreatifs as $data_kom6)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom6->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom6->waktu))}}</td>
-                                                                                                    <td>{{$data_kom6->tempat}}</td>
-                                                                                                    <td>{{$data_kom6->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo7" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>4007</td>
-                                                                                <td>Menghasilkan karya kreatif (video, grafis, dll)</td>
-                                                                                <td>{{$kom7_kreatifs_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo7"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom7_kreatifs as $data_kom7)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom7->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom7->waktu))}}</td>
-                                                                                                    <td>{{$data_kom7->tempat}}</td>
-                                                                                                    <td>{{$data_kom7->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr data-toggle="collapse" data-target="#demo8" class="accordion-toggle">
-                                                                                <td><button class="btn btn-default btn-xs"><span class="mdi mdi-format-list-bulleted-square"></span></button></td>
-                                                                                <td>4008</td>
-                                                                                <td>Memiliki keberanian untuk memulai usaha</td>
-                                                                                <td>{{$kom8_kreatifs_count}}</td>
-                                                                                <td>0%</td>
-                                                                                
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colspan="12" class="hiddenRow">
-                                                                                    <div class="accordian-body collapse" id="demo8"> 
-                                                                                        <table class="table table-striped">
-                                                                                            <thead>
-                                                                                                <tr>
-                                                                                                    <th>Kegiatan</th>
-                                                                                                    <th>Waktu</th>
-                                                                                                    <th>Tempat</th>
-                                                                                                    <th>Uraian Kegiatan</th>
-                                                                                                </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                                @foreach ($kom8_kreatifs as $data_kom8)    
-                                                                                                <tr>
-                                                                                                    <td>{{$data_kom8->kegiatan}}</td>
-                                                                                                    <td>{{date('d-m-Y', strtotime($data_kom8->waktu))}}</td>
-                                                                                                    <td>{{$data_kom8->tempat}}</td>
-                                                                                                    <td>{{$data_kom8->keterangan}}</td>
-                                                                                                </tr>
-                                                                                                @endforeach
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div> 
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
+                                                                                @endif
+                                                                                @endforeach
+                                                            </tr>
+
+                                                              </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                            
-                                                    </div> 
-                            
+
+                                                    </div>
+
                                                 </div>
-                                                
+
                                             </div>
 
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
-                            
+
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title mb-4">Data Index Prestasi Akademik per Semester</h4>
-        
+
                                     <div style="overflow: scroll">
                                         <div class="table-responsive">
                                             <table class="table table-centered mb-0">
@@ -1615,7 +854,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($ipks as $item)
-                                                        
+
                                                     <tr>
                                                         <td>{{$item->semester}}</td>
                                                         <td>{{$item->tahun}}</td>
@@ -1625,7 +864,7 @@
                                                                     <i class="mdi mdi-eye-circle-outline"></i> View</a>
                                                             </td>
                                                         </tr>
-                                                        
+
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -1634,7 +873,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="d-print-none">
                         <div class="float-right">
@@ -1664,23 +903,27 @@
     <script src="{{URL::asset('/js/pages/apexcharts.init.js')}}"></script>
 
     <script>
-        var options = {
-            chart: {
-                height: 320,
-                type: 'pie',
-            }, 
-            series: [{{$akademiks}}, {{$leaderships}}, {{$karakters}}, {{$kreatifs}}],
-            labels: ["Akademik", "Leadership", "Karakter Islami", "Kreativitas & Kewirausahaan"],
-            colors: ["#45cb85", "#3b5de7","#ff715b", "#eeb902"],
-            legend: {
-                show: true,
-                position: 'bottom',
-                horizontalAlign: 'center',
-                verticalAlign: 'middle',
-                floating: false,
-                fontSize: '14px',
-                offsetX: 0,
-            },
+            var akademiksCount = {{ $akademiks->count() }};
+            var leadershipsCount = {{ $leaderships->count() }};
+            var karaktersCount = {{ $karakters->count() }};
+            var kreatifsCount = {{ $kreatifs->count() }};
+                var options = {
+                    chart: {
+                        height: 320,
+                        type: 'pie',
+                    },
+                series: [akademiksCount, leadershipsCount, karaktersCount, kreatifsCount],
+                labels: ["Akademik", "Leadership", "Karakter Islami", "Kreativitas & Kewirausahaan"],
+                colors: ["#45cb85", "#3b5de7","#ff715b", "#eeb902"],
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    horizontalAlign: 'center',
+                    verticalAlign: 'middle',
+                    floating: false,
+                    fontSize: '14px',
+                    offsetX: 0,
+                },
             responsive: [{
                 breakpoint: 600,
                 options: {
@@ -1692,29 +935,89 @@
                     },
                 }
             }]
-        
+
         }
-        
+
         var chart = new ApexCharts(
             document.querySelector("#statistik_total"),
             options
         );
-        
+
         chart.render();
     </script>
-
-    
+<script>
+                function generateRandomColor() {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+                            }
+           const akademiklabel = {!! json_encode($komponen->where('aspek', 'Akademik')->pluck('nama_komponen')) !!};
+           const seriesnama = @json($akademiks->whereIn('komponen_id', $komponen->pluck('id')->toArray())->pluck('komponen')->toArray());
+            const countsMap = {};
+            seriesnama.forEach(nama => {
+                countsMap[nama] = (countsMap[nama] || 0) + 1;
+            });
+            const seriesData = akademiklabel.map(label => countsMap[label] || 0);
+            const colorsak = akademiklabel.map(() => generateRandomColor())
+            var options = {
+                chart: {
+                    height: 320,
+                    type: 'donut',
+                },
+                series:seriesData,
+                labels:akademiklabel,
+                color:colorsak,
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                    horizontalAlign: 'center',
+                    verticalAlign: 'middle',
+                    floating: false,
+                    fontSize: '14px',
+                    offsetX: 0,
+                },
+                plotOptions: {
+                pie: {
+                donut: {
+                    size: '50%', // ukuran donut
+                },
+                customScale: 1,
+                offsetX: 0,
+                offsetY: 0,
+                dataLabels: {
+                    formatter: function (val, opts) {
+                        return "Akademik";
+                    },
+                    dropShadow: {
+                        enabled: false
+                    }
+                }
+            }
+        },
+    };
+    var chart = new ApexCharts(document.querySelector("#akademik_chart"), options);
+    chart.render();
+</script>
     <script>
-        // Donut chart Akademik
-
-        var options = {
+            const leadership = {!! json_encode($komponen->where('aspek', 'Leadership')->pluck('nama_komponen')) !!};
+            const seriesnamalead = @json($leaderships->whereIn('komponen_id', $komponen->pluck('id')->toArray())->pluck('komponen')->toArray());
+            const countsMapled = {};
+            seriesnamalead.forEach(nama => {
+                countsMapled[nama] = (countsMapled[nama] || 0) + 1;
+            });
+            const seriesDatalead = leadership.map(label => countsMapled[label] || 0);
+            const colorlead= leadership.map(() => generateRandomColor());
+            var options = {
             chart: {
                 height: 320,
                 type: 'donut',
-            }, 
-            series: [{{$kom1_akademiks_count}}, {{$kom2_akademiks_count}}, {{$kom3_akademiks_count}}, {{$kom4_akademiks_count}}, {{$kom5_akademiks_count}}, {{$kom6_akademiks_count}}, {{$kom7_akademiks_count}}, {{$kom8_akademiks_count}}],
-            labels: ["1001", "1002", "1003", "1004", "1005", "1006", "1007", "1008"],
-            colors: ["#45cb85", "#3b5de7","#ff715b", "#0caadc", "#eeb902", "#ecf542", "#42e0f5", "#f542f2"],
+            },
+            series:seriesDatalead,
+            labels:leadership,
+            color:colorlead,
             legend: {
                 show: true,
                 position: 'bottom',
@@ -1735,69 +1038,34 @@
                     },
                 }
             }]
-        
-        }
-        
-        var chart = new ApexCharts(
-            document.querySelector("#akademik_chart"),
-            options
-        );
-        
-        chart.render();
-    </script>
 
-    <script>
-        // Donut chart Leadership
-
-        var options = {
-            chart: {
-                height: 320,
-                type: 'donut',
-            }, 
-            series: [{{$kom1_leaderships_count}}, {{$kom2_leaderships_count}}, {{$kom3_leaderships_count}}, {{$kom4_leaderships_count}}, {{$kom5_leaderships_count}}, {{$kom6_leaderships_count}}, {{$kom7_leaderships_count}}, {{$kom8_leaderships_count}}, {{$kom9_leaderships_count}}],
-            labels: ["2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009"],
-            colors: ["#45cb85", "#3b5de7","#ff715b", "#0caadc", "#eeb902", "#ecf542", "#42e0f5", "#f542f2", "#030836"],
-            legend: {
-                show: true,
-                position: 'bottom',
-                horizontalAlign: 'center',
-                verticalAlign: 'middle',
-                floating: false,
-                fontSize: '14px',
-                offsetX: 0,
-            },
-            responsive: [{
-                breakpoint: 600,
-                options: {
-                    chart: {
-                        height: 240
-                    },
-                    legend: {
-                        show: false
-                    },
-                }
-            }]
-        
         }
-        
+
         var chart = new ApexCharts(
             document.querySelector("#leadership_chart"),
             options
         );
-        
+
         chart.render();
     </script>
     <script>
-        // Donut chart Karakter Islami
-
+            const leaderkreatif = {!! json_encode($komponen->where('aspek', 'Kreativitas & Kewirausahaan')->pluck('nama_komponen')) !!};
+            const serieskreatif= @json($kreatifs->whereIn('komponen_id', $komponen->pluck('id')->toArray())->pluck('komponen')->toArray());
+            console.log("hasilnya",leaderkreatif)
+            const countsMapkreatif = {};
+            serieskreatif.forEach(nama => {
+                countsMapkreatif[nama] = (countsMapled[nama] || 0) + 1;
+            });
+            const seriesDataKreatif = leaderkreatif.map(label => countsMapkreatif[label] || 0);
+            const colorkreatif= leaderkreatif.map(() => generateRandomColor());
         var options = {
             chart: {
                 height: 320,
                 type: 'donut',
-            }, 
-            series: [{{$kom1_karakters_count}}, {{$kom2_karakters_count}}, {{$kom3_karakters_count}}, {{$kom4_karakters_count}}, {{$kom5_karakters_count}}, {{$kom6_karakters_count}}, {{$kom7_karakters_count}}, {{$kom8_karakters_count}}, {{$kom9_karakters_count}}],
-            labels: ["3001", "3002", "3003", "3004", "3005", "3006", "3007", "3008", "3009"],
-            colors: ["#45cb85", "#3b5de7","#ff715b", "#0caadc", "#eeb902", "#ecf542", "#42e0f5", "#f542f2", "#030836"],
+            },
+            series:seriesDataKreatif,
+            labels:leaderkreatif,
+            colors:colorkreatif,
             legend: {
                 show: true,
                 position: 'bottom',
@@ -1818,55 +1086,62 @@
                     },
                 }
             }]
-        
-        }
-        
-        var chart = new ApexCharts(
-            document.querySelector("#karakter_chart"),
-            options
-        );
-        
-        chart.render();
-    </script>
-    <script>
-        // Donut chart Kreatifitas
 
-        var options = {
-            chart: {
-                height: 320,
-                type: 'donut',
-            }, 
-            series: [{{$kom1_kreatifs_count}}, {{$kom2_kreatifs_count}}, {{$kom3_kreatifs_count}}, {{$kom4_kreatifs_count}}, {{$kom5_kreatifs_count}}, {{$kom6_kreatifs_count}}, {{$kom7_kreatifs_count}}, {{$kom8_kreatifs_count}}],
-            labels: ["4001", "4002", "4003", "4004", "4005", "4006", "4007", "4008"],
-            colors: ["#45cb85", "#3b5de7","#ff715b", "#0caadc", "#eeb902", "#ecf542", "#42e0f5", "#f542f2"],
-            legend: {
-                show: true,
-                position: 'bottom',
-                horizontalAlign: 'center',
-                verticalAlign: 'middle',
-                floating: false,
-                fontSize: '14px',
-                offsetX: 0,
-            },
-            responsive: [{
-                breakpoint: 600,
-                options: {
-                    chart: {
-                        height: 240
-                    },
-                    legend: {
-                        show: false
-                    },
-                }
-            }]
-        
         }
-        
+
         var chart = new ApexCharts(
             document.querySelector("#kreatif_chart"),
             options
         );
-        
+
+        chart.render();
+    </script>
+
+    <script>
+         const leaderkarakters = {!! json_encode($komponen->where('aspek', 'Karakter Islami')->pluck('nama_komponen')) !!};
+            const serieskarakters= @json($karakters->whereIn('komponen_id', $komponen->pluck('id')->toArray())->pluck('komponen')->toArray());
+            const countsMapkarakters = {};
+            serieskarakters.forEach(nama => {
+                countsMapkarakters[nama] = (countsMapkarakters[nama] || 0) + 1;
+            });
+            const seriesDatakarakters = leaderkarakters.map(label => countsMapkarakters[label] || 0);
+            const colorkarakters= leaderkarakters.map(() => generateRandomColor());
+        var options = {
+            chart: {
+                height: 320,
+                type: 'donut',
+            },
+            series:seriesDatakarakters,
+            labels:leaderkarakters,
+            colors:colorkarakters,
+            legend: {
+                show: true,
+                position: 'bottom',
+                horizontalAlign: 'center',
+                verticalAlign: 'middle',
+                floating: false,
+                fontSize: '14px',
+                offsetX: 0,
+            },
+            responsive: [{
+                breakpoint: 600,
+                options: {
+                    chart: {
+                        height: 240
+                    },
+                    legend: {
+                        show: false
+                    },
+                }
+            }]
+
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#karakter_chart"),
+            options
+        );
+
         chart.render();
     </script>
     @endsection

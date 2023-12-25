@@ -9,8 +9,42 @@ class KegiatanController extends Controller
 {
     public function index()
     {
+        $events= array();
+        $warna = null;
+        $kegiatan = Kegiatan::all();
+        foreach ($kegiatan  as $kegiatan){
+            if($kegiatan->penyelenggara == "YAPI")
+            {
+                  $warna = '#F1B9AC';
+            }
+            elseif($kegiatan->penyelenggara == "Direktorat Keasramaan")
+            {
+                $warna = '#F4D291';
+            }
+            elseif($kegiatan->penyelenggara == "Asrama Sunan Gunung Jati")
+            {
+                $warna = '#FAEBBD';
+            }
+            elseif($kegiatan->penyelenggara == "Asrama Sunan Giri")
+            {
+                $warna = '#BBEDBE';
+            }
+            $events[]=[
+                'id' => $kegiatan->id,
+                'title' => $kegiatan->nama_kegiatan,
+                'start' => $kegiatan->waktu,
+                'end' => date('Y-m-d',strtotime($kegiatan->waktu. '+1 days')),
+                'tempat' => $kegiatan->tempat,
+                'penyelenggara' => $kegiatan->penyelenggara,
+                'jenis_kegiatan' => $kegiatan->jenis_kegiatan,
+                'keterangan' => $kegiatan->keterangan,
+                'file' => $kegiatan->file,
+                'color'=>$warna,
+                'tujuan' => $kegiatan->tujuan
+            ];
+        }
         $kegiatans = Kegiatan::orderBy('waktu', 'desc')->paginate(10);
-        return view('super.pages.kegiatan.index', compact('kegiatans'));
+        return view('super.pages.kegiatan.index', compact('kegiatans','events'));
     }
 
     public function create()
@@ -97,7 +131,7 @@ class KegiatanController extends Controller
         $kegiatan = Kegiatan::findOrFail($id);
         return view('super.pages.kegiatan.detail', compact('kegiatan'));
     }
-    
+
     public function update(Request $request, $id)
     {
         Kegiatan::findOrFail($id)->update($request->all());

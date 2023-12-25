@@ -64,16 +64,65 @@ class EventController extends Controller
     }
     public function indexUNI()
     {
+        $role = auth()->user()->role;
+        if($role ==="mahasiswa"){
+            $layouts =  'mahasiswa.layouts.master-layouts';
+        }
+        elseif($role ==="alumni"){
+            $layouts =  'alumni.layouts.master';
+        }
+        elseif($role ==="super"){
+            $layouts =  'super.layouts.master';
+        }
+        $events= array();
+        $warna = null;
+        $warnacolor = 'rgb(128, 128, 128)';
+        $kegiatan = Kegiatan::all();
+        foreach ($kegiatan  as $kegiatan){
+            if($kegiatan->penyelenggara == "YAPI")
+            {
+                  $warna = '#F1B9AC';
+            }
+            elseif($kegiatan->penyelenggara == "Direktorat Keasramaan")
+            {
+                $warna = '#F4D291';
+            }
+            elseif($kegiatan->penyelenggara == "Asrama Sunan Gunung Jati")
+            {
+                $warna = '#FAEBBD';
+            }
+            elseif($kegiatan->penyelenggara == "Asrama Sunan Giri")
+            {
+                $warna = '#BBEDBE';
+            }
 
-        return view('super.pages.master.calender');
+            $events[]=[
+                'id' => $kegiatan->id,
+                'title' => $kegiatan->nama_kegiatan,
+                'start' => $kegiatan->waktu,
+                'end' => date('Y-m-d',strtotime($kegiatan->waktu. '+1 days')),
+                'tempat' => $kegiatan->tempat,
+                'penyelenggara' => $kegiatan->penyelenggara,
+                'jenis_kegiatan' => $kegiatan->jenis_kegiatan,
+                'keterangan' => $kegiatan->keterangan,
+                'file' => $kegiatan->file,
+                'color'=>$warna,
+                'textColor'=>$warnacolor,
+                'tujuan' => $kegiatan->tujuan
+            ];
+        }
+
+        return view('super.pages.master.calender',['events'=>$events,'layouts' => $layouts]);
     }
 
     public function listEventSuper(Request $request)
     {
+        $warna = '#000000';
         $start = date('Y-m-d', strtotime($request->start));
         $end = date('Y-m-d', strtotime($request->end));
-
         $events = Kegiatan::where('waktu', '>=', $start)
+
+
         ->where('waktu', '<=' , $end)->get()
         ->map( fn ($item) => [
             'id' => $item->id,
@@ -85,7 +134,8 @@ class EventController extends Controller
             'jenis_kegiatan' => $item->jenis_kegiatan,
             'keterangan' => $item->keterangan,
             'file' => $item->file,
-            'tujuan' => $item->tujuan
+            'tujuan' => $item->tujuan,
+            'color'=> $item->$warna
         ]);
 
         return response()->json($events);

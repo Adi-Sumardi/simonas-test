@@ -17,18 +17,22 @@
 @show
 <body data-layout="detached" data-topbar="colored">
     <!-- Loader -->
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner-chase">
-                <div class="chase-dot"></div>
-                <div class="chase-dot"></div>
-                <div class="chase-dot"></div>
-                <div class="chase-dot"></div>
-                <div class="chase-dot"></div>
-                <div class="chase-dot"></div>
+    <body data-layout="detached" data-topbar="colored">
+        <!-- Loader -->
+        <div id="loading-container">
+
+                <div id="status">
+                    <div class="spinner-chase">
+                        <div class="chase-dot"></div>
+                        <div class="chase-dot"></div>
+                        <div class="chase-dot"></div>
+                        <div class="chase-dot"></div>
+                        <div class="chase-dot"></div>
+                        <div class="chase-dot"></div>
+                    </div>
+
             </div>
         </div>
-    </div>
     <!-- Begin page -->
     <div class="container-fluid">
         <div id="layout-wrapper">
@@ -57,6 +61,7 @@
 
     <!-- JAVASCRIPT -->
     @include('alumni.layouts.footer-script')
+
 </body>
 
 </html>

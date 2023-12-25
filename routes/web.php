@@ -99,14 +99,6 @@ Route::middleware(['auth', 'super'])->group(function() {
     Route::delete('/super-akun-delete/{id}', 'UserController@akunDelete')->name('super-akun-delete');
     Route::patch('/super-akun-update/{id}', 'UserController@akunUpdate')->name('super-akun-update');
 
-    Route::get('/super-kegiatan-asrama', 'KegiatanController@index')->name('super-kegiatan-asrama');
-    Route::get('/super-kegiatan-asrama-detail/{id}', 'KegiatanController@detail')->name('super-kegiatan-asrama-detail');
-    Route::get('/super-kegiatan-asrama-create', 'KegiatanController@create')->name('super-kegiatan-asrama-create');
-    Route::get('/super-kegiatan-asrama-edit/{id}', 'KegiatanController@edit')->name('super-kegiatan-asrama-edit');
-    Route::post('/super-kegiatan-asrama-store', 'KegiatanController@store')->name('super-kegiatan-asrama-store');
-    Route::patch('/super-kegiatan-asrama-update/{id}', 'KegiatanController@update')->name('super-kegiatan-asrama-update');
-    Route::delete('/super-kegiatan-asrama-delete/{id}', 'KegiatanController@delete')->name('super-kegiatan-asrama-delete');
-
     Route::get('/super-direktur-asrama', 'AsramaController@index')->name('super-direktur-asrama');
     Route::get('/super-direktur-asrama-detail/{id}', 'AsramaController@detail')->name('super-direktur-asrama-detail');
     Route::get('/super-direktur-asrama-create', 'AsramaController@create')->name('super-direktur-asrama-create');
@@ -125,22 +117,6 @@ Route::middleware(['auth', 'super'])->group(function() {
     Route::get('/super-mentor-asrama', 'WargaController@indexMentor')->name('super-mentor-asrama');
     Route::get('/super-mentor-asrama-detail/{id}', 'WargaController@detailMentor')->name('super-mentor-asrama-detail');
 
-    Route::get('/super-alumni-asrama', 'AlumniController@index')->name('super-alumni-asrama');
-    Route::get('/super-alumni-asrama-detail/{id}', 'ALumniController@detail')->name('super-alumni-asrama-detail');
-    Route::get('/super-alumni-asrama-create', 'AlumniController@create')->name('super-alumni-asrama-create');
-    Route::get('/super-alumni-asrama-edit/{id}', 'AlumniController@edit')->name('super-alumni-asrama-edit');
-    Route::post('/super-alumni-asrama-store', 'AlumniController@store')->name('super-alumni-asrama-store');
-    Route::patch('/super-alumni-asrama-update/{id}', 'AlumniController@update')->name('super-alumni-asrama-update');
-    Route::delete('/super-alumni-asrama-delete/{id}', 'AlumniController@delete')->name('super-alumni-asrama-delete');
-    Route::get('/super-alumni-asrama-export', 'AlumniController@export')->name('super-alumni-asrama-export');
-    Route::post('/super-alumni-asrama-import', 'AlumniController@import')->name('super-alumni-asrama-import');
-    Route::get('get-districts', 'AlumniController@getDistricts');
-    Route::get('/super-komponen', 'KomponenController@index')->name('super-komponen');
-    Route::get('/super-komponen-create', 'KomponenController@create')->name('super-komponen-create');
-    Route::get('/super-komponen-edit/{id}', 'KomponenController@edit')->name('super-komponen-edit');
-    Route::post('/super-komponen-store', 'KomponenController@store')->name('super-komponen-store');
-    Route::patch('/super-komponen-update/{id}', 'KomponenController@update')->name('super-komponen-update');
-    Route::delete('/super-komponen-delete/{id}', 'KomponenController@delete')->name('super-komponen-delete');
 
     Route::get('/super-kegiatan-akademik', 'AkademikController@index')->name('super-kegiatan-akademik');
     Route::get('/super-kegiatan-akademik-create', 'AkademikController@create')->name('super-kegiatan-akademik-create');
@@ -269,7 +245,6 @@ Route::middleware(['auth', 'super'])->group(function() {
 
     //fullcalender
     Route::get('/fullcalendar', 'FullCalendarController@index');
-    Route::get('/eventCalender', 'EventController@indexUNI')->name('eventCalender');
     Route::get('/eventsSuper1', 'EventController@listEventSuper1')->name('event.listsuper1');
     Route::post('/fullcalendar/action', 'FullCalendarController@action');
 
@@ -590,6 +565,39 @@ Route::middleware(['auth', 'alumni'])->group(function() {
 
 
 });
+// web.php atau file rute Anda
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/eventCalender', 'EventController@indexUNI')->name('eventCalender');
+    Route::get('/super-kegiatan-asrama', 'KegiatanController@index')->name('super-kegiatan-asrama');
+    Route::get('/super-kegiatan-asrama-detail/{id}', 'KegiatanController@detail')->name('super-kegiatan-asrama-detail');
+    Route::get('/super-kegiatan-asrama-create', 'KegiatanController@create')->name('super-kegiatan-asrama-create');
+    Route::get('/super-kegiatan-asrama-edit/{id}', 'KegiatanController@edit')->name('super-kegiatan-asrama-edit');
+    Route::post('/super-kegiatan-asrama-store', 'KegiatanController@store')->name('super-kegiatan-asrama-store');
+    Route::patch('/super-kegiatan-asrama-update/{id}', 'KegiatanController@update')->name('super-kegiatan-asrama-update');
+    Route::delete('/super-kegiatan-asrama-delete/{id}', 'KegiatanController@delete')->name('super-kegiatan-asrama-delete');
+    Route::get('/super-alumni-asrama', 'AlumniController@index')->name('super-alumni-asrama');
+    Route::get('/super-alumni-asrama-detail/{id}', 'ALumniController@detail')->name('super-alumni-asrama-detail');
+    Route::get('/super-alumni-asrama-create', 'AlumniController@create')->name('super-alumni-asrama-create');
+    Route::get('/super-alumni-asrama-edit/{id}', 'AlumniController@edit')->name('super-alumni-asrama-edit');
+    Route::post('/super-alumni-asrama-store', 'AlumniController@store')->name('super-alumni-asrama-store');
+    Route::patch('/super-alumni-asrama-update/{id}', 'AlumniController@update')->name('super-alumni-asrama-update');
+    Route::delete('/super-alumni-asrama-delete/{id}', 'AlumniController@delete')->name('super-alumni-asrama-delete');
+    Route::get('/super-alumni-asrama-export', 'AlumniController@export')->name('super-alumni-asrama-export');
+    Route::post('/super-alumni-asrama-import', 'AlumniController@import')->name('super-alumni-asrama-import');
+    Route::get('get-districts', 'AlumniController@getDistricts');
+    Route::get('/super-komponen', 'KomponenController@index')->name('super-komponen');
+    Route::get('/super-komponen-create', 'KomponenController@create')->name('super-komponen-create');
+    Route::get('/super-komponen-edit/{id}', 'KomponenController@edit')->name('super-komponen-edit');
+    Route::post('/super-komponen-store', 'KomponenController@store')->name('super-komponen-store');
+    Route::patch('/super-komponen-update/{id}', 'KomponenController@update')->name('super-komponen-update');
+    Route::delete('/super-komponen-delete/{id}', 'KomponenController@delete')->name('super-komponen-delete');
+
+
+});
+
+
 
 // Route::get('logout', 'QovexController@logout');
 
