@@ -108,6 +108,7 @@ Route::middleware(['auth', 'super'])->group(function() {
     Route::delete('/super-direktur-asrama-delete/{id}', 'AsramaController@delete')->name('super-direktur-asrama-delete');
 
     Route::get('/super-warga-asrama', 'WargaController@index')->name('super-warga-asrama');
+    Route::get('/get-data-by-date/{userId}', 'WargaController@getDataByDateFilter')->name('getDataByDateFilter');
     Route::get('/super-warga-asgj', 'WargaController@asgj')->name('super-warga-asgj');
     Route::get('/super-warga-asg', 'WargaController@asg')->name('super-warga-asg');
     Route::get('/super-warga-aws', 'WargaController@aws')->name('super-warga-aws');

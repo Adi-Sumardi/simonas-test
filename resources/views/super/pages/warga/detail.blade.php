@@ -305,10 +305,10 @@
                                                                                     <td>{{ $akademik->nama_komponen }}</td>
                                                                                     {{-- <td>{{$kom1_akademiks_count}}</td> --}}
 
-                                                                                    <td>{{ $akademiks->where('komponen_id', $akademik->id)->count() }}</td>
+                                                                                    <td>{{ $akademiks->where('komponen', $akademik->nama_komponen)->count() }}</td>
                                                                                     <td>
                                                                                         @if ($akademiks->count() > 0)
-                                                                                        {{ number_format(($akademiks->where('komponen_id', $akademik->id)->count() / $akademiks->count()) * 100, 2) }}%
+                                                                                        {{ number_format(($akademiks->where('komponen', $akademik->nama_komponen)->count() / $akademiks->count()) * 100, 2) }}%
                                                                                     @else
                                                                                         0%
                                                                                     @endif</td>                                                                                    </tr>
@@ -326,7 +326,7 @@
                                                                                             </thead>
                                                                                             <tbody>
 
-                                                                                               @foreach ($akademiks->where('komponen_id', $akademik->id) as $akademika)
+                                                                                               @foreach ($akademiks->where('komponen', $akademik->nama_komponen) as $akademika)
                                                                                                 @if(is_object($akademika))
                                                                                                     <tr>
                                                                                                         <td>{{ $akademika->kegiatan }}</td>
@@ -599,10 +599,10 @@
                                                                                     <td>{{ $Leader->nama_komponen }}</td>
                                                                                     {{-- <td>{{$kom1_akademiks_count}}</td> --}}
 
-                                                                                    <td>{{ $leaderships->where('komponen_id', $Leader->id)->count() }}</td>
+                                                                                    <td>{{ $leaderships->where('komponen', $Leader->nama_komponen)->count() }}</td>
                                                                                     <td>
                                                                                         @if ($leaderships->count() > 0)
-                                                                                        {{ number_format(($leaderships->where('komponen_id', $Leader->id)->count() / $leaderships->count()) * 100, 2) }}%
+                                                                                        {{ number_format(($leaderships->where('komponen', $Leader->nama_komponen)->count() / $leaderships->count()) * 100, 2) }}%
                                                                                     @else
                                                                                         0%
                                                                                     @endif</td>
@@ -621,7 +621,7 @@
                                                                                             </thead>
                                                                                             <tbody>
 
-                                                                                               @foreach ($leaderships->where('komponen_id', $Leader->id) as $leaderships11)
+                                                                                               @foreach ($leaderships->where('komponen', $Leader->nama_komponen) as $leaderships11)
                                                                                                 @if(is_object($leaderships11))
                                                                                                     <tr>
                                                                                                         <td>{{ $leaderships11->kegiatan }}</td>
@@ -688,10 +688,10 @@
                                                                                     <td>{{ $karak->nama_komponen }}</td>
                                                                                     {{-- <td>{{$kom1_akademiks_count}}</td> --}}
 
-                                                                                    <td>{{ $karakters->where('komponen_id', $karak->id)->count() }}</td>
+                                                                                    <td>{{ $karakters->where('komponen', $karak->nama_komponen)->count() }}</td>
                                                                                     <td>
                                                                                         @if ($karakters->count() > 0)
-                                                                                        {{ number_format(($karakters->where('komponen_id', $karak->id)->count() / $karakters->count()) * 100, 2) }}%
+                                                                                        {{ number_format(($karakters->where('komponen', $karak->nama_komponen)->count() / $karakters->count()) * 100, 2) }}%
                                                                                     @else
                                                                                         0%
                                                                                     @endif
@@ -710,7 +710,7 @@
                                                                                             </thead>
                                                                                             <tbody>
 
-                                                                                               @foreach ($karakters->where('komponen_id', $karak->id) as $karakters1)
+                                                                                               @foreach ($karakters->where('komponen', $karak->nama_komponen) as $karakters1)
                                                                                                 @if(is_object($karakters1))
                                                                                                     <tr>
                                                                                                         <td>{{ $karakters1->kegiatan }}</td>
@@ -778,10 +778,10 @@
                                                                                     <td>{{ $krea->nama_komponen }}</td>
                                                                                     {{-- <td>{{$kom1_akademiks_count}}</td> --}}
 
-                                                                                    <td>{{ $kreatifs->where('komponen_id', $krea->id)->count() }}</td>
+                                                                                    <td>{{ $kreatifs->where('komponen', $krea->nama_komponen)->count() }}</td>
                                                                                     <td>
                                                                                         @if ($kreatifs->count() > 0)
-                                                                                        {{ number_format(($kreatifs->where('komponen_id', $krea->id)->count() / $kreatifs->count()) * 100, 2) }}%
+                                                                                        {{ number_format(($kreatifs->where('komponen', $krea->nama_komponen)->count() / $kreatifs->count()) * 100, 2) }}%
                                                                                     @else
                                                                                         0%
                                                                                     @endif
@@ -801,7 +801,7 @@
                                                                                             </thead>
                                                                                             <tbody>
 
-                                                                                               @foreach ($kreatifs->where('komponen_id', $krea->id) as $kreatifs1)
+                                                                                               @foreach ($kreatifs->where('komponen', $krea->nama_komponen) as $kreatifs1)
                                                                                                 @if(is_object($kreatifs1))
                                                                                                     <tr>
                                                                                                         <td>{{ $kreatifs1->kegiatan }}</td>
@@ -955,7 +955,7 @@
                 return color;
                             }
            const akademiklabel = {!! json_encode($komponen->where('aspek', 'Akademik')->pluck('nama_komponen')) !!};
-           const seriesnama = @json($akademiks->whereIn('komponen_id', $komponen->pluck('id')->toArray())->pluck('komponen')->toArray());
+           const seriesnama = @json($akademiks->whereIn('komponen', $komponen->pluck('nama_komponen')->toArray())->pluck('komponen')->toArray());
             const countsMap = {};
             seriesnama.forEach(nama => {
                 countsMap[nama] = (countsMap[nama] || 0) + 1;
@@ -1003,7 +1003,7 @@
 </script>
     <script>
             const leadership = {!! json_encode($komponen->where('aspek', 'Leadership')->pluck('nama_komponen')) !!};
-            const seriesnamalead = @json($leaderships->whereIn('komponen_id', $komponen->pluck('id')->toArray())->pluck('komponen')->toArray());
+            const seriesnamalead = @json($leaderships->whereIn('komponen', $komponen->pluck('nama_komponen')->toArray())->pluck('komponen')->toArray());
             const countsMapled = {};
             seriesnamalead.forEach(nama => {
                 countsMapled[nama] = (countsMapled[nama] || 0) + 1;
@@ -1050,14 +1050,15 @@
     </script>
     <script>
             const leaderkreatif = {!! json_encode($komponen->where('aspek', 'Kreativitas & Kewirausahaan')->pluck('nama_komponen')) !!};
-            const serieskreatif= @json($kreatifs->whereIn('komponen_id', $komponen->pluck('id')->toArray())->pluck('komponen')->toArray());
-            console.log("hasilnya",leaderkreatif)
+            const serieskreatif= @json($kreatifs->whereIn('komponen', $komponen->pluck('nama_komponen')->toArray())->pluck('komponen')->toArray());
             const countsMapkreatif = {};
             serieskreatif.forEach(nama => {
-                countsMapkreatif[nama] = (countsMapled[nama] || 0) + 1;
+                countsMapkreatif[nama] = (countsMapkreatif[nama] || 0) + 1;
             });
             const seriesDataKreatif = leaderkreatif.map(label => countsMapkreatif[label] || 0);
             const colorkreatif= leaderkreatif.map(() => generateRandomColor());
+            console.log("seriesnya karakter",seriesDataKreatif)
+            console.log("labelnya",leaderkreatif)
         var options = {
             chart: {
                 height: 320,
@@ -1098,8 +1099,8 @@
     </script>
 
     <script>
-         const leaderkarakters = {!! json_encode($komponen->where('aspek', 'Karakter Islami')->pluck('nama_komponen')) !!};
-            const serieskarakters= @json($karakters->whereIn('komponen_id', $komponen->pluck('id')->toArray())->pluck('komponen')->toArray());
+            const leaderkarakters = {!! json_encode($komponen->where('aspek', 'Karakter Islami')->pluck('nama_komponen')) !!};
+            const serieskarakters= @json($karakters->whereIn('komponen', $komponen->pluck('nama_komponen')->toArray())->pluck('komponen')->toArray());
             const countsMapkarakters = {};
             serieskarakters.forEach(nama => {
                 countsMapkarakters[nama] = (countsMapkarakters[nama] || 0) + 1;

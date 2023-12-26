@@ -18,17 +18,87 @@ class WargaController extends Controller
 
     public function index()
     {
-        $users = User::where('role', 'mahasiswa')->paginate(10);
-
-        foreach ($users as $user) {
-            $averageIP = $user->ipks
-                ->filter(function ($ipk) {
-                    return is_numeric($ipk->ip);
-                })
-                ->avg('ip');
-          $user->average_ip = $averageIP;
-        }
+        $users = User::where('role', 'mahasiswa')->get();
         return view('super.pages.warga.index', compact('users'));
+    }
+
+    public function getDataByDateFilter(Request $request, $userId)
+    {
+
+        $user = User::findOrFail($userId);
+        $dateFilter = $request->input('date_filter');
+        $akademiksQuery = Akademik::where('user_id', $userId);
+        $leadershipsQuery = Leadership::where('user_id', $userId);
+        $karaktersQuery = Karakter::where('user_id', $userId);
+        $kreatifsQuery = Kreatif::where('user_id', $userId);
+        switch ($dateFilter) {
+            case 'today':
+                $akademiksQuery->whereDate('waktu', Carbon::today());
+                $leadershipsQuery->whereDate('waktu', Carbon::today());
+                $karaktersQuery->whereDate('waktu', Carbon::today());
+                $kreatifsQuery->whereDate('waktu', Carbon::today());
+                break;
+            case 'yesterday':
+                $akademiksQuery->whereDate('waktu', Carbon::yesterday());
+                $leadershipsQuery->whereDate('waktu', Carbon::yesterday());
+                $karaktersQuery->whereDate('waktu', Carbon::yesterday());
+                $kreatifsQuery->whereDate('waktu', Carbon::yesterday());
+                break;
+            case 'this_week':
+                $akademiksQuery->whereBetween('waktu', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
+                $leadershipsQuery->whereBetween('waktu', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
+                $karaktersQuery->whereBetween('waktu', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
+                $kreatifsQuery->whereBetween('waktu', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
+                break;
+            case 'last_week':
+                $akademiksQuery->whereBetween('waktu', [Carbon::now()->subWeek(), Carbon::now()]);
+                $leadershipsQuery->whereBetween('waktu', [Carbon::now()->subWeek(), Carbon::now()]);
+                $karaktersQuery->whereBetween('waktu', [Carbon::now()->subWeek(), Carbon::now()]);
+                $kreatifsQuery->whereBetween('waktu', [Carbon::now()->subWeek(), Carbon::now()]);
+                break;
+            case 'this_month':
+                $akademiksQuery->whereMonth('waktu', Carbon::now()->month);
+                $leadershipsQuery->whereMonth('waktu', Carbon::now()->month);
+                $karaktersQuery->whereMonth('waktu', Carbon::now()->month);
+                $kreatifsQuery->whereMonth('waktu', Carbon::now()->month);
+                break;
+            case 'last_month':
+                $akademiksQuery->whereMonth('waktu', Carbon::now()->subMonth()->month);
+                $leadershipsQuery->whereMonth('waktu', Carbon::now()->subMonth()->month);
+                $karaktersQuery->whereMonth('waktu', Carbon::now()->subMonth()->month);
+                $kreatifsQuery->whereMonth('waktu', Carbon::now()->subMonth()->month);
+                break;
+            case 'this_year':
+                $akademiksQuery->whereyear('waktu', Carbon::now()->year);
+                $leadershipsQuery->whereyear('waktu', Carbon::now()->year);
+                $karaktersQuery->whereyear('waktu', Carbon::now()->year);
+                $kreatifsQuery->whereyear('waktu', Carbon::now()->year);
+                break;
+            case 'last_year':
+                $akademiksQuery->whereyear('waktu', Carbon::now()->subYear()->year);
+                $leadershipsQuery->whereyear('waktu', Carbon::now()->subYear()->year);
+                $karaktersQuery->whereyear('waktu', Carbon::now()->subYear()->year);
+                $kreatifsQuery->whereyear('waktu', Carbon::now()->subYear()->year);
+                break;
+
+        }
+        $akademiks = $akademiksQuery->get();
+        $leaderships = $leadershipsQuery->get();
+        $karakters = $karaktersQuery->get();
+        $kreatifs = $kreatifsQuery->get();
+
+        $totalActivities = $akademiks->count() + $leaderships->count() + $karakters->count() + $kreatifs->count();
+
+        $data = [
+            'akademiks' => $akademiks,
+            'leaderships' => $leaderships,
+            'karakters' => $karakters,
+            'kreatifs' => $kreatifs,
+            'totalActivities' => $totalActivities,
+        ];
+
+        return response()->json($data);
+
     }
 
     public function indexMentor()
@@ -121,52 +191,52 @@ class WargaController extends Controller
 
         switch($date){
             case 'today':
-                $akademiksQuery->whereDate('created_at', Carbon::today());
-                $leadershipsQuery->whereDate('created_at', Carbon::today());
-                $karaktersQuery->whereDate('created_at', Carbon::today());
-                $kreatifsQuery->whereDate('created_at', Carbon::today());
+                $akademiksQuery->whereDate('waktu', Carbon::today());
+                $leadershipsQuery->whereDate('waktu', Carbon::today());
+                $karaktersQuery->whereDate('waktu', Carbon::today());
+                $kreatifsQuery->whereDate('waktu', Carbon::today());
                 break;
             case 'yesterday':
-                $akademiksQuery->whereDate('created_at', Carbon::yesterday());
-                $leadershipsQuery->whereDate('created_at', Carbon::yesterday());
-                $karaktersQuery->whereDate('created_at', Carbon::yesterday());
-                $kreatifsQuery->whereDate('created_at', Carbon::yesterday());
+                $akademiksQuery->whereDate('waktu', Carbon::yesterday());
+                $leadershipsQuery->whereDate('waktu', Carbon::yesterday());
+                $karaktersQuery->whereDate('waktu', Carbon::yesterday());
+                $kreatifsQuery->whereDate('waktu', Carbon::yesterday());
                 break;
             case 'this_week':
-                $akademiksQuery->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
-                $leadershipsQuery->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
-                $karaktersQuery->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
-                $kreatifsQuery->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
+                $akademiksQuery->whereBetween('waktu', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
+                $leadershipsQuery->whereBetween('waktu', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
+                $karaktersQuery->whereBetween('waktu', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
+                $kreatifsQuery->whereBetween('waktu', [Carbon::now()->startOfWeek(), Carbon::now()->endofWeek()]);
                 break;
             case 'last_week':
-                $akademiksQuery->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
-                $leadershipsQuery->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
-                $karaktersQuery->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
-                $kreatifsQuery->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
+                $akademiksQuery->whereBetween('waktu', [Carbon::now()->subWeek(), Carbon::now()]);
+                $leadershipsQuery->whereBetween('waktu', [Carbon::now()->subWeek(), Carbon::now()]);
+                $karaktersQuery->whereBetween('waktu', [Carbon::now()->subWeek(), Carbon::now()]);
+                $kreatifsQuery->whereBetween('waktu', [Carbon::now()->subWeek(), Carbon::now()]);
                 break;
             case 'this_month':
-                $akademiksQuery->whereMonth('created_at', Carbon::now()->month);
-                $leadershipsQuery->whereMonth('created_at', Carbon::now()->month);
-                $karaktersQuery->whereMonth('created_at', Carbon::now()->month);
-                $kreatifsQuery->whereMonth('created_at', Carbon::now()->month);
+                $akademiksQuery->whereMonth('waktu', Carbon::now()->month);
+                $leadershipsQuery->whereMonth('waktu', Carbon::now()->month);
+                $karaktersQuery->whereMonth('waktu', Carbon::now()->month);
+                $kreatifsQuery->whereMonth('waktu', Carbon::now()->month);
                 break;
             case 'last_month':
-                $akademiksQuery->whereMonth('created_at', Carbon::now()->subMonth()->month);
-                $leadershipsQuery->whereMonth('created_at', Carbon::now()->subMonth()->month);
-                $karaktersQuery->whereMonth('created_at', Carbon::now()->subMonth()->month);
-                $kreatifsQuery->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                $akademiksQuery->whereMonth('waktu', Carbon::now()->subMonth()->month);
+                $leadershipsQuery->whereMonth('waktu', Carbon::now()->subMonth()->month);
+                $karaktersQuery->whereMonth('waktu', Carbon::now()->subMonth()->month);
+                $kreatifsQuery->whereMonth('waktu', Carbon::now()->subMonth()->month);
                 break;
             case 'this_year':
-                $akademiksQuery->whereyear('created_at', Carbon::now()->year);
-                $leadershipsQuery->whereyear('created_at', Carbon::now()->year);
-                $karaktersQuery->whereyear('created_at', Carbon::now()->year);
-                $kreatifsQuery->whereyear('created_at', Carbon::now()->year);
+                $akademiksQuery->whereyear('waktu', Carbon::now()->year);
+                $leadershipsQuery->whereyear('waktu', Carbon::now()->year);
+                $karaktersQuery->whereyear('waktu', Carbon::now()->year);
+                $kreatifsQuery->whereyear('waktu', Carbon::now()->year);
                 break;
             case 'last_year':
-                $akademiksQuery->whereyear('created_at', Carbon::now()->subYear()->year);
-                $leadershipsQuery->whereyear('created_at', Carbon::now()->subYear()->year);
-                $karaktersQuery->whereyear('created_at', Carbon::now()->subYear()->year);
-                $kreatifsQuery->whereyear('created_at', Carbon::now()->subYear()->year);
+                $akademiksQuery->whereyear('waktu', Carbon::now()->subYear()->year);
+                $leadershipsQuery->whereyear('waktu', Carbon::now()->subYear()->year);
+                $karaktersQuery->whereyear('waktu', Carbon::now()->subYear()->year);
+                $kreatifsQuery->whereyear('waktu', Carbon::now()->subYear()->year);
                 break;
         }
 
