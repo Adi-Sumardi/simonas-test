@@ -48,9 +48,8 @@
         </div>
     </div>
     <h4 class="card-title">List Warga</h4>
-                    <div style="overflow: scroll; overflow-x: auto;">
-                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <div style="overflow: scroll;">
+                        <table id="datatable-buttons" class="table table-striped table-bordered">>
                             <thead>
                                 <tr>
                                     <th>Foto</th>
@@ -74,19 +73,21 @@
                                     <td>{{$user->status_warga}}</td>
                                     <td>{{$user->universitas}}</td>
                                     <td>{{$user->fakultas}}</td>
-                                    <td>@foreach ($user->ipks as $ipk)
-                                        {{ $ipk->semester}}<br>
-                                    @endforeach</td>
-                                    <td>@foreach ($user->ipks as $ipk)
-                                    {{ $ipk->ip}}<br>
-                                @endforeach</td>
-                                    <td id="totalActivities_{{ $user->id }}"></td>
+                                    <td>@if ($user->ipks->isNotEmpty())
+                                        {{ $user->ipks->last()->semester }}
+                                    @endif</td>
+                                    <td>@if ($user->ipks->isNotEmpty())
+                                        {{ $user->ipks->last()->ip }}
+                                    @endif</td>
+                                    <td>
+                                        {{ $user->karakters->count() + $user->leaderships->count() + $user->kreatifs->count() }}
+                                    </td>
                                     <td>
                                         <a href="/super-warga-asrama-detail/{{ $user->id }}" class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail">
                                             <i class="far fa-eye"></i>
                                         </a>
-                                        <button class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail" onclick="showDetailModal({{ $user->id }})">
-                                           modal
+                                        <button class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail" onclick="showDetailModal('{{ $user->id }}')">
+                                            modal
                                         </button>
                                     </td>
                                 </tr>
@@ -97,7 +98,7 @@
                     </div>
     <!-- end row -->
     <!-- Modal -->
-    <div class="modal fade" id="modal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
         <div class="modal-dialog " role="document" style="max-width: 90%; margin: 1.75rem auto;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -110,24 +111,24 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="akademik-tab" data-toggle="tab" href="#akademik{{ $user->id }}" role="tab">Akademik</a>
+                            <a class="nav-link active" id="akademik-tab" data-toggle="tab" href="#akademik" role="tab">Akademik</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="leadership-tab" data-toggle="tab" href="#leadership{{ $user->id }}" role="tab">Leadership</a>
+                            <a class="nav-link" id="leadership-tab" data-toggle="tab" href="#leadership" role="tab">Leadership</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="leadership-tab" data-toggle="tab" href="#karakter{{ $user->id }}" role="tab">Karakter</a>
+                            <a class="nav-link" id="leadership-tab" data-toggle="tab" href="#karakter" role="tab">Karakter</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="leadership-tab" data-toggle="tab" href="#kreatif{{ $user->id }}" role="tab">Kreativitas</a>
+                            <a class="nav-link" id="leadership-tab" data-toggle="tab" href="#kreatif" role="tab">Kreativitas</a>
                         </li>
                     </ul>
 
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <!-- Akademik Tab -->
-                        <div class="tab-pane active" id="akademik{{ $user->id }}" role="tabpanel">
-                            <table class="table table-striped table-bordered dt-responsive nowrap" id="modalBodyAkademik_{{ $user->id }}">
+                        <div class="tab-pane active" id="akademik" role="tabpanel">
+                            <table class="table table-striped table-bordered dt-responsive nowrap" id="modalBodyAkademik_">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -143,13 +144,13 @@
                                 </tbody>
                             </table>
                             <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-end" id="paginationModalBodyAkademik_{{ $user->id }}"></ul>
+                                <ul class="pagination justify-content-end" id="paginationModalBodyAkademik_"></ul>
                             </nav>
                         </div>
 
                         <!-- Leadership Tab -->
-                        <div class="tab-pane" id="leadership{{ $user->id }}" role="tabpanel">
-                            <table class="table table-striped" id="modalBodyLeadership_{{ $user->id }}">
+                        <div class="tab-pane" id="leadership" role="tabpanel">
+                            <table class="table table-striped" id="modalBodyLeadership_">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -166,8 +167,8 @@
                             </table>
                         </div>
                          <!-- Karakter Tab -->
-                        <div class="tab-pane" id="karakter{{ $user->id }}" role="tabpanel">
-                            <table class="table table-striped" id="modalBodykarakter_{{ $user->id }}">
+                        <div class="tab-pane" id="karakter" role="tabpanel">
+                            <table class="table table-striped" id="modalBodykarakter_">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -183,8 +184,8 @@
                             </table>
                         </div>
                         <!-- kreatif Tab -->
-                        <div class="tab-pane" id="kreatif{{ $user->id }}" role="tabpanel">
-                            <table class="table table-striped" id="modalBodykreatif_{{ $user->id }}">
+                        <div class="tab-pane" id="kreatif" role="tabpanel">
+                            <table class="table table-striped" id="modalBodykreatif_">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -226,8 +227,6 @@
 
     <!-- Calendar init -->
     <script src="{{ URL::asset('js/pages/dashboard.init.js') }}"></script>
-
-    <!-- Sweet Alerts js -->
     <script src="{{ URL::asset('/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
     <!-- Sweet alert init js-->
@@ -237,84 +236,105 @@
     <script src="{{ URL::asset('/libs/datatables/datatables.min.js') }}"></script>
     <script src="{{ URL::asset('/libs/jszip/jszip.min.js') }}"></script>
     <script src="{{ URL::asset('/libs/pdfmake/pdfmake.min.js') }}"></script>
-
-    <!-- Datatable init js -->
     <script src="{{ URL::asset('/js/pages/datatables.init.js') }}"></script>
 
-    <script>
+   <script>
         $(document).ready(function () {
-            // ...
+            var selectElement = document.getElementById('date_filter');
+            var user12 = "all";
+            var user11 = "super-warga-aspuri";
+            var user10 = "super-warga-asgj";
+            var user9 = "super-warga-asg";
+            var super8 ="super-warga-aws";
+            var table = $('#datatable-buttons').DataTable();
 
-            // Mengatur event handler untuk tombol-tombol pagination pada Akademik Tab
-            $('#paginationModalBodyAkademik_{{ $user->id }}').on('click', 'a', function (e) {
-                e.preventDefault();
-                $('#modalBodyAkademik_{{ $user->id }}').DataTable().page($(this).data('page')).draw('page');
+            $('#date_filter').on('change', function () {
+                updateMasterTable($(this).val(),user12);
             });
+            $('#super-warga-aspuri').on('click', function () {
+                updateMasterTable(selectElement.value,user11);
+             });
+             $('#super-warga-asgj').on('click', function () {
+                updateMasterTable(selectElement.value,user10);
+             });
+             $('#super-warga-asg').on('click', function () {
+                updateMasterTable(selectElement.value,user9);
+             });
+             $('#super-warga-aws').on('click', function () {
+                updateMasterTable(selectElement.value,super8);
+             });
 
-            // Mengatur event handler untuk tombol-tombol pagination pada Leadership Tab
-            $('#paginationModalBodyLeadership_{{ $user->id }}').on('click', 'a', function (e) {
-                e.preventDefault();
-                $('#modalBodyLeadership_{{ $user->id }}').DataTable().page($(this).data('page')).draw('page');
-            });
+            function updateMasterTable(selectedDateFilter,datanya) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/get-data-by-date/' + datanya,
+                    data: { date_filter: selectedDateFilter },
+                    success: function (data) {
+                        console.log("datantyahh", data)
+                        updateMasterTableContent(data);
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+                }
 
-            // ... mengatur event handler lainnya ...
+            function updateMasterTableContent(data) {
+                var table = $('#datatable-buttons').DataTable();
+                table.clear(); // Bersihkan data tabel
+                data.usernya.forEach(function (item) {
+                    console.log("ininya",item.karakters)
+                    var row = [
+                        'foto',
+                        item.name,
+                        item.asrama,
+                        item.status_warga,
+                        item.fakultas,
+                        item.universitas,
+                        item.semester,
+                        item.ipk,
+                        '<a href="#" class="btn btn-primary btn-action" onclick="showDetailModal(' + item.id + ')" data-toggle="modal" data-placement="top" title="Lihat Detail Kegiatan">' +item.total_kegiatan+
+                         '</a>',
+                        '<a href="/super-warga-asrama-detail/' + item.id + '" class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail">' +
+                        '<i class="far fa-eye"></i>' +
+                        '</a>',
+                        '<a href="#" class="btn btn-primary btn-action" onclick="showDetailModal(' + item.id + ')" data-toggle="modal" data-placement="top" title="Detail">' +'klik'+
+                         '</a>',
+                    ];
+                    table.row.add(row);
+                });
+
+                // Gambar ulang tabel setelah menambahkan data baru
+                table.draw();
+            }
         });
     </script>
 
-<script>
-    $(document).ready(function () {
-        var totalActivities = {{ $user->akademiks->count() + $user->leaderships->count() + $user->karakters->count() + $user->kreatifs->count() }};
-            document.getElementById('totalActivities_{{ $user->id }}').innerText = totalActivities;
-            $('select[name="date_filter"]').on('change', function ()
-            {
-                                    var selectedDateFilter = $(this).val();
-                                    var userId = {{ $user->id }};
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '/get-data-by-date/' + userId,
-                                        data: { date_filter: selectedDateFilter },
-                                        success: function (data) {
-                                            console.log(data.akademiks);
-                                            $('#totalActivities_' + userId).text(data.totalActivities);
-                                        },
-                                        error: function (error) {
-                                            console.error('Error:', error);
-                                        }
-                });
-            });
 
-        $('.btn-category').on('click', function () {
-            var category = $(this).data('category');
-            // Sembunyikan semua baris tabel
-            $('.user-row').hide();
-            // Tampilkan hanya baris dengan kategori yang sesuai
-            $('.user-row[data-category="' + category + '"]').show();
-        });
-    });
-</script>
-<!-- Tambahkan di dalam bagian <script> Anda -->
+
+<!-- Modal-->
     <script>
         function showDetailModal(userId) {
+            var selek="all";
             var selectedDateFilter = $("#date_filter").val();
-
             $.ajax({
                 type: 'GET',
                 url: '/get-data-by-date/' + userId,
-                data: { date_filter: selectedDateFilter },
+                data: { date_filter: selek },
                 success: function (data) {
-                    // Bersihkan isi tabel sebelum menambahkan data baru
-                    $('#modalBodyAkademik_' + userId + ' tbody').empty();
-                    $('#modalBodyLeadership_' + userId + ' tbody').empty();
-                    $('#modalBodykarakter_' + userId + ' tbody').empty();
-                    $('#modalBodykreatif_' + userId + ' tbody').empty();
 
-                    // Tambahkan data ke tabel
-                    addDataToTable(data.akademiks, 'modalBodyAkademik_' + userId);
-                    addDataToTable(data.kreatifs, 'modalBodykreatif_' + userId);
-                    addDataToTable(data.karakters, 'modalBodykarakter_' + userId);
-                    addDataToTable(data.leaderships, 'modalBodyLeadership_' + userId);
+
+                    $('#modalBodyAkademik_ tbody').empty();
+                    $('#modalBodyLeadership_ tbody').empty();
+                    $('#modalBodykarakter_ tbody').empty();
+                    $('#modalBodykreatif_ tbody').empty();
+
+                    addDataToTable(data.akademiks, 'modalBodyAkademik_' );
+                    addDataToTable(data.kreatifs, 'modalBodykreatif_' );
+                    addDataToTable(data.karakters, 'modalBodykarakter_' );
+                    addDataToTable(data.leaderships, 'modalBodyLeadership_' );
                     initializeDataTables(userId);
-                    $('#modal' + userId).modal('show');
+                    $('#detailModal').modal('show');
                 },
                 error: function (error) {
                     console.error('Error:', error);
@@ -340,8 +360,8 @@
         }
 
         function initializeDataTables(userId) {
-            if (!$.fn.DataTable.isDataTable('#modalBodyAkademik_' + userId)) {
-                $('#modalBodyAkademik_' + userId).DataTable({
+            if (!$.fn.DataTable.isDataTable('#modalBodyAkademik_')) {
+                $('#modalBodyAkademik_').DataTable({
                     "paging": true,
                     "lengthChange": true,
                     "searching": true,
@@ -351,8 +371,8 @@
                 });
             }
 
-            if (!$.fn.DataTable.isDataTable('#modalBodyLeadership_' + userId)) {
-                $('#modalBodyLeadership_' + userId).DataTable({
+            if (!$.fn.DataTable.isDataTable('#modalBodyLeadership_')) {
+                $('#modalBodyLeadership_').DataTable({
                     "paging": true,
                     "lengthChange": true,
                     "searching": true,
@@ -361,8 +381,8 @@
                     "autoWidth": false,
                 });
             }
-            if (!$.fn.DataTable.isDataTable('#modalBodykarakter_' + userId)) {
-                $('#modalBodykarakter_' + userId).DataTable({
+            if (!$.fn.DataTable.isDataTable('#modalBodykarakter_')) {
+                $('#modalBodykarakter_').DataTable({
                     "paging": true,
                     "lengthChange": true,
                     "searching": true,
@@ -372,8 +392,8 @@
                 });
             }
 
-            if (!$.fn.DataTable.isDataTable('#modalBodykreatif_' + userId)) {
-                $('#modalBodykreatif_' + userId).DataTable({
+            if (!$.fn.DataTable.isDataTable('#modalBodykreatif_')) {
+                $('#modalBodykreatif_').DataTable({
                     "paging": true,
                     "lengthChange": true,
                     "searching": true,
@@ -382,10 +402,6 @@
                     "autoWidth": false,
                 });
             }
-}
-
+            }
     </script>
-
-
-
 @endsection

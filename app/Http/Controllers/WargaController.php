@@ -8,6 +8,7 @@ use App\Kreatif;
 use App\Leadership;
 use App\Komponen;
 use App\User;
+use App\Ipk;
 use Carbon\Carbon;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
@@ -18,19 +19,41 @@ class WargaController extends Controller
 
     public function index()
     {
-        $users = User::where('role', 'mahasiswa')->get();
+        $users = User::with('akademiks', 'leaderships', 'karakters', 'kreatifs')->where('role', 'mahasiswa')->get();
+
         return view('super.pages.warga.index', compact('users'));
     }
 
     public function getDataByDateFilter(Request $request, $userId)
     {
+        $namaasrama="";
+        if ($userId == "all") {
+            $users = User::pluck('id');
+        } elseif ($userId == "super-warga-aspuri") {
+            $namaasrama="Asrama Putri";
+            $users = User::where('asrama', 'Asrama Putri')->pluck('id');
+        } elseif ($userId == "super-warga-asg") {
+            $namaasrama="Asrama Sunan Giri";
+            $users = User::where('asrama', 'Asrama Sunan Giri')->pluck('id');
+        }
+        elseif ($userId == "super-warga-asgj") {
+            $namaasrama="Asrama Sunan Gunung Jati";
+            $users = User::where('asrama', 'Asrama Sunan Gunung Jati')->pluck('id');
+        }
+        elseif ($userId == "super-warga-aws") {
+            $namaasrama="Asrama Wali Songo";
+            $users = User::where('asrama', 'Asrama Wali Songo')->pluck('id');
+        }
+         else {
 
-        $user = User::findOrFail($userId);
+            $users = [$userId];
+        }
         $dateFilter = $request->input('date_filter');
-        $akademiksQuery = Akademik::where('user_id', $userId);
-        $leadershipsQuery = Leadership::where('user_id', $userId);
-        $karaktersQuery = Karakter::where('user_id', $userId);
-        $kreatifsQuery = Kreatif::where('user_id', $userId);
+        $akademiksQuery = Akademik::whereIn('user_id', $users);
+        $leadershipsQuery = Leadership::whereIn('user_id', $users);
+        $karaktersQuery = Karakter::whereIn('user_id', $users);
+        $kreatifsQuery = Kreatif::whereIn('user_id', $users);
+
         switch ($dateFilter) {
             case 'today':
                 $akademiksQuery->whereDate('waktu', Carbon::today());
@@ -82,22 +105,40 @@ class WargaController extends Controller
                 break;
 
         }
-        $akademiks = $akademiksQuery->get();
-        $leaderships = $leadershipsQuery->get();
-        $karakters = $karaktersQuery->get();
-        $kreatifs = $kreatifsQuery->get();
+        $userIdsByDate = array_merge(
+            $akademiksQuery->pluck('user_id')->toArray(),
+            $leadershipsQuery->pluck('user_id')->toArray(),
+            $karaktersQuery->pluck('user_id')->toArray(),
+            $kreatifsQuery->pluck('user_id')->toArray()
+        );
+        $userIdsByDate = array_unique($userIdsByDate);
+        $usersByDate = User::with(['ipks'])
+        ->whereIn('id', $userIdsByDate)
+        ->select(
+            'id',
+            'asrama',
+            'status_warga',
+            'universitas',
+            'fakultas',
+            'name',
+            \DB::raw('(COALESCE((SELECT SUM(nl.nilai) FROM akademiks nl WHERE nl.user_id = users.id), 0) + COALESCE((SELECT COUNT(*) FROM leaderships nl WHERE nl.user_id = users.id), 0) + COALESCE((SELECT COUNT(*) FROM karakters nl WHERE nl.user_id = users.id), 0) + COALESCE((SELECT COUNT(*) FROM kreatifs nl WHERE nl.user_id = users.id), 0)) AS total_kegiatan'),
+            \DB::raw('(SELECT semester FROM ipks WHERE user_id = users.id ORDER BY created_at DESC LIMIT 1) AS semester'),
+            \DB::raw('(SELECT ip FROM ipks WHERE user_id = users.id ORDER BY created_at DESC LIMIT 1) AS ipk')
+        )
+        ->get();
 
-        $totalActivities = $akademiks->count() + $leaderships->count() + $karakters->count() + $kreatifs->count();
-
-        $data = [
-            'akademiks' => $akademiks,
-            'leaderships' => $leaderships,
-            'karakters' => $karakters,
-            'kreatifs' => $kreatifs,
-            'totalActivities' => $totalActivities,
-        ];
-
-        return response()->json($data);
+            $akademiks = $akademiksQuery->get();
+            $leaderships = $leadershipsQuery->get();
+            $karakters = $karaktersQuery->get();
+            $kreatifs = $kreatifsQuery->get();
+            $data = [
+                'akademiks'=>$akademiks,
+                'kreatifs'=>$kreatifs,
+                'karakters'=>$karakters,
+                'leaderships'=>$leaderships,
+                'usernya'=>$usersByDate,
+            ];
+            return response()->json($data);
 
     }
 
