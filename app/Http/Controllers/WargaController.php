@@ -26,35 +26,32 @@ class WargaController extends Controller
 
     public function getDataByDateFilter(Request $request, $userId)
     {
-        $namaasrama="";
+        $namaasrama = "";
         if ($userId == "all") {
             $users = User::pluck('id');
         } elseif ($userId == "super-warga-aspuri") {
-            $namaasrama="Asrama Putri";
+            $namaasrama = "Asrama Putri";
             $users = User::where('asrama', 'Asrama Putri')->pluck('id');
         } elseif ($userId == "super-warga-asg") {
-            $namaasrama="Asrama Sunan Giri";
+            $namaasrama = "Asrama Sunan Giri";
             $users = User::where('asrama', 'Asrama Sunan Giri')->pluck('id');
-        }
-        elseif ($userId == "super-warga-asgj") {
-            $namaasrama="Asrama Sunan Gunung Jati";
+        } elseif ($userId == "super-warga-asgj") {
+            $namaasrama = "Asrama Sunan Gunung Jati";
             $users = User::where('asrama', 'Asrama Sunan Gunung Jati')->pluck('id');
-        }
-        elseif ($userId == "super-warga-aws") {
-            $namaasrama="Asrama Wali Songo";
+        } elseif ($userId == "super-warga-aws") {
+            $namaasrama = "Asrama Wali Songo";
             $users = User::where('asrama', 'Asrama Wali Songo')->pluck('id');
-        }
-         else {
-
+        } else {
             $users = [$userId];
         }
-        $dateFilter = $request->input('date_filter');
-        $akademiksQuery = Akademik::whereIn('user_id', $users);
-        $leadershipsQuery = Leadership::whereIn('user_id', $users);
-        $karaktersQuery = Karakter::whereIn('user_id', $users);
-        $kreatifsQuery = Kreatif::whereIn('user_id', $users);
 
-        switch ($dateFilter) {
+        $dateFilter = $request->input('date_filter');
+        $akademiksQuery = Akademik::where('asrama', $namaasrama);
+        $leadershipsQuery = Leadership::where('asrama', $namaasrama);
+        $karaktersQuery = Karakter::where('asrama', $namaasrama);
+        $kreatifsQuery = Kreatif::where('asrama', $namaasrama);
+
+        switch($dateFilter){
             case 'today':
                 $akademiksQuery->whereDate('waktu', Carbon::today());
                 $leadershipsQuery->whereDate('waktu', Carbon::today());
@@ -103,42 +100,45 @@ class WargaController extends Controller
                 $karaktersQuery->whereyear('waktu', Carbon::now()->subYear()->year);
                 $kreatifsQuery->whereyear('waktu', Carbon::now()->subYear()->year);
                 break;
-
+                case 'all':
+                    $akademiksQuery->get();
+                    $leadershipsQuery->get();
+                    $karaktersQuery->get();
+                    $kreatifsQuery->get();
+                    break;
         }
-        $userIdsByDate = array_merge(
-            $akademiksQuery->pluck('user_id')->toArray(),
-            $leadershipsQuery->pluck('user_id')->toArray(),
-            $karaktersQuery->pluck('user_id')->toArray(),
-            $kreatifsQuery->pluck('user_id')->toArray()
-        );
-        $userIdsByDate = array_unique($userIdsByDate);
-        $usersByDate = User::with(['ipks'])
-        ->whereIn('id', $userIdsByDate)
-        ->select(
-            'id',
-            'asrama',
-            'status_warga',
-            'universitas',
-            'fakultas',
-            'name',
-            \DB::raw('(COALESCE((SELECT SUM(nl.nilai) FROM akademiks nl WHERE nl.user_id = users.id), 0) + COALESCE((SELECT COUNT(*) FROM leaderships nl WHERE nl.user_id = users.id), 0) + COALESCE((SELECT COUNT(*) FROM karakters nl WHERE nl.user_id = users.id), 0) + COALESCE((SELECT COUNT(*) FROM kreatifs nl WHERE nl.user_id = users.id), 0)) AS total_kegiatan'),
-            \DB::raw('(SELECT semester FROM ipks WHERE user_id = users.id ORDER BY created_at DESC LIMIT 1) AS semester'),
-            \DB::raw('(SELECT ip FROM ipks WHERE user_id = users.id ORDER BY created_at DESC LIMIT 1) AS ipk')
-        )
-        ->get();
 
-            $akademiks = $akademiksQuery->get();
-            $leaderships = $leadershipsQuery->get();
-            $karakters = $karaktersQuery->get();
-            $kreatifs = $kreatifsQuery->get();
-            $data = [
-                'akademiks'=>$akademiks,
-                'kreatifs'=>$kreatifs,
-                'karakters'=>$karakters,
-                'leaderships'=>$leaderships,
-                'usernya'=>$usersByDate,
-            ];
-            return response()->json($data);
+
+                         $akademiksCountPerUser = $akademiksQuery->groupBy('user_id')->selectRaw('user_id, count(*) as total')->pluck('total', 'user_id')->toArray();
+                         $leadershipsCountPerUser = $leadershipsQuery->groupBy('user_id')->selectRaw('user_id, count(*) as total')->pluck('total', 'user_id')->toArray();
+                         $karaktersCountPerUser = $karaktersQuery->groupBy('user_id')->selectRaw('user_id, count(*) as total')->pluck('total', 'user_id')->toArray();
+                         $kreatifsCountPerUser = $kreatifsQuery->groupBy('user_id')->selectRaw('user_id, count(*) as total')->pluck('total', 'user_id')->toArray();
+                         $mergedData = collect();
+                foreach (array_unique(array_merge(array_keys($akademiksCountPerUser), array_keys($leadershipsCountPerUser), array_keys($karaktersCountPerUser), array_keys($kreatifsCountPerUser))) as $userId) {
+                    $user = User::find($userId);
+                    $lastSemester = $user->ipks()->latest('semester')->first();
+                    $lastIpk = $lastSemester ? $lastSemester->ip : null;
+                    $mergedData->push([
+                        'user_id' => $userId,
+                        'name' => $user->name ?? 'Unknown',
+                        'asrama' => $user->asrama ?? 'Unknown',
+                        'status_warga' => $user->status_warga ?? 'Unknown',
+                        'universitas' => $user->universitas ?? 'Unknown',
+                        'fakultas' => $user->fakultas ?? 'Unknown',
+                        'last_semester' => $lastSemester ? $lastSemester->semester : 'Unknown',
+                        'last_ipk' => $lastIpk ?? 'Unknown',
+                        'total' => ($akademiksCountPerUser[$userId] ?? 0) + ($leadershipsCountPerUser[$userId] ?? 0) + ($karaktersCountPerUser[$userId] ?? 0),
+                    ]);
+                }
+
+
+                // Output atau gunakan $mergedData sesuai kebutuhan Anda
+                // dd($mergedData->toArray());
+                $data = [
+
+                    'usernya'=>$mergedData,
+                ];
+                return response()->json($data);
 
     }
 

@@ -49,7 +49,7 @@
     </div>
     <h4 class="card-title">List Warga</h4>
                     <div style="overflow: scroll;">
-                        <table id="datatable-buttons" class="table table-striped table-bordered">>
+                        <table id="datatable-buttons" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>Foto</th>
@@ -80,15 +80,17 @@
                                         {{ $user->ipks->last()->ip }}
                                     @endif</td>
                                     <td>
-                                        {{ $user->karakters->count() + $user->leaderships->count() + $user->kreatifs->count() }}
+                                        <a data-toggle="tooltip" data-placement="top" title="Detail" onclick="showDetailModal('{{ $user->id }}')">
+                                            <strong style="font-size: 16px;">
+                                                {{ $user->karakters->count() + $user->leaderships->count() + $user->kreatifs->count() }}
+                                            </strong>
+                                        </a>
                                     </td>
                                     <td>
                                         <a href="/super-warga-asrama-detail/{{ $user->id }}" class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail">
                                             <i class="far fa-eye"></i>
                                         </a>
-                                        <button class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail" onclick="showDetailModal('{{ $user->id }}')">
-                                            modal
-                                        </button>
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -289,17 +291,15 @@
                         item.name,
                         item.asrama,
                         item.status_warga,
-                        item.fakultas,
                         item.universitas,
-                        item.semester,
-                        item.ipk,
-                        '<a href="#" class="btn btn-primary btn-action" onclick="showDetailModal(' + item.id + ')" data-toggle="modal" data-placement="top" title="Lihat Detail Kegiatan">' +item.total_kegiatan+
+                        item.fakultas,
+                        item.last_semester,
+                        item.last_ipk,
+                        '<a onclick="showDetailModal(' + item.user_id + ')" data-toggle="modal" data-placement="top" title="Lihat Detail Kegiatan">' +' <strong style="font-size: 16px;">'+ item.total+'</strong>'+
                          '</a>',
-                        '<a href="/super-warga-asrama-detail/' + item.id + '" class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail">' +
+                        '<a href="/super-warga-asrama-detail/' + item.user_id + '" class="btn btn-primary btn-action" data-toggle="tooltip" data-placement="top" title="Detail">' +
                         '<i class="far fa-eye"></i>' +
                         '</a>',
-                        '<a href="#" class="btn btn-primary btn-action" onclick="showDetailModal(' + item.id + ')" data-toggle="modal" data-placement="top" title="Detail">' +'klik'+
-                         '</a>',
                     ];
                     table.row.add(row);
                 });

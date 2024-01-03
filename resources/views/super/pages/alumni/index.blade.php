@@ -53,8 +53,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
-                    <div class="button-items d-grid gap-2 d-md-flex justify-content-md-end">
+                    @if(auth()->user()->role =="super")
+                      <div class="button-items d-grid gap-2 d-md-flex justify-content-md-end">
                         <a href="{{ route('super-alumni-asrama-create')}}" type="button"
                             class="btn btn-outline-primary waves-effect waves-light">
                             <i class="mdi mdi-plus-thick font-size-16 align-middle mr-2"></i> Add Data
@@ -81,7 +81,7 @@
                         </a>  --}}
                     </div>
                     <br>
-
+                    @endif
                     <h4 class="card-title">List Alumni Asrama</h4>
                     <div style="overflow: scroll; overflow-x: auto;">
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
